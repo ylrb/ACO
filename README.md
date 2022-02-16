@@ -1,19 +1,3 @@
 # ACO
 Letsgo les fourmis
-
-testet 
-
-test2
-
-test VSCode YL
-
-JULIEN V3
-JULIEN V2
-
-dgzefyjhjDH
-
-Yop 2
-
-SALUT
-
-どうも
+On fait les classes suivant le diagramme UML, tout dans le main, y a l'histo anyway
