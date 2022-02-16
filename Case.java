@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Case {
+public abstract class Case {
     
     //Coordonnées et couleur d'une case
     protected int x;
