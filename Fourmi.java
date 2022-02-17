@@ -20,6 +20,7 @@ public class Fourmi {
     public void calculNouvelleVitesse() {
         if (!pheroRetourEnVue && !nourritureEnVue) { // la fourmi est en mode recherche
             vitesse = vitesse.somme(errance, 1, coefErrance);
+            vitesse.unitaire();
         }
     }
 
@@ -31,9 +32,18 @@ public class Fourmi {
     }
 
 
-    public boolean pheroRetourEnVue() { //
+    public boolean pheroRetourEnVue() { //retourne si il y a des phero en vue
         return false;
 
+    }
+
+    public boolean nourritureEnVue() {  //retourne si il y a des nourritures en vue
+        return false;
+    }
+
+    public void dessine (Graphics g) {
+        int r = 5;
+        g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5)
     }
 
 }
