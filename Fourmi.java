@@ -5,23 +5,23 @@ public class Fourmi {
     private double x;
     private double y;
     private double vitesse;
-    private boolean porteNourriture; //si la fourmi porte de la nourriture
+    private boolean porteNourriture; // Si la fourmi porte de la nourriture
     private Color couleur = Color.RED;
 
-    ////////////////////////vecteurs
+    //////////////////////// Vecteurs
     private Vecteur direction;
     private Vecteur errance;
 
-    ////////////////////////tous les coefficients appliqués au vecteur
-    private static final double coeffErrance = 0.3; //poids du vecteur errance
-    private static final double amplitudeErrance = 20; //amplitude max de la variation du vecteur errance
+    //////////////////////// Tous les coefficients appliqués au vecteur
+    private static final double coeffErrance = 0.3; // Poids du vecteur errance
+    private static final double amplitudeErrance = 20; // Amplitude max de la variation du vecteur errance
 
     public Fourmi(double X, double Y) {
         x = X;
-        y = Y;
+        y = Y;  
         vitesse = 2.0;
         porteNourriture = false;
-        direction = new Vecteur(Math.random(),Math.random());
+        direction = new Vecteur(Math.random(),Math.random()); // La direction initiale de la fourmi est aléatoire
         direction.unitaire();
         errance = direction;
     }
@@ -36,31 +36,33 @@ public class Fourmi {
 
     public void avancer() {
         calculErrance();
-        calculNouvelleVitesse();
+        calculNouvelleDirection();
         x += vitesse*direction.x;
         y += vitesse*direction.y;
     }
 
-    public void calculNouvelleVitesse() {
-        if (!pheroRetourEnVue() && !nourritureEnVue()) { // la fourmi est en mode recherche
-            direction = direction.somme(errance, 1, coeffErrance);
+    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
+    public void calculNouvelleDirection() {
+        if (!pheroRetourEnVue() && !nourritureEnVue()) { // La fourmi est en mode recherche (elle ne voit pas de nourriture ou de mur)
+            direction = direction.somme(errance, 1, coeffErrance); // Le vecteur directeur se rapporche du vecteur errance
             direction.unitaire();
         }
     }
 
+    // Fais varier le vecteur errance
     public Vecteur calculErrance() {
-        errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitudeErrance); //amplitude en degré convertie en radians
-        //errance.unitaire();       //normalement y en a pas bsn
+        errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitudeErrance); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
         return errance;
     }
 
-
-    public boolean pheroRetourEnVue() { //retourne si il y a des phero en vue
+    // Indique s'il y a des phéromones en vue
+    public boolean pheroRetourEnVue() { 
         return false;
 
     }
 
-    public boolean nourritureEnVue() {  //retourne si il y a des nourritures en vue
+    // Indique s'il y a de la nourriture en vue
+    public boolean nourritureEnVue() {  
         return false;
     }
 
