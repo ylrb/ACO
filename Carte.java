@@ -9,8 +9,9 @@ import java.util.LinkedList;
 public class Carte extends JFrame implements ActionListener, MouseListener {
     private int width;
     private int height;
-    private int dt = 100;
+    private int dt = 20;
     private Timer timer;
+    private Fourmi fourmi;
 
     public Carte() {
         width = 1000;
@@ -20,6 +21,8 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     public Carte(int width, int height) {
         this.width = width;
         this.height = height;
+
+        fourmi = new Fourmi(400.0,400.0);
 
         setBounds(100, 50, width, height) ;
         setVisible(true);
@@ -36,15 +39,10 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
 
     public void paint (Graphics g) {
 
-        g.setColor(new Color(43, 37, 20));
-        g.fillRect(0, 0,this.getWidth(), this.getHeight());
+        //g.setColor(new Color(43, 37, 20));
+        //g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
-        /*
-        for (int i = 0; i<nombreFourmis; i++) {
-            g.setColor(Color.ORANGE);
-            fifi[i].draw(g,true);
-        }
-        */
+        fourmi.dessine(g);
 
     }
 
@@ -52,7 +50,7 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource()==timer) {
-            
+            fourmi.avancer();
             repaint();
         }
 

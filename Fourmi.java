@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Fourmi {
 
     private double x;
@@ -9,20 +11,22 @@ public class Fourmi {
     //private Vecteur nouvelleVitesse;      //essayer de ne pas en avoir bsn
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
-    private final double coefErrance = 0.3;
+    private final double coefErrance = 2;
 
     public Fourmi(double X, double Y) {
         x = X;
         y = Y;
-        vitesse = 10.0;
+        vitesse = 3.0;
         porteNourriture = false;
         direction = new Vecteur(Math.random(),Math.random());
         direction.unitaire();
         errance = direction;
     }
-    //test5kzefk +++ blallaflb
 
     public void avancer() {
+        calculErrance();
+        calculNouvelleVitesse();
+        System.out.println(direction.x);
         x += vitesse*direction.x;
         y += vitesse*direction.y;
     }
@@ -33,8 +37,6 @@ public class Fourmi {
             direction.unitaire();
         }
     }
-
-    //bobhfd
 
     public Vecteur calculErrance() {
         double amplitude = 30; //angle maximal de rotation
@@ -54,9 +56,9 @@ public class Fourmi {
     }
 
     public void dessine (Graphics g) {
-        int r = 5;
+        double r = 5.0;
         g.setColor(Color.red);
-        g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5)
+        g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5);
     }
 
 }
