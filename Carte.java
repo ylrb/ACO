@@ -1,4 +1,4 @@
-public class Map extends JFrame implements ActionListener, MouseListener {
+public class Carte extends JFrame implements ActionListener, MouseListener {
     private int width;
     private int height;
     private int dt = 100;
@@ -40,3 +40,6 @@ public class Map extends JFrame implements ActionListener, MouseListener {
             g.setColor(Color.ORANGE);
             fifi[i].draw(g,true);
         }
+
+    }
+}

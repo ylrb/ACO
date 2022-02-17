@@ -21,7 +21,6 @@ public class Fourmi {
         direction.unitaire();
         errance = direction;
     }
-    //test
 
     public void avancer() {
         x += vitesse*direction.x;
@@ -54,6 +53,7 @@ public class Fourmi {
 
     public void dessine (Graphics g) {
         int r = 5;
+        g.setColor(Color.red);
         g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5)
     }
 
