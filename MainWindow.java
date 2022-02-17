@@ -19,6 +19,7 @@ public class MainWindow extends JFrame {
         container.setLeftComponent(settings);
         //container.setDividerLocation(0.2);
         container.setResizeWeight(0.2);
+        container.setEnabled(false);
 
         this.add(container, BorderLayout.CENTER);
         this.setMinimumSize(new Dimension(width, height));
