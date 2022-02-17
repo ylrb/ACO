@@ -1,17 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.LinkedList;
 
 public class Carte extends JFrame implements ActionListener, MouseListener {
     private int width;
     private int height;
-    private int dt = 50;
+    private int dt = 20;
     private Timer timer;
-    private Fourmi fourmi;
+    private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
 
     public Carte() {
         width = 1000;
@@ -22,7 +23,9 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         this.width = width;
         this.height = height;
 
-        fourmi = new Fourmi(400.0,400.0);
+        for (int i = 0; i < 1000; i++) {
+            fourmis.add(new Fourmi(400.0,400.0));
+        }
 
         setBounds(100, 50, width, height) ;
         setVisible(true);
@@ -39,43 +42,39 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     public void paint (Graphics g) {
         Toolkit.getDefaultToolkit().sync();
 
-        //g.setColor(new Color(43, 37, 20));
-        //g.fillRect(0, 0,this.getWidth(), this.getHeight());
+        g.setColor(new Color(43, 37, 20));
+        g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
-        fourmi.dessine(g);
-
+        for (Fourmi f : fourmis) {
+            f.dessine(g);
+        }
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource()==timer) {
-            fourmi.avancer();
-            repaint();
+            for (Fourmi f : fourmis) {
+                f.avancer();
+                repaint();
+            }
         }
-
 
     }
 
-    @Override
     public void mouseClicked(MouseEvent e) {
         this.setTitle("X="+e.getX()+";Y="+e.getY());
         System.out.println("click");
     }
 
-    @Override
     public void mousePressed(MouseEvent e) {
     }
 
-    @Override
     public void mouseReleased(MouseEvent e) {
     }
 
-    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
-    @Override
     public void mouseExited(MouseEvent e) {
     }
 }

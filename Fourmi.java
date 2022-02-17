@@ -16,7 +16,7 @@ public class Fourmi {
     public Fourmi(double X, double Y) {
         x = X;
         y = Y;
-        vitesse = 3.0;
+        vitesse = 2.0;
         porteNourriture = false;
         direction = new Vecteur(Math.random(),Math.random());
         direction.unitaire();
@@ -38,7 +38,7 @@ public class Fourmi {
     }
 
     public Vecteur calculErrance() {
-        double amplitude = 30; //angle maximal de rotation
+        double amplitude = 20; //angle maximal de rotation
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitude); //amplitude en degré convertie en radians
         //errance.unitaire();       //normalement y en a pas bsn
         return errance;
