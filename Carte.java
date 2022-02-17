@@ -35,6 +35,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         g.setColor(new Color(43, 37, 20));
         g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
+        // On dessine toutes les fouris et phéromones
         for (Fourmi f : fourmis) {
             f.dessine(g);
         }
@@ -46,7 +47,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource()==timer) {
-             //les phéromones disparaissent si leur taux est trop faible
+            // Les phéromones disparaissent si leur taux est trop faible
             ArrayList<Integer> tauxTropBas = new ArrayList<Integer>();
             for (PheroAller p : pheromonesAller) {
                 if (p.getTaux()<5) {
@@ -56,15 +57,15 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             for (Integer i : tauxTropBas) {
                 pheromonesAller.remove((int)i);
             }
-            //les phéromones s'estompent (leur taux diminue)
+            // Les phéromones s'estompent (leur taux diminue)
             for (PheroAller p : pheromonesAller) {
                 p.estompe();
             }
-            //les fourmis avancent
+            // Les fourmis avancent
             for (Fourmi f : fourmis) {
                 f.avancer();
             }
-            //on rajoute des phéromones toutes les 10 itérations de la boucle
+            // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
             if (compteur>COMPTEUR_MAX) {
                 for (Fourmi f : fourmis) {
                     pheromonesAller.add(new PheroAller(f.getx(),f.gety()));
@@ -78,7 +79,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        //this.setTitle("X="+e.getX()+";Y="+e.getY());
         System.out.println("click");
     }
 
