@@ -8,16 +8,17 @@ public class Pheromone {
 
     public void dessine(Graphics g) {
         int r = 5;
-        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux));
+        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
         g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
     }
 
-    public void estompe() {
-        taux -= 0.5;
-    }
-
     public double getTaux() {
         return taux;
+    }
+
+    // Les phéromones s'estompent à chaque itération
+    public void estompe() {
+        taux -= 0.5;
     }
 }
