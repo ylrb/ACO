@@ -24,6 +24,8 @@ public class Fourmi {
 
     //test2
 
+    //test3
+
     public void avancer() {
         x += vitesse*direction.x;
         y += vitesse*direction.y;
