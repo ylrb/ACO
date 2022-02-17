@@ -10,6 +10,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private int dt = 20;
     private Timer timer;
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
+    private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
+    private static int compteur = 0; //compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
+    private static final int compteurMAX = 20; //espacement des phéromones
+
 
     public Carte() {
 
@@ -35,14 +39,40 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Fourmi f : fourmis) {
             f.dessine(g);
         }
+        for (PheroAller p : pheromonesAller) {
+            p.dessine(g);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource()==timer) {
+             //les phéromones disparaissent si leur taux est trop faible
+            ArrayList<Integer> tauxTropBas = new ArrayList<Integer>();
+            for (PheroAller p : pheromonesAller) {
+                if (p.getTaux()<5) {
+                    tauxTropBas.add(pheromonesAller.indexOf(p));
+                }
+            }
+            for (Integer i : tauxTropBas) {
+                pheromonesAller.remove((int)i);
+            }
+            //les phéromones s'estompent (leur taux diminue)
+            for (PheroAller p : pheromonesAller) {
+                p.estompe();
+            }
+            //les fourmis avancent
             for (Fourmi f : fourmis) {
                 f.avancer();
             }
+            //on rajoute des phéromones toutes les 10 itérations de la boucle
+            if (compteur>compteurMAX) {
+                for (Fourmi f : fourmis) {
+                    pheromonesAller.add(new PheroAller(f.getx(),f.gety()));
+                }
+                compteur=0;
+            }
+            compteur++;
             repaint();
         }
 
