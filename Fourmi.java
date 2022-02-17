@@ -21,6 +21,7 @@ public class Fourmi {
         direction.unitaire();
         errance = direction;
     }
+    //test
 
     public void avancer() {
         x += vitesse*direction.x;
