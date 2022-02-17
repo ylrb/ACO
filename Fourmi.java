@@ -10,8 +10,6 @@ public class Fourmi {
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
     private final double coefErrance = 0.3;
-// test 1
-// test 1 bis
 
     public Fourmi(double X, double Y) {
         x = X;
@@ -22,10 +20,6 @@ public class Fourmi {
         direction.unitaire();
         errance = direction;
     }
-
-    //test2
-
-    //test3
 
     public void avancer() {
         x += vitesse*direction.x;
