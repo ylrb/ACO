@@ -12,7 +12,7 @@ public class Fourmi {
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
     private final double coefErrance = 0.3;
-    private Color couleur = new Color((float) Math.random(),(float) Math.random(),(float) Math.random());
+    private Color couleur = Color.RED;
 
     public Fourmi(double X, double Y) {
         x = X;
