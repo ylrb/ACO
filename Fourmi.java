@@ -4,15 +4,17 @@ public class Fourmi {
 
     private double x;
     private double y;
-    private double vitesse; //vitesse de la fourmi
+    private double vitesse;
     private boolean porteNourriture; //si la fourmi porte de la nourriture
-    //////////////////////// tout les vecteurs
-    private Vecteur direction;              // vecteur vitesse normalisé
-    //private Vecteur nouvelleVitesse;      //essayer de ne pas en avoir bsn
-    private Vecteur errance;
-    //////////////////////// tout les coefficients appliqués au vecteur
-    private final double coefErrance = 0.3;
     private Color couleur = Color.RED;
+
+    ////////////////////////vecteurs
+    private Vecteur direction;
+    private Vecteur errance;
+
+    ////////////////////////tous les coefficients appliqués au vecteur
+    private static final double coeffErrance = 0.3; //poids du vecteur errance
+    private static final double amplitudeErrance = 20; //amplitude max de la variation du vecteur errance
 
     public Fourmi(double X, double Y) {
         x = X;
@@ -41,14 +43,13 @@ public class Fourmi {
 
     public void calculNouvelleVitesse() {
         if (!pheroRetourEnVue() && !nourritureEnVue()) { // la fourmi est en mode recherche
-            direction = direction.somme(errance, 1, coefErrance);
+            direction = direction.somme(errance, 1, coeffErrance);
             direction.unitaire();
         }
     }
 
     public Vecteur calculErrance() {
-        double amplitude = 20; //angle maximal de rotation
-        errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitude); //amplitude en degré convertie en radians
+        errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitudeErrance); //amplitude en degré convertie en radians
         //errance.unitaire();       //normalement y en a pas bsn
         return errance;
     }
