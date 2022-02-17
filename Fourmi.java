@@ -24,6 +24,14 @@ public class Fourmi {
         errance = direction;
     }
 
+    public double getx() {
+        return x;
+    }
+
+    public double gety() {
+        return y;
+    }
+
     public void avancer() {
         calculErrance();
         calculNouvelleVitesse();
@@ -56,9 +64,9 @@ public class Fourmi {
     }
 
     public void dessine (Graphics g) {
-        double r = 5.0;
+        int r = 7;
         g.setColor(couleur);
-        g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5);
+        g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
     }
 
 }
