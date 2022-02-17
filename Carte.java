@@ -77,5 +77,3 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 }
-
-//test 3
