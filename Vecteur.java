@@ -37,6 +37,3 @@ public class Vecteur {
     }
 
 }
-
-
-// test git
