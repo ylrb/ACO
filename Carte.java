@@ -34,13 +34,13 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         timer.start();
 
         repaint();
-        
     }
 
     public void paint (Graphics g) {
+        Toolkit.getDefaultToolkit().sync();
 
-        g.setColor(new Color(43, 37, 20));
-        g.fillRect(0, 0,this.getWidth(), this.getHeight());
+        //g.setColor(new Color(43, 37, 20));
+        //g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
         fourmi.dessine(g);
 
