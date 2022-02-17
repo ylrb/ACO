@@ -10,7 +10,7 @@ public class Fourmi {
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
     private final double coefErrance = 0.3;
-
+// test 1
 
     public Fourmi(double X, double Y) {
         x = X;
