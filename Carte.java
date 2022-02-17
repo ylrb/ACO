@@ -42,8 +42,8 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     public void paint (Graphics g) {
         Toolkit.getDefaultToolkit().sync();
 
-        g.setColor(new Color(43, 37, 20));
-        g.fillRect(0, 0,this.getWidth(), this.getHeight());
+        //g.setColor(new Color(43, 37, 20));
+        //g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
         for (Fourmi f : fourmis) {
             f.dessine(g);
@@ -55,8 +55,8 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         if (e.getSource()==timer) {
             for (Fourmi f : fourmis) {
                 f.avancer();
-                repaint();
             }
+            repaint();
         }
 
     }
