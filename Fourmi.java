@@ -11,7 +11,7 @@ public class Fourmi {
     //private Vecteur nouvelleVitesse;      //essayer de ne pas en avoir bsn
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
-    private final double coefErrance = 2;
+    private final double coefErrance = 0.3;
 
     public Fourmi(double X, double Y) {
         x = X;
@@ -26,7 +26,6 @@ public class Fourmi {
     public void avancer() {
         calculErrance();
         calculNouvelleVitesse();
-        System.out.println(direction.x);
         x += vitesse*direction.x;
         y += vitesse*direction.y;
     }
