@@ -1,5 +1,5 @@
 public class Main {
     public static void main(String[] args) {
-        Carte carte = new Carte(800,800);
+        MainWindow main = new MainWindow();
     }
 }
