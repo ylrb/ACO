@@ -34,6 +34,8 @@ public class Fourmi {
         }
     }
 
+    //bobhfd
+
     public Vecteur calculErrance() {
         double amplitude = 30; //angle maximal de rotation
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitude); //amplitude en degré convertie en radians
