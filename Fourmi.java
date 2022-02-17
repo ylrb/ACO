@@ -2,25 +2,35 @@ public class Fourmi {
 
     private double x;
     private double y;
-    private boolean porteNourriture;
+    private double vitesse; //vitesse de la fourmi
+    private boolean porteNourriture; //si la fourmi porte de la nourriture
     //////////////////////// tout les vecteurs
     private Vecteur direction;              // vecteur vitesse normalisé
     //private Vecteur nouvelleVitesse;      //essayer de ne pas en avoir bsn
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
-    private double coefErrance = 0.3;
+    private final double coefErrance = 0.3;
 
 
     public Fourmi(double X, double Y) {
-        this.x = X;
-        this.y = Y;
+        x = X;
+        y = Y;
+        vitesse = 10.0;
         porteNourriture = false;
+        direction = new Vecteur(Math.random(),Math.random());
+        direction.unitaire();
+        errance = direction;
+    }
+
+    public void avancer() {
+        x += vitesse*direction.x;
+        y += vitesse*direction.y;
     }
 
     public void calculNouvelleVitesse() {
-        if (!pheroRetourEnVue && !nourritureEnVue) { // la fourmi est en mode recherche
-            vitesse = vitesse.somme(errance, 1, coefErrance);
-            vitesse.unitaire();
+        if (!pheroRetourEnVue() && !nourritureEnVue()) { // la fourmi est en mode recherche
+            direction = direction.somme(errance, 1, coefErrance);
+            direction.unitaire();
         }
     }
 

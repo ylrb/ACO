@@ -1,6 +1,6 @@
 public class Vecteur {
-    private double x;
-    private double y;
+    public double x;
+    public double y;
 
     public Vecteur(double X, double Y) {
         x = X;
