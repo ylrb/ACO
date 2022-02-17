@@ -14,4 +14,12 @@ public class Fourmi {
         vitesse = 1.0;
     }
 
+    public void avancer(int[][] carte, int x, int y) {
+        System.out.println("Y'a rien là");
+    }
+
+    public void deplacer(int x, int y) {
+        System.out.println("Y'a rien là");
+    }
+
 }

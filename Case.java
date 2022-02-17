@@ -10,4 +10,5 @@ public abstract class Case {
     private Color getCouleur() {
         return couleur;
     }
+    
 }
