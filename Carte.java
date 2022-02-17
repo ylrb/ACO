@@ -50,4 +50,37 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         }
 
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource()==timer) {
+            
+            repaint();
+        }
+
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        this.setTitle("X="+e.getX()+";Y="+e.getY());
+        System.out.println("clik");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }
