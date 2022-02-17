@@ -23,7 +23,7 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         this.width = width;
         this.height = height;
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 200; i++) {
             fourmis.add(new Fourmi(400.0,400.0));
         }
 
@@ -54,9 +54,9 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
 
         if (e.getSource()==timer) {
             for (Fourmi f : fourmis) {
-                f.avancer();
-                repaint();
+                f.avancer();    
             }
+            repaint();
         }
 
     }
