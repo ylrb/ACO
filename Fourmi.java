@@ -12,6 +12,7 @@ public class Fourmi {
     private Vecteur errance;
     //////////////////////// tout les coefficients appliqués au vecteur
     private final double coefErrance = 0.3;
+    private Color couleur = Color.RED;
 
     public Fourmi(double X, double Y) {
         x = X;
@@ -56,7 +57,7 @@ public class Fourmi {
 
     public void dessine (Graphics g) {
         double r = 5.0;
-        g.setColor(Color.red);
+        g.setColor(couleur);
         g.fillOval((int)(x-r), (int)(y-r), 2*5, 2*5);
     }
 

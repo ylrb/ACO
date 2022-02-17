@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -23,7 +22,11 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
         this.width = width;
         this.height = height;
 
+<<<<<<< HEAD
         for (int i = 0; i < 200; i++) {
+=======
+        for (int i = 0; i < 10; i++) {
+>>>>>>> acd6aaaff20c65f6e74e967055fd2b32f96af17f
             fourmis.add(new Fourmi(400.0,400.0));
         }
 
@@ -54,7 +57,11 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
 
         if (e.getSource()==timer) {
             for (Fourmi f : fourmis) {
+<<<<<<< HEAD
                 f.avancer();    
+=======
+                f.avancer();
+>>>>>>> acd6aaaff20c65f6e74e967055fd2b32f96af17f
             }
             repaint();
         }
