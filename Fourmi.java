@@ -24,7 +24,8 @@ public class Fourmi {
     }
 
     public Vecteur calculErrance() {
-        errance = errance.tourner((Math.random()-0.5)*Math.PI*30/90); // le 30 represente l'amplitude en degré
+        double amplitude = 30; //angle maximal de rotation
+        errance.tourner((2*Math.random()-1)*(Math.PI/180)*amplitude); //amplitude en degré convertie en radians
         //errance.unitaire();       //normalement y en a pas bsn
         return errance;
     }
