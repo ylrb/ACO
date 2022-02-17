@@ -36,18 +36,15 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
 
     public void paint (Graphics g) {
 
-        g.setColor(couleurMur);
-        g.fillRect(0,0,this.getWidth(),this.getHeight());
-        g.setColor(couleurSol);
-        g.fillRect((int)(borneSup.x),(int)(borneSup.y),(int)(borneInf.x-borneSup.x),(int)(borneInf.y-borneSup.y));
+        g.setColor(new Color(43, 37, 20));
+        g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
-        spawn.draw(g);
-        food.draw(g);
-
+        /*
         for (int i = 0; i<nombreFourmis; i++) {
             g.setColor(Color.ORANGE);
             fifi[i].draw(g,true);
         }
+        */
 
     }
 
