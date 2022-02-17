@@ -15,7 +15,8 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
 
-    private static int compteur = 0;
+    private static int compteur = 0; //compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
+    private static final int compteurMAX = 20; //espacement des phéromones
 
     public Carte() {
         width = 1000;
@@ -30,9 +31,9 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
             fourmis.add(new Fourmi(400.0,400.0));
         }
 
-        setBounds(100, 50, width, height) ;
+        setBounds(100, 50, width, height);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(new Color(43, 37, 20));
 
         this.addMouseListener(this);
@@ -76,7 +77,7 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
                 f.avancer();
             }
             //on rajoute des phéromones toutes les 10 itérations de la boucle
-            if (compteur>10) {
+            if (compteur>compteurMAX) {
                 for (Fourmi f : fourmis) {
                     pheromonesAller.add(new PheroAller(f.getx(),f.gety()));
                 }

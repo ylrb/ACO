@@ -6,15 +6,17 @@ public class Pheromone {
     protected double taux = 100.0;
     protected Color couleur;
 
+    protected static final double reductionTaux = 0.2;
+    protected static final int rayonFourmi = 5;
+
     public void dessine(Graphics g) {
-        int r = 5;
         couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux));
         g.setColor(couleur);
-        g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
+        g.fillOval((int)(x-rayonFourmi), (int)(y-rayonFourmi), 2*rayonFourmi, 2*rayonFourmi);
     }
 
     public void estompe() {
-        taux -= 0.5;
+        taux -= reductionTaux;
     }
 
     public double getTaux() {
