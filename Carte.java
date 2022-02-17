@@ -12,7 +12,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
     private static int compteur = 0; //compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
-    private static final int compteurMAX = 20; //espacement des phéromones
+    private static final int COMPTEUR_MAX = 20; //espacement des phéromones
 
     public Carte() {
 
@@ -65,7 +65,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 f.avancer();
             }
             //on rajoute des phéromones toutes les 10 itérations de la boucle
-            if (compteur>compteurMAX) {
+            if (compteur>COMPTEUR_MAX) {
                 for (Fourmi f : fourmis) {
                     pheromonesAller.add(new PheroAller(f.getx(),f.gety()));
                 }
