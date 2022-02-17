@@ -18,11 +18,6 @@ public class Carte extends JFrame implements ActionListener, MouseListener {
     private static int compteur = 0; //compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int compteurMAX = 20; //espacement des phéromones
 
-    public Carte() {
-        width = 1000;
-        height = 700;
-
-    }
     public Carte(int width, int height) {
         this.width = width;
         this.height = height;
