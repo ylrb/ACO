@@ -13,8 +13,8 @@ public class Fourmi {
     private Vecteur errance;
 
     //////////////////////// Tous les coefficients appliqués au vecteur
-    private static final double COEFF_ERRANCE = 0.3; // Poids du vecteur errance
-    private static final double AMPLITUDE_ERRANCE = 20; // Amplitude max de la variation du vecteur errance
+    private static final double COEFF_ERRANCE = 0.1; // Poids du vecteur errance
+    private static final double AMPLITUDE_ERRANCE = 10; // Amplitude max de la variation du vecteur errance
 
     public Fourmi(double X, double Y) {
         x = X;
@@ -67,9 +67,11 @@ public class Fourmi {
     }
 
     public void dessine (Graphics g) {
-        int r = 7;
+        double r = 7;
+        g.setColor(Color.BLUE);
+        g.drawLine((int)x, (int)y,(int)(x+50*direction.x),(int)(y+50*direction.y));
         g.setColor(couleur);
-        g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
+        g.fillOval((int)(x-r), (int)(y-r), (int)(2*r), (int)(2*r));
     }
 
 }
