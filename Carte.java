@@ -11,7 +11,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
-    private ArrayList<Nourriture> nourriture = new ArrayList<Nourriture>();
+    private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
 
@@ -25,7 +25,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < 10; i++) {
             fourmis.add(new Fourmi(400.0,400.0));
         }
-        nourriture.add(new Nourriture(600, 600, 10));       
+        nourritures.add(new Nourriture(600, 600, 10));       
 
         setVisible(true);
         repaint();
@@ -44,13 +44,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (PheroAller p : pheromonesAller) {
             p.dessine(g);
         }
-        for (Nourriture n : nourriture) {
+        for (Nourriture n : nourritures) {
             n.dessine(g);
         }
     }
 
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource()==timer) {
             // Les phéromones disparaissent si leur taux est trop faible
             ArrayList<Integer> tauxTropBas = new ArrayList<Integer>();
@@ -68,7 +67,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
             // Les fourmis avancent
             for (Fourmi f : fourmis) {
-                f.avancer(nourriture);
+                f.avancer(nourritures);
             }
             // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
             if (compteur>COMPTEUR_MAX) {

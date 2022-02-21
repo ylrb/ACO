@@ -33,9 +33,8 @@ public class Vecteur {
         double Y = this.y + v2.y;
         return new Vecteur(X,Y);
     }
-    public Vecteur soustrait(Vecteur u) {
-        Vecteur rep = new Vecteur(this.x-u.x, this.y-u.y);
-        return rep;
+    public Vecteur soustrait(Vecteur v2) {
+        return somme(new Vecteur(-v2.x,-v2.y));
     }
 
     // Rend le vecteur unitaire

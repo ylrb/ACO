@@ -1,20 +1,17 @@
 import java.awt.*;
 
 public class Nourriture {
-    Vecteur position;           // Vecteur position de la nourriture
-    Color couleur;              // Couleur de la nourriture
-    int quantité;               // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
-    int quantitéInitiale;       // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
+    Vecteur position; // Vecteur position de la nourriture
+    Color couleur;
+    int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
+    int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
 
-    private static int RAYON = 10;                  // Rayon du disque dessiné lors de la méthode dessine()
+    private static int RAYON = 10; // Rayon du disque dessiné lors de la méthode dessine()
 
-    //////////////// CONSTRUCTEUR ///////////////
-    // Plusieurs constructeur en fonction de comment on veut déclarer notre nourriture
-
-    // En entrant un vecteure
+    // En entrant un vecteur
     public Nourriture(Vecteur position, int quantité) {
         this.position = position;
-        this.couleur = new Color(64, 255, 0);
+        this.couleur = Color.YELLOW;
         this.quantité = quantité;
         this.quantitéInitiale = quantité;
     }

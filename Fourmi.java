@@ -100,7 +100,7 @@ public class Fourmi {
         return false;
     }
 
-    // indique s'il y a la foumiliere en vue
+    // Indique s'il y a la foumiliere en vue
     private boolean fourmilièreEnVue() {         // A ECRIRE // en parametre : position de la fourmiliere
         return false;
     }

@@ -5,11 +5,12 @@ public class Pheromone {
     protected double taux = 100.0;
     protected Color couleur;
 
+    protected static final int RAYON = 5;
+
     public void dessine(Graphics g) {
-        int r = 5;
         couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
-        g.fillOval((int)(position.x-r), (int)(position.y-r), 2*r, 2*r);
+        g.fillOval((int)(position.x-RAYON), (int)(position.y-RAYON), 2*RAYON, 2*RAYON);
     }
 
     public double getTaux() {
