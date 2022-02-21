@@ -6,6 +6,10 @@ public class Vecteur {
         x = X;
         y = Y;
     }
+    public Vecteur() {
+        x = 0;
+        y = 0;
+    }
 
     // Redéfinit les coordonnées d'un vecteur
     public void set(double X, double Y) {
@@ -19,6 +23,15 @@ public class Vecteur {
         double X = coeff1*x + coeff2*v2.x;
         double Y = coeff1*y + coeff2*v2.y;
         return new Vecteur(X,Y);
+    }
+    public Vecteur somme(Vecteur v2) {
+        double X = this.x + v2.x;
+        double Y = this.y + v2.y;
+        return new Vecteur(X,Y);
+    }
+    public Vecteur soustrait(Vecteur u) {
+        Vecteur rep = new Vecteur(this.x-u.x, this.y-u.y);
+        return rep;
     }
 
     // rend le vecteur unitaire
@@ -36,4 +49,11 @@ public class Vecteur {
         y = Y;
     }
 
+    @Override
+    public String toString() {
+        return "Vecteur{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
