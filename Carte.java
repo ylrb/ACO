@@ -11,6 +11,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
+    private ArrayList<PheroRetour> pheromonesRetour = new ArrayList<PheroRetour>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
