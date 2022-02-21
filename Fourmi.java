@@ -3,8 +3,7 @@ import java.util.ArrayList;
 
 public class Fourmi {
 
-    private double x;
-    private double y;
+    private Vecteur position; // Position de la fourmi
     private double vitesse;
     private boolean porteNourriture; // Si la fourmi porte de la nourriture
     private Color couleur = Color.RED;
@@ -23,30 +22,25 @@ public class Fourmi {
     ///////////////////////// Liste des éléments au alentour de la fourmi
     ArrayList<Nourriture> nourritureProche = new ArrayList<Nourriture>();
 
-    public Fourmi(double X, double Y) {
-        x = X;
-        y = Y;  
+    public Fourmi(double x, double y) {
+        position = new Vecteur(x,y);
         vitesse = 2.0;
         porteNourriture = false;
-        direction = new Vecteur(Math.random(),Math.random()); // La direction initiale de la fourmi est aléatoire
+        direction = new Vecteur(Math.random(),Math.random());
         direction.unitaire();
         errance = direction;
         attractionNourriture = new Vecteur();
     }
 
-    public double getx() {
-        return x;
-    }
-
-    public double gety() {
-        return y;
+    public Vecteur getPosition() {
+        return position;
     }
 
     public void avancer(ArrayList<Nourriture> n) {
         calculErrance();
         calculNouvelleDirection(n);
-        x += vitesse*direction.x;
-        y += vitesse*direction.y;
+        position.x += vitesse*direction.x;
+        position.y += vitesse*direction.y;
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
@@ -54,21 +48,12 @@ public class Fourmi {
         
         // Cas où la fourmi ne porte pas de nourriture : elle est donc a la recherche de nourriture
         if (!porteNourriture) {
-            
-            // La fourmi a vu de la nourriture et se dirige donc vers elle
             if (nourritureEnVue(n)) {           
                 direction = direction.somme(calculAttractionNourriture(), 1, COEFF_ATTRACTION_NOURRITURE);
                 direction.unitaire();
-            } 
-            
-            // La fourmi ne voit pas de nourriture mais elle a vu des phéromones retour et donc les suit
-            else if (pheroRetourEnVue())
-            {
+            } else if (pheroRetourEnVue()) {
                 //
-            }
-            
-            // La fourmi est en mode recherche (elle ne voit pas de nourriture ou de mur)
-            else {                             
+            } else {                             
                 direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
                 direction.unitaire();
             }
@@ -101,7 +86,7 @@ public class Fourmi {
     public Vecteur calculAttractionNourriture() {
         Vecteur rep = new Vecteur();
         for (Nourriture n : nourritureProche) {
-            rep = rep.somme(n.position.soustrait(new Vecteur(x, y)));
+            rep = rep.somme(n.position.soustrait(new Vecteur(position.x, position.y)));
         }
         rep.unitaire();
         return rep;
@@ -135,16 +120,13 @@ public class Fourmi {
     public void dessine (Graphics g) {
         double r = 7;
         g.setColor(Color.BLUE);
-        g.drawLine((int)x, (int)y,(int)(x+50*direction.x),(int)(y+50*direction.y));
+        g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
         g.setColor(couleur);
-        g.fillOval((int)(x-r), (int)(y-r), (int)(2*r), (int)(2*r));
+        g.fillOval((int)(position.x-r), (int)(position.y-r), (int)(2*r), (int)(2*r));
     }
 
-    // retourne la distance à un point dont la position est donnéee par le vecteur point
+    // Retourne la distance à un point défini par son vecteur position 'point'
     public double distanceA(Vecteur point) {
-        return (Math.sqrt((this.x-point.x)*(this.x-point.x)+(this.y-point.y)*(this.y-point.y)));
-    }
-    public double distanceA(int x, int y) {           // retourne la distance à un point dont la position est donnéee les coord ENTIERE x et y
-        return (Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)));
+        return (Math.sqrt((position.x-point.x)*(position.x-point.x)+(position.y-point.y)*(position.y-point.y)));
     }
 }

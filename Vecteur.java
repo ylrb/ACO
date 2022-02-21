@@ -7,6 +7,10 @@ public class Vecteur {
         y = Y;
     }
 
+    public Vecteur(Vecteur vecteur) { // Crée un vecteur à partir d'un autre vecteur, mais de manière à ce qu'ils ne soient pas liés
+        this(vecteur.x,vecteur.y);
+    }
+
     public Vecteur() {
         this(0,0);
     }

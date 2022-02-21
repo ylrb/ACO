@@ -25,7 +25,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < 10; i++) {
             fourmis.add(new Fourmi(400.0,400.0));
         }
-        nourriture.add(new Nourriture(600, 600, 10, 10));       
+        nourriture.add(new Nourriture(600, 600, 10));       
 
         setVisible(true);
         repaint();
@@ -70,10 +70,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             for (Fourmi f : fourmis) {
                 f.avancer(nourriture);
             }
-            // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
+            // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
             if (compteur>COMPTEUR_MAX) {
                 for (Fourmi f : fourmis) {
-                    pheromonesAller.add(new PheroAller(f.getx(),f.gety()));
+                    pheromonesAller.add(new PheroAller(new Vecteur(f.getPosition())));
                 }
                 compteur=0;
             }
