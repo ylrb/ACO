@@ -11,23 +11,21 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
-    private static int compteur = 0; //compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
-    private static final int COMPTEUR_MAX = 20; //espacement des phéromones
     private ArrayList<Nourriture> nourriture = new ArrayList<Nourriture>();
+    private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
+    private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
 
     public Carte() {
-
-        for (int i = 0; i < 10; i++) {
-            fourmis.add(new Fourmi(400.0,400.0));
-        }
-
         setBackground(new Color(43, 37, 20));
-
         this.addMouseListener(this);
         timer = new Timer(dt, this);
         timer.start();
 
-        nourriture.add(new Nourriture(600, 600, 10, 10));       // initialisation d'une nourriture test
+        // Initialisation des fourmis et de la nourriture
+        for (int i = 0; i < 10; i++) {
+            fourmis.add(new Fourmi(400.0,400.0));
+        }
+        nourriture.add(new Nourriture(600, 600, 10, 10));       
 
         setVisible(true);
         repaint();
@@ -39,14 +37,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         g.setColor(new Color(43, 37, 20));
         g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
-        // On dessine toutes les fourmis et phéromones
+        // On dessine toutes les fourmis, phéromones et nourritures
         for (Fourmi f : fourmis) {
             f.dessine(g);
         }
         for (PheroAller p : pheromonesAller) {
             p.dessine(g);
         }
-        // On dessine tte les nourritures
         for (Nourriture n : nourriture) {
             n.dessine(g);
         }

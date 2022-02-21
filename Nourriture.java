@@ -1,16 +1,16 @@
 import java.awt.*;
 
 public class Nourriture {
-    Vecteur position;           // vecteur position de la nourriture
-    int rayon;                  // rayon du disque dessiné lors de la méthode dessine()
-    Color couleur;              // couleur de la nourriture
-    int quantité;               // le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
-    int quantitéInitiale;       // le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
+    Vecteur position;           // Vecteur position de la nourriture
+    int rayon;                  // Rayon du disque dessiné lors de la méthode dessine()
+    Color couleur;              // Couleur de la nourriture
+    int quantité;               // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
+    int quantitéInitiale;       // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
 
-    ////////////////CONSTRUCTEUR///////////////
-    // plusieurs constructeur en fonction de comment on veut declarer notre nourriture
+    //////////////// CONSTRUCTEUR ///////////////
+    // Plusieurs constructeur en fonction de comment on veut déclarer notre nourriture
 
-    //de base, en ENTRANT UN VECTEUR ET UNE COULEUR
+    // Par défaut, en entrant un vecteur et une couleur
     public Nourriture(Vecteur position, int rayon, Color couleur, int quantité) {
         this.position = position;
         this.rayon = rayon;
@@ -18,7 +18,8 @@ public class Nourriture {
         this.quantité = quantité;
         this.quantitéInitiale = quantité;
     }
-    //en ENTRANT UN VECTEUR ET PAS DE COULEUR, COULEUR "DE BASE" deja choisie (vert pétant)
+
+    // En entrant un vecteur et pas de couleur, couleur "de base" deja choisie (vert pétant)
     public Nourriture(Vecteur position, int rayon, int quantité) {
         this.position = position;
         this.rayon = rayon;
@@ -26,7 +27,8 @@ public class Nourriture {
         this.quantité = quantité;
         this.quantitéInitiale = quantité;
     }
-    //en ENTRANT UN VECTEUR ET UNE COULEUR
+
+    // En entrant un vecteur et une couleur
     public Nourriture(double x, double y, int rayon, Color couleur, int quantité) {
         this.position = new Vecteur(x, y);
         this.rayon = rayon;
@@ -34,7 +36,8 @@ public class Nourriture {
         this.quantité = quantité;
         this.quantitéInitiale = quantité;
     }
-    //en ENTRANT des COORD x et y (double) ET PAS DE COULEUR, COULEUR "DE BASE" deja choisie (vert pétant)
+
+    // En entrant des coordonnées x et y (double) et pas de couleur, couleur "de base" deja choisie (vert pétant)
     public Nourriture(double x, double y, int rayon, int quantité) {
         this.position = new Vecteur(x, y);
         this.rayon = rayon;
@@ -43,12 +46,13 @@ public class Nourriture {
         this.quantitéInitiale = quantité;
     }
 
-    public void servi() {           // quand une fourmi vient piocher dans cette nourriture, on appelle cette methode qui traduit cette action
-        if (quantité>0) {
-            quantité --;
-            couleur = new Color((int)(64-(48*(quantité/quantitéInitiale))),(int)(255-(191*(quantité/quantitéInitiale))),0);     // la couleur va "se degrader" et tendre vers un vert un peu moche
+    // Quand une fourmi vient piocher dans cette nourriture, on appelle cette methode qui traduit cette action
+    public void servi() {           
+        if (quantité > 0) {
+            quantité--;
+            couleur = new Color((int)(64-(48*(quantité/quantitéInitiale))),(int)(255-(191*(quantité/quantitéInitiale))),0); // La couleur va "se dégrader" et tendre vers un vert pâle
         }
-        if (quantité<=0) {
+        if (quantité <= 0) {
             couleur =  new Color(123, 138, 29);
         }
     }

@@ -51,33 +51,53 @@ public class Fourmi {
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
     public void calculNouvelleDirection(ArrayList<Nourriture> n) {
-        if (!porteNourriture) {         //la fourmi ne porte pas de nourriture, elle est donc a la recherche de nourriture
-            if (nourritureEnVue(n)) {           // la fourmi a vu de la nourriture et donc se diriger vers elle
+        
+        // Cas où la fourmi ne porte pas de nourriture : elle est donc a la recherche de nourriture
+        if (!porteNourriture) {
+            
+            // La fourmi a vu de la nourriture et se dirige donc vers elle
+            if (nourritureEnVue(n)) {           
                 direction = direction.somme(calculAttractionNourriture(), 1, COEFF_ATTRACTION_NOURRITURE);
                 direction.unitaire();
-            } else if (pheroRetourEnVue()) {    // la fourmi voit pas de nourriture mais elle a vu des pheromones retour et donc les "suivre"
-
-            } else {                             // La fourmi est en mode recherche (elle ne voit pas de nourriture ou de mur)
+            } 
+            
+            // La fourmi ne voit pas de nourriture mais elle a vu des phéromones retour et donc les suit
+            else if (pheroRetourEnVue())
+            {
+                //
+            }
+            
+            // La fourmi est en mode recherche (elle ne voit pas de nourriture ou de mur)
+            else {                             
                 direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
                 direction.unitaire();
             }
-        } else if (fourmilièreEnVue()) { // la fourmi porte de la nourriture et recherche alors la fourmiliere, ici elle le voit et va donc se diriger vers ce dernier
+        }
 
-        } else if (pheroAllerEnVue()){              // le fourmi ne voit pas la fourmiliere mais a vu des pheromone aller et va donc les suivre
-
-        } else {                                    // la fourmi ne voit ni la fourmiliere ni des pheromones aller et va donc errer
+        // La fourmi porte de la nourriture et recherche alors la fourmilière, ici elle le voit et va donc se diriger vers ce dernier
+        else if (fourmilièreEnVue()) { 
+            //
+        } 
+        
+        // La fourmi ne voit pas la fourmiliere mais a vu des pheromone aller et va donc les suivre
+        else if (pheroAllerEnVue()){     
+            //         
+        }
+        
+        // La fourmi ne voit ni fourmiliere ni pheromones aller et va donc errer
+        else {                                    
             direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
             direction.unitaire();
         }
     }
 
-
-
-    // Fais varier le vecteur errance
+    // Fait varier le vecteur errance
     public Vecteur calculErrance() {
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
         return errance;
     }
+
+    // Calcul de l'attraction d'une fourmi à une nourriture dans son champ de vision
     public Vecteur calculAttractionNourriture() {
         Vecteur rep = new Vecteur();
         for (Nourriture n : nourritureProche) {
@@ -94,14 +114,16 @@ public class Fourmi {
     private boolean pheroAllerEnVue() {         // A ECRIRE // en parametre : liste des pheromones aller sur la map
         return false;
     }
-    // indique si ya la foumiliere en vue
+
+    // indique s'il y a la foumiliere en vue
     private boolean fourmilièreEnVue() {         // A ECRIRE // en parametre : position de la fourmiliere
         return false;
     }
+
     // Indique s'il y a de la nourriture en vue
     public boolean nourritureEnVue(ArrayList<Nourriture> nourritures) {
         boolean rep = false;
-        for ( Nourriture n : nourritures) {
+        for (Nourriture n : nourritures) {
             if (this.distanceA(n.position) < PORTEE_VUE) {
                 nourritureProche.add(n);
                 rep = true;
@@ -118,8 +140,9 @@ public class Fourmi {
         g.fillOval((int)(x-r), (int)(y-r), (int)(2*r), (int)(2*r));
     }
 
-    public double distanceA(Vecteur APoint) {           // retourne la distance à un point dont la position est donnéee par le vecteur APoint
-        return (Math.sqrt((this.x-APoint.x)*(this.x-APoint.x)+(this.y-APoint.y)*(this.y-APoint.y)));
+    // retourne la distance à un point dont la position est donnéee par le vecteur point
+    public double distanceA(Vecteur point) {
+        return (Math.sqrt((this.x-point.x)*(this.x-point.x)+(this.y-point.y)*(this.y-point.y)));
     }
     public double distanceA(int x, int y) {           // retourne la distance à un point dont la position est donnéee les coord ENTIERE x et y
         return (Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)));

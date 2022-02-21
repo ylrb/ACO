@@ -6,9 +6,9 @@ public class Vecteur {
         x = X;
         y = Y;
     }
+
     public Vecteur() {
-        x = 0;
-        y = 0;
+        this(0,0);
     }
 
     // Redéfinit les coordonnées d'un vecteur
@@ -34,7 +34,7 @@ public class Vecteur {
         return rep;
     }
 
-    // rend le vecteur unitaire
+    // Rend le vecteur unitaire
     public void unitaire() {
         double norme = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
         x = x/norme;
@@ -49,11 +49,7 @@ public class Vecteur {
         y = Y;
     }
 
-    @Override
     public String toString() {
-        return "Vecteur{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "Vecteur{" + "x=" + x + ", y=" + y + '}';
     }
 }
