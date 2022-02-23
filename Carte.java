@@ -51,6 +51,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (PheroAller p : pheromonesAller) {
             p.dessine(g);
         }
+        for (PheroRetour p : pheromonesRetour) {
+            p.dessine(g);
+        }
         for (Nourriture n : nourritures) {
             n.dessine(g);
         }
@@ -59,17 +62,29 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
             // Les phéromones disparaissent si leur taux est trop faible
-            ArrayList<Integer> tauxTropBas = new ArrayList<Integer>();
+            ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
+            ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
             for (PheroAller p : pheromonesAller) {
                 if (p.getTaux()<5) {
-                    tauxTropBas.add(pheromonesAller.indexOf(p));
+                    tauxTropBasAller.add(pheromonesAller.indexOf(p));
                 }
             }
-            for (Integer i : tauxTropBas) {
+            for (PheroRetour p : pheromonesRetour) {
+                if (p.getTaux()<5) {
+                    tauxTropBasRetour.add(pheromonesRetour.indexOf(p));
+                }
+            }
+            for (Integer i : tauxTropBasAller) {
                 pheromonesAller.remove((int)i);
+            }
+            for (Integer i : tauxTropBasRetour) {
+                pheromonesRetour.remove((int)i);
             }
             // Les phéromones s'estompent (leur taux diminue)
             for (PheroAller p : pheromonesAller) {
+                p.estompe();
+            }
+            for (PheroRetour p : pheromonesRetour) {
                 p.estompe();
             }
             // Les fourmis avancent
@@ -85,7 +100,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
             if (compteur>COMPTEUR_MAX) {
                 for (Fourmi f : fourmis) {
-                    pheromonesAller.add(new PheroAller(new Vecteur(f.getPosition())));
+                    if (f.getClass() == FourmiA.class) {
+                        pheromonesAller.add(new PheroAller(f.getPosition()));
+                    } else {
+                        pheromonesRetour.add(new PheroRetour(f.getPosition()));
+                    }
                 }
                 compteur=0;
             }

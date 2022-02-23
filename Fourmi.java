@@ -27,7 +27,9 @@ public abstract class Fourmi {
     }
 
     public Vecteur getPosition() {
-        return position;
+        double x = position.x;
+        double y = position.y;
+        return new Vecteur(x,y);
     }
 
     public void inverserVertical() {
