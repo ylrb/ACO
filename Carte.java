@@ -64,18 +64,17 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             updatePheromones(); // Mise à jour des phéromones
             ajoutPheromones(); // On ajoute les nouvelles phéromones
             promotionFourmis(); // Promotion des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
-            
-            // Déplacement des fourmis
-            for (Fourmi f : fourmis) {
+            for (Fourmi f : fourmis) { // Déplacement des fourmis
                 if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) { // Les fourmis "rebondissent" sur les murs
-                    f.inverserVertical();
+                    f.direction.inverserVertical();
+                    f.errance.inverserVertical();
                 }
                 if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
-                    f.inverserHorizontal();;
+                    f.direction.inverserHorizontal();
+                    f.errance.inverserHorizontal();
                 }
                 f.avancer(nourritures, fourmiliere);
             }
-
             repaint();
         }
     }
@@ -97,7 +96,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
             p.estompe();
         }
-        // Les phéromones qui ont un indice trop faible sont supprimées
+        // Les phéromones qui ont un taux trop faible sont supprimées
         for (Integer i : tauxTropBasAller) {
             pheromonesAller.remove((int)i);
         }
@@ -142,7 +141,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Integer i : promuAversB) {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
-            Vecteur dir = fourmis.get(i).getDirection();
+            Vecteur dir = fourmis.get(i).getDirection(); // Il faut conserver la direction initiale de la fourmi
+            dir.inverser(); // Puis il faut l'inverser pour que la fourmi reparte en arrière
             fourmis.remove((int)i);
             fourmis.add(new FourmiB(X,Y,dir));
         }
@@ -150,6 +150,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
             Vecteur dir = fourmis.get(i).getDirection();
+            dir.inverser();
             fourmis.remove((int)i);
             fourmis.add(new FourmiA(X,Y,dir));
         }

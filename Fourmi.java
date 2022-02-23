@@ -41,16 +41,6 @@ public abstract class Fourmi {
         return direction;
     }
 
-    public void inverserVertical() {
-        direction = new Vecteur(-1*direction.x,direction.y);
-        errance = new Vecteur(-1*errance.x,errance.y);
-    }
-
-    public void inverserHorizontal() {
-        direction = new Vecteur(direction.x,-1*direction.y);
-        errance = new Vecteur(errance.x,-1*errance.y);
-    }
-
     public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         calculErrance();
         calculNouvelleDirection(nourritures, fourmiliere);

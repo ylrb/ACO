@@ -52,6 +52,19 @@ public class Vecteur {
         y = Y;
     }
 
+    public void inverser() {
+        x = -x;
+        y = -y;
+    }
+
+    public void inverserVertical() {
+        x = -x;
+    }
+
+    public void inverserHorizontal() {
+        y = -y;
+    }
+
     public String toString() {
         return "Vecteur{" + "x=" + x + ", y=" + y + '}';
     }
