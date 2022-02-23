@@ -62,6 +62,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
             updatePheromones(); // Mise à jour des phéromones
+            ajoutPheromones(); // On ajoute les nouvelles phéromones
+            promotionFourmis(); // Promotion des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
+            
+            // Déplacement des fourmis
             for (Fourmi f : fourmis) {
                 if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) { // Les fourmis "rebondissent" sur les murs
                     f.inverserVertical();
@@ -69,11 +73,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
                     f.inverserHorizontal();;
                 }
-                f.avancer(nourritures, fourmiliere); // Les fourmis avancent
+                f.avancer(nourritures, fourmiliere);
             }
+
             repaint();
         }
-
     }
 
     public void updatePheromones() {
@@ -100,6 +104,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Integer i : tauxTropBasRetour) {
             pheromonesRetour.remove((int)i);
         }
+    }
+
+    public void ajoutPheromones() {
         // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
@@ -112,6 +119,40 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             compteur=0;
         }
         compteur++;
+    }
+
+    public void promotionFourmis() {
+        ArrayList<Integer> promuAversB = new ArrayList<Integer>();
+        ArrayList<Integer> promuBversA = new ArrayList<Integer>();
+        // On stocke les indices des fourmis qui ont atteint leur objectif
+        for (Fourmi f : fourmis) {
+            if (f.getClass() == FourmiA.class) {
+                for (Nourriture n : nourritures) {
+                    if (f.distanceA(n.getPosition())<3.0) {
+                        promuAversB.add(fourmis.indexOf(f));
+                    }
+                }
+            } else {
+                if (f.distanceA(fourmiliere.getPosition())<3.0) {
+                    promuBversA.add(fourmis.indexOf(f));
+                }
+            }
+        }
+        // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
+        for (Integer i : promuAversB) {
+            double X = fourmis.get(i).getPosition().x;
+            double Y = fourmis.get(i).getPosition().y;
+            Vecteur dir = fourmis.get(i).getDirection();
+            fourmis.remove((int)i);
+            fourmis.add(new FourmiB(X,Y,dir));
+        }
+        for (Integer i : promuBversA) {
+            double X = fourmis.get(i).getPosition().x;
+            double Y = fourmis.get(i).getPosition().y;
+            Vecteur dir = fourmis.get(i).getDirection();
+            fourmis.remove((int)i);
+            fourmis.add(new FourmiA(X,Y,dir));
+        }
     }
 
     public void mouseClicked(MouseEvent e) {

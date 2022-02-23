@@ -12,6 +12,11 @@ public class FourmiB extends Fourmi {
         this(pos.x,pos.y);
     }
 
+    public FourmiB(double x, double y, Vecteur dir) {
+        super(x,y,dir);
+        couleur = Color.ORANGE;
+    }
+
     public void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         if (fourmiliereEnVue(fourmiliere)) {           
                 direction = direction.somme(calculAttractionFourmiliere(nourritures, fourmiliere), 1, COEFF_ATTRACTION_NOURRITURE);

@@ -26,10 +26,19 @@ public abstract class Fourmi {
         errance = direction;
     }
 
+    public Fourmi(double x, double y, Vecteur dir) {
+        this(x,y);
+        direction = dir;
+    }
+
     public Vecteur getPosition() {
         double x = position.x;
         double y = position.y;
         return new Vecteur(x,y);
+    }
+
+    public Vecteur getDirection() {
+        return direction;
     }
 
     public void inverserVertical() {

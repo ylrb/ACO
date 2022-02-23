@@ -1,10 +1,10 @@
 import java.awt.*;
 
 public class Nourriture {
-    Vecteur position; // Vecteur position de la nourriture
-    Color couleur;
-    int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
-    int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
+    private Vecteur position; // Vecteur position de la nourriture
+    private Color couleur;
+    private int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
+    private int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
 
     private static int RAYON = 10; // Rayon du disque dessiné lors de la méthode dessine()
 
@@ -19,6 +19,10 @@ public class Nourriture {
     // En entrant des coordonnées x et y (double)
     public Nourriture(double x, double y, int quantité) {
         this(new Vecteur(x,y), quantité);
+    }
+
+    public Vecteur getPosition() {
+        return position;
     }
 
     // Quand une fourmi vient piocher dans cette nourriture, on appelle cette methode qui traduit cette action
