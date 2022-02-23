@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public abstract class Fourmi extends Element {
     
-    // La fourmi possède aussi une position et une couleur, héritées de la classe mère Element
+    // La fourmi possède aussi un vecteur() position et une couleur, héritées de la classe mère Element
     protected double vitesse;
 
     //////////////////////// Vecteurs
@@ -44,15 +44,15 @@ public abstract class Fourmi extends Element {
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    public abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere);
+    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere);
 
     // Fait varier le vecteur errance
-    public void calculErrance() {
+    private void calculErrance() {
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
     }
 
     // Indique s'il y a des phéromones en vue
-    public abstract boolean pheromonesEnVue();
+    protected abstract boolean pheromonesEnVue();
 
     public void dessine (Graphics g) {
         double r = 7;

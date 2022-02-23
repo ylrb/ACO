@@ -17,7 +17,7 @@ public class FourmiA extends Fourmi {
         couleur = Color.RED;
     }
 
-    public void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
+    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         if (nourritureEnVue(nourritures)) {           
             direction = direction.somme(calculAttractionNourriture(nourritures, fourmiliere), 1, COEFF_ATTRACTION_FOURMILIERE);
             direction.unitaire();
@@ -30,7 +30,7 @@ public class FourmiA extends Fourmi {
     }
 
     // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
-    public Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
+    private Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         Vecteur rep = new Vecteur();
         for (Nourriture n : nourritures) {
             if (this.distanceA(n.getPosition()) < PORTEE_VUE) {
@@ -41,12 +41,12 @@ public class FourmiA extends Fourmi {
         return rep;
     }
 
-    public boolean pheromonesEnVue() {
+    protected boolean pheromonesEnVue() {
         return false;
     }
 
     // Indique s'il y a de la nourriture en vue
-    public boolean nourritureEnVue(ArrayList<Nourriture> nourritures) {
+    private boolean nourritureEnVue(ArrayList<Nourriture> nourritures) {
         boolean rep = false;
         for (Nourriture n : nourritures) {
             if (this.distanceA(n.getPosition()) < PORTEE_VUE) {

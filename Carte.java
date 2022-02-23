@@ -79,7 +79,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
-    public void updatePheromones() {
+    private void updatePheromones() {
         // Les phéromones disparaissent si leur taux est trop faible
         ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
         ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
@@ -105,7 +105,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
-    public void ajoutPheromones() {
+    private void ajoutPheromones() {
         // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
@@ -120,7 +120,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         compteur++;
     }
 
-    public void promotionFourmis() {
+    private void promotionFourmis() {
         ArrayList<Integer> promuAversB = new ArrayList<Integer>();
         ArrayList<Integer> promuBversA = new ArrayList<Integer>();
         // On stocke les indices des fourmis qui ont atteint leur objectif
