@@ -9,10 +9,13 @@ import java.awt.event.MouseListener;
 public class Carte extends JPanel implements ActionListener, MouseListener {
     private int dt = 20;
     private Timer timer;
+    
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
     private ArrayList<PheroRetour> pheromonesRetour = new ArrayList<PheroRetour>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
+    private Fourmiliere fourmiliere;
+
     private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
 
@@ -22,10 +25,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer = new Timer(dt, this);
         timer.start();
 
-        // Initialisation des fourmis et de la nourriture
+        // Initialisation de la fourmilière, des fourmis et de la nourriture
+        fourmiliere = new Fourmiliere(300.0,300.0);
         for (int i = 0; i < 10; i++) {
-            fourmis.add(new Fourmi(400.0,400.0));
+            fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
+        fourmis.add(new FourmiB(600.0,600.0));
         nourritures.add(new Nourriture(600, 600, 10));       
 
         setVisible(true);
@@ -38,7 +43,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         g.setColor(new Color(43, 37, 20));
         g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
-        // On dessine toutes les fourmis, phéromones et nourritures
+        // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
+        fourmiliere.dessine(g);
         for (Fourmi f : fourmis) {
             f.dessine(g);
         }
@@ -74,7 +80,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
                     f.inverserHorizontal();;
                 }
-                f.avancer(nourritures);
+                f.avancer(nourritures, fourmiliere);
             }
             // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
             if (compteur>COMPTEUR_MAX) {

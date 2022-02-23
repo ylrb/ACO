@@ -1,32 +1,29 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Fourmi {
+public abstract class Fourmi {
 
-    private Vecteur position; // Position de la fourmi
-    private double vitesse;
-    private boolean porteNourriture; // Si la fourmi porte de la nourriture
-    private Color couleur = Color.RED;
+    protected Vecteur position; // Position de la fourmi
+    protected Color couleur;
+    protected double vitesse;
 
     //////////////////////// Vecteurs
-    private Vecteur direction;
-    private Vecteur errance;
-    private Vecteur attractionNourriture;
+    protected Vecteur direction;
+    protected Vecteur errance;
 
-    //////////////////////// Tous les coefficients appliqués au vecteur (~caracteristique de la fourmi)
-    private static final double COEFF_ERRANCE = 0.1; // Poids du vecteur errance
-    private static final double AMPLITUDE_ERRANCE = 10; // Amplitude max de la variation du vecteur errance
-    private static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
-    private static final double PORTEE_VUE = 50; // à quelle distance les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    //////////////////////// Tous les coefficients appliqués aux vecteurs (caractéristiques de la fourmi)
+    protected static final double COEFF_ERRANCE = 0.1; // Poids du vecteur errance
+    protected static final double AMPLITUDE_ERRANCE = 10; // Amplitude max de la variation du vecteur errance
+    protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
+    protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
+    protected static final double PORTEE_VUE = 50; // à quelle distance les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
 
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
         vitesse = 2.0;
-        porteNourriture = false;
-        direction = new Vecteur(Math.random(),Math.random());
+        direction = new Vecteur(2*Math.random()-1,2*Math.random()-1);
         direction.unitaire();
         errance = direction;
-        attractionNourriture = new Vecteur();
     }
 
     public Vecteur getPosition() {
@@ -43,87 +40,23 @@ public class Fourmi {
         errance = new Vecteur(errance.x,-1*errance.y);
     }
 
-    public void avancer(ArrayList<Nourriture> nourritures) {
+    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         calculErrance();
-        calculNouvelleDirection(nourritures);
+        calculNouvelleDirection(nourritures, fourmiliere);
         position.x += vitesse*direction.x;
         position.y += vitesse*direction.y;
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    public void calculNouvelleDirection(ArrayList<Nourriture> nourritures) {
-        
-        // Cas où la fourmi ne porte pas de nourriture : elle est donc a la recherche de nourriture
-        if (!porteNourriture) {
-            if (nourritureEnVue(nourritures)) {           
-                direction = direction.somme(calculAttractionNourriture(nourritures), 1, COEFF_ATTRACTION_NOURRITURE);
-                direction.unitaire();
-            } else if (pheroRetourEnVue()) {
-                //
-            } else {                             
-                direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
-                direction.unitaire();
-            }
-        }
-
-        // La fourmi porte de la nourriture et recherche alors la fourmilière, ici elle le voit et va donc se diriger vers ce dernier
-        else if (fourmilièreEnVue()) { 
-            //
-        } 
-        
-        // La fourmi ne voit pas la fourmiliere mais a vu des pheromone aller et va donc les suivre
-        else if (pheroAllerEnVue()){     
-            //         
-        }
-        
-        // La fourmi ne voit ni fourmiliere ni pheromones aller et va donc errer
-        else {                                    
-            direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
-            direction.unitaire();
-        }
-    }
+    public abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere);
 
     // Fait varier le vecteur errance
-    public Vecteur calculErrance() {
+    public void calculErrance() {
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
-        return errance;
-    }
-
-    // Calcul de l'attraction d'une fourmi à une nourriture dans son champ de vision
-    public Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
-        Vecteur rep = new Vecteur();
-        for (Nourriture n : nourritures) {
-            if (this.distanceA(n.position) < PORTEE_VUE) {
-                rep = rep.somme(n.position.soustrait(new Vecteur(position.x, position.y)));
-            }
-        }
-        rep.unitaire();
-        return rep;
     }
 
     // Indique s'il y a des phéromones en vue
-    public boolean pheroRetourEnVue() {         // A ECRIRE // en parametre : liste des pheromones retour sur la map
-        return false;
-    }
-    private boolean pheroAllerEnVue() {         // A ECRIRE // en parametre : liste des pheromones aller sur la map
-        return false;
-    }
-
-    // Indique s'il y a la foumiliere en vue
-    private boolean fourmilièreEnVue() {         // A ECRIRE // en parametre : position de la fourmiliere
-        return false;
-    }
-
-    // Indique s'il y a de la nourriture en vue
-    public boolean nourritureEnVue(ArrayList<Nourriture> nourritures) {
-        boolean rep = false;
-        for (Nourriture n : nourritures) {
-            if (this.distanceA(n.position) < PORTEE_VUE) {
-                rep = true;
-            }
-        }
-        return rep;
-    }
+    public abstract boolean pheromonesEnVue();
 
     public void dessine (Graphics g) {
         double r = 7;
