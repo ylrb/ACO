@@ -68,6 +68,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
             // Les fourmis avancent
             for (Fourmi f : fourmis) {
+                if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) {
+                    f.inverserVertical();
+                }
+                if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
+                    f.inverserHorizontal();;
+                }
                 f.avancer(nourritures);
             }
             // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
