@@ -19,9 +19,6 @@ public class Fourmi {
     private static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
     private static final double PORTEE_VUE = 50; // à quelle distance les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
 
-    ///////////////////////// Liste des éléments au alentour de la fourmi
-    ArrayList<Nourriture> nourritureProche = new ArrayList<Nourriture>();
-
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
         vitesse = 2.0;
@@ -36,20 +33,20 @@ public class Fourmi {
         return position;
     }
 
-    public void avancer(ArrayList<Nourriture> n) {
+    public void avancer(ArrayList<Nourriture> nourritures) {
         calculErrance();
-        calculNouvelleDirection(n);
+        calculNouvelleDirection(nourritures);
         position.x += vitesse*direction.x;
         position.y += vitesse*direction.y;
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    public void calculNouvelleDirection(ArrayList<Nourriture> n) {
+    public void calculNouvelleDirection(ArrayList<Nourriture> nourritures) {
         
         // Cas où la fourmi ne porte pas de nourriture : elle est donc a la recherche de nourriture
         if (!porteNourriture) {
-            if (nourritureEnVue(n)) {           
-                direction = direction.somme(calculAttractionNourriture(), 1, COEFF_ATTRACTION_NOURRITURE);
+            if (nourritureEnVue(nourritures)) {           
+                direction = direction.somme(calculAttractionNourriture(nourritures), 1, COEFF_ATTRACTION_NOURRITURE);
                 direction.unitaire();
             } else if (pheroRetourEnVue()) {
                 //
@@ -83,10 +80,12 @@ public class Fourmi {
     }
 
     // Calcul de l'attraction d'une fourmi à une nourriture dans son champ de vision
-    public Vecteur calculAttractionNourriture() {
+    public Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
         Vecteur rep = new Vecteur();
-        for (Nourriture n : nourritureProche) {
-            rep = rep.somme(n.position.soustrait(new Vecteur(position.x, position.y)));
+        for (Nourriture n : nourritures) {
+            if (this.distanceA(n.position) < PORTEE_VUE) {
+                rep = rep.somme(n.position.soustrait(new Vecteur(position.x, position.y)));
+            }
         }
         rep.unitaire();
         return rep;
@@ -110,7 +109,6 @@ public class Fourmi {
         boolean rep = false;
         for (Nourriture n : nourritures) {
             if (this.distanceA(n.position) < PORTEE_VUE) {
-                nourritureProche.add(n);
                 rep = true;
             }
         }
