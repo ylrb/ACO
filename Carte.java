@@ -61,57 +61,57 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
-            // Les phéromones disparaissent si leur taux est trop faible
-            ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
-            ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
-            for (PheroAller p : pheromonesAller) {
-                if (p.getTaux()<5) {
-                    tauxTropBasAller.add(pheromonesAller.indexOf(p));
-                }
-            }
-            for (PheroRetour p : pheromonesRetour) {
-                if (p.getTaux()<5) {
-                    tauxTropBasRetour.add(pheromonesRetour.indexOf(p));
-                }
-            }
-            for (Integer i : tauxTropBasAller) {
-                pheromonesAller.remove((int)i);
-            }
-            for (Integer i : tauxTropBasRetour) {
-                pheromonesRetour.remove((int)i);
-            }
-            // Les phéromones s'estompent (leur taux diminue)
-            for (PheroAller p : pheromonesAller) {
-                p.estompe();
-            }
-            for (PheroRetour p : pheromonesRetour) {
-                p.estompe();
-            }
-            // Les fourmis avancent
+            updatePheromones(); // Mise à jour des phéromones
             for (Fourmi f : fourmis) {
-                if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) {
+                if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) { // Les fourmis "rebondissent" sur les murs
                     f.inverserVertical();
                 }
                 if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
                     f.inverserHorizontal();;
                 }
-                f.avancer(nourritures, fourmiliere);
+                f.avancer(nourritures, fourmiliere); // Les fourmis avancent
             }
-            // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la bo(ucle
-            if (compteur>COMPTEUR_MAX) {
-                for (Fourmi f : fourmis) {
-                    if (f.getClass() == FourmiA.class) {
-                        pheromonesAller.add(new PheroAller(f.getPosition()));
-                    } else {
-                        pheromonesRetour.add(new PheroRetour(f.getPosition()));
-                    }
-                }
-                compteur=0;
-            }
-            compteur++;
             repaint();
         }
 
+    }
+
+    public void updatePheromones() {
+        // Les phéromones disparaissent si leur taux est trop faible
+        ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
+        ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
+        // On fait s'estomper les phéromones et on stocke les indices de celles qui ont un indice trop faible
+        for (PheroAller p : pheromonesAller) {
+            if (p.getTaux()<5) {
+                tauxTropBasAller.add(pheromonesAller.indexOf(p));
+            }
+            p.estompe();
+        }
+        for (PheroRetour p : pheromonesRetour) {
+            if (p.getTaux()<5) {
+                tauxTropBasRetour.add(pheromonesRetour.indexOf(p));
+            }
+            p.estompe();
+        }
+        // Les phéromones qui ont un indice trop faible sont supprimées
+        for (Integer i : tauxTropBasAller) {
+            pheromonesAller.remove((int)i);
+        }
+        for (Integer i : tauxTropBasRetour) {
+            pheromonesRetour.remove((int)i);
+        }
+        // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
+        if (compteur>COMPTEUR_MAX) {
+            for (Fourmi f : fourmis) {
+                if (f.getClass() == FourmiA.class) {
+                    pheromonesAller.add(new PheroAller(f.getPosition()));
+                } else {
+                    pheromonesRetour.add(new PheroRetour(f.getPosition()));
+                }
+            }
+            compteur=0;
+        }
+        compteur++;
     }
 
     public void mouseClicked(MouseEvent e) {
