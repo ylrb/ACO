@@ -1,10 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class Fourmi {
-
-    protected Vecteur position; // Position de la fourmi
-    protected Color couleur;
+public abstract class Fourmi extends Element {
+    
+    // La fourmi possède aussi une position et une couleur, héritées de la classe mère Element
     protected double vitesse;
 
     //////////////////////// Vecteurs
@@ -31,14 +30,10 @@ public abstract class Fourmi {
         direction = dir;
     }
 
-    public Vecteur getPosition() {
-        double x = position.x;
-        double y = position.y;
-        return new Vecteur(x,y);
-    }
-
     public Vecteur getDirection() {
-        return direction;
+        double x = direction.x;
+        double y = direction.y;
+        return new Vecteur(x,y);
     }
 
     public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {

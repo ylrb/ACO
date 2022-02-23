@@ -1,10 +1,7 @@
 import java.awt.*;
 
-public class Pheromone {
-    protected Vecteur position;
+public class Pheromone extends Element {
     protected double taux = 100.0;
-    protected Color couleur;
-
     protected static final int RAYON = 5;
 
     public void dessine(Graphics g) {
