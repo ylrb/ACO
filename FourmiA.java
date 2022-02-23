@@ -19,13 +19,13 @@ public class FourmiA extends Fourmi {
 
     public void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
         if (nourritureEnVue(nourritures)) {           
-                direction = direction.somme(calculAttractionNourriture(nourritures, fourmiliere), 1, COEFF_ATTRACTION_FOURMILIERE);
-                direction.unitaire();
+            direction = direction.somme(calculAttractionNourriture(nourritures, fourmiliere), 1, COEFF_ATTRACTION_FOURMILIERE);
+            direction.unitaire();
         } else if (pheromonesEnVue()) {
-                //
+            //
         } else {                             
-                direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
-                direction.unitaire();
+            direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
+            direction.unitaire();
         }
     }
 
