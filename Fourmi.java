@@ -15,7 +15,9 @@ public abstract class Fourmi extends Element {
     protected static final double AMPLITUDE_ERRANCE = 10; // Amplitude max de la variation du vecteur errance
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
-    protected static final double PORTEE_VUE = 50; // à quelle distance les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double COEFF_ATTRACTION_PHEROMONES = 10; // Poids du vecteur force d'attraction des phéromones
+    protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
@@ -36,23 +38,50 @@ public abstract class Fourmi extends Element {
         return new Vecteur(x,y);
     }
 
-    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere) {
+    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
         calculErrance();
-        calculNouvelleDirection(nourritures, fourmiliere);
+        calculNouvelleDirection(nourritures, fourmiliere, pheromones);
         position.x += vitesse*direction.x;
         position.y += vitesse*direction.y;
     }
-
-    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere);
 
     // Fait varier le vecteur errance
     private void calculErrance() {
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
     }
 
-    // Indique s'il y a des phéromones en vue
-    protected abstract boolean pheromonesEnVue();
+    // Renvoie true si la fourmi a des phéromones dans son champ de vision
+    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) {
+        boolean rep = false;
+        Vecteur distance = new Vecteur(); // Vecteur qui va de la fourmi à la phéromone en question
+        for (Pheromone p : pheromones) {
+            distance = p.getPosition().soustrait(getPosition());
+            // Met rep à true si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
+            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+                rep = true;
+                break; // On utilise un break pour réduire les calculs ; il n'est pas possible d'utiliser un while puisque l'on traverse une arraylist
+            }
+        }
+        return rep;
+    }
+
+    // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
+    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones) {
+        Vecteur rep = new Vecteur();
+        Vecteur distance = new Vecteur(); // Vecteur qui va de la fourmi à la phéromone en question
+        for (Pheromone p : pheromones) {
+            distance = p.getPosition().soustrait(getPosition());
+            // Augmente rep si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
+            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
+            }
+        }
+        rep.unitaire();
+        return rep;
+    }
+
+    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
+    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
 
     public void dessine (Graphics g) {
         double r = 7;

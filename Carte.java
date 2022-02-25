@@ -11,8 +11,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
     
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
-    private ArrayList<PheroAller> pheromonesAller = new ArrayList<PheroAller>();
-    private ArrayList<PheroRetour> pheromonesRetour = new ArrayList<PheroRetour>();
+    private ArrayList<Pheromone> pheromonesAller = new ArrayList<Pheromone>();
+    private ArrayList<Pheromone> pheromonesRetour = new ArrayList<Pheromone>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private Fourmiliere fourmiliere;
 
@@ -27,7 +27,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
         fourmis.add(new FourmiB(600.0,600.0));
@@ -48,10 +48,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Fourmi f : fourmis) {
             f.dessine(g);
         }
-        for (PheroAller p : pheromonesAller) {
+        for (Pheromone p : pheromonesAller) {
             p.dessine(g);
         }
-        for (PheroRetour p : pheromonesRetour) {
+        for (Pheromone p : pheromonesRetour) {
             p.dessine(g);
         }
         for (Nourriture n : nourritures) {
@@ -73,7 +73,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                     f.direction.inverserHorizontal();
                     f.errance.inverserHorizontal();
                 }
-                f.avancer(nourritures, fourmiliere);
+                if (f.getClass() == FourmiA.class) {
+                    f.avancer(nourritures, fourmiliere, pheromonesRetour);
+                } else {
+                    f.avancer(nourritures, fourmiliere, pheromonesAller);
+                }
             }
             repaint();
         }
@@ -84,13 +88,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
         ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
         // On fait s'estomper les phéromones et on stocke les indices de celles qui ont un indice trop faible
-        for (PheroAller p : pheromonesAller) {
+        for (Pheromone p : pheromonesAller) {
             if (p.getTaux()<5) {
                 tauxTropBasAller.add(pheromonesAller.indexOf(p));
             }
             p.estompe();
         }
-        for (PheroRetour p : pheromonesRetour) {
+        for (Pheromone p : pheromonesRetour) {
             if (p.getTaux()<5) {
                 tauxTropBasRetour.add(pheromonesRetour.indexOf(p));
             }

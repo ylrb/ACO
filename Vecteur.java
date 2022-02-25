@@ -29,9 +29,7 @@ public class Vecteur {
         return new Vecteur(X,Y);
     }
     public Vecteur somme(Vecteur v2) {
-        double X = this.x + v2.x;
-        double Y = this.y + v2.y;
-        return new Vecteur(X,Y);
+        return somme(v2,1.0,1.0);
     }
     public Vecteur soustrait(Vecteur v2) {
         return somme(new Vecteur(-v2.x,-v2.y));
@@ -50,6 +48,17 @@ public class Vecteur {
         double Y = x*Math.sin(angle) + y*Math.cos(angle);
         x = X;
         y = Y;
+    }
+
+    private double scalaire(Vecteur v2) {
+        return x*v2.x + y*v2.y;
+    }
+    
+    // Renvoie l'angle entre deux vecteurs (en radians)
+    public double angle(Vecteur v2) {
+        double V1 = Math.sqrt(Math.pow(this.x,2)+Math.pow(this.y,2)); // Norme de v1
+        double V2 = Math.sqrt(Math.pow(v2.x,2)+Math.pow(v2.y,2)); // Norme de v2
+        return Math.acos(scalaire(v2)/(V1*V2)); // cos(theta) = u.v/(||u||*||v||)
     }
 
     public void inverser() {
