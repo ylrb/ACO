@@ -17,7 +17,7 @@ public class Vecteur {
 
     // Redéfinit les coordonnées d'un vecteur
     public void set(double X, double Y) {
-        double norme = Math.sqrt(Math.pow(X,2)+Math.pow(Y,2));
+        double norme = norme();
         x = X/norme;
         y = Y/norme;
     }
@@ -37,7 +37,7 @@ public class Vecteur {
 
     // Rend le vecteur unitaire
     public void unitaire() {
-        double norme = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+        double norme = norme();
         x = x/norme;
         y = y/norme;
     }
@@ -56,9 +56,9 @@ public class Vecteur {
     
     // Renvoie l'angle entre deux vecteurs (en radians)
     public double angle(Vecteur v2) {
-        double V1 = Math.sqrt(Math.pow(this.x,2)+Math.pow(this.y,2)); // Norme de v1
-        double V2 = Math.sqrt(Math.pow(v2.x,2)+Math.pow(v2.y,2)); // Norme de v2
-        return Math.acos(scalaire(v2)/(V1*V2)); // cos(theta) = u.v/(||u||*||v||)
+        double V1 = this.norme(); // Norme de v1
+        double V2 = v2.norme(); // Norme de v2
+        return Math.acos(scalaire(v2)/(V1*V2)); // NB : Arccos > 0
     }
 
     public void inverser() {
@@ -76,5 +76,10 @@ public class Vecteur {
 
     public String toString() {
         return "Vecteur{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    public double norme(){
+        double rep = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+        return rep;
     }
 }
