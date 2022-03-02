@@ -130,12 +130,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
-                    if (f.distanceA(n.getPosition())<3.0) {
+                    if (f.getPosition().distance(n.getPosition())<3.0) {
                         promuAversB.add(fourmis.indexOf(f));
                     }
                 }
             } else {
-                if (f.distanceA(fourmiliere.getPosition())<3.0) {
+                if (f.getPosition().distance(fourmiliere.getPosition())<3.0) {
                     promuBversA.add(fourmis.indexOf(f));
                 }
             }

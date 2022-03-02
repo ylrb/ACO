@@ -23,6 +23,7 @@ public class FourmiA extends Fourmi {
             direction.unitaire();
         } else if (pheromonesEnVue(pheromones)) {
             direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
+            direction = direction.somme(errance, 1, COEFF_ERRANCE);
             direction.unitaire();
         } else {                             
             direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapproche du vecteur errance
@@ -34,7 +35,7 @@ public class FourmiA extends Fourmi {
     private Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
         Vecteur rep = new Vecteur();
         for (Nourriture n : nourritures) {
-            if (this.distanceA(n.getPosition()) < PORTEE_VUE) {
+            if (position.distance(n.getPosition()) < PORTEE_VUE) {
                 rep = rep.somme(n.getPosition().soustrait(getPosition()));
             }
         }
@@ -46,7 +47,7 @@ public class FourmiA extends Fourmi {
     private boolean nourritureEnVue(ArrayList<Nourriture> nourritures) {
         boolean rep = false;
         for (Nourriture n : nourritures) {
-            if (this.distanceA(n.getPosition()) < PORTEE_VUE) {
+            if (position.distance(n.getPosition()) < PORTEE_VUE) {
                 rep = true;
             }
         }

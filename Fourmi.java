@@ -16,7 +16,7 @@ public abstract class Fourmi extends Element {
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_PHEROMONES = 10; // Poids du vecteur force d'attraction des phéromones
-    protected static final double PORTEE_VUE = 60; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 
     public Fourmi(double x, double y) {
@@ -57,7 +57,7 @@ public abstract class Fourmi extends Element {
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
             // Met rep à true si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
-            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
                 rep = true;
                 break; // On utilise un break pour réduire les calculs ; il n'est pas possible d'utiliser un while puisque l'on traverse une arraylist
             }
@@ -72,7 +72,7 @@ public abstract class Fourmi extends Element {
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
             // Augmente rep si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
-            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
             }
         }
@@ -89,10 +89,5 @@ public abstract class Fourmi extends Element {
         g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
         g.setColor(couleur);
         g.fillOval((int)(position.x-r), (int)(position.y-r), (int)(2*r), (int)(2*r));
-    }
-
-    // Retourne la distance à un point défini par son vecteur position 'point'
-    public double distanceA(Vecteur point) {
-        return (Math.sqrt((position.x-point.x)*(position.x-point.x)+(position.y-point.y)*(position.y-point.y)));
     }
 }

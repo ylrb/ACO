@@ -23,6 +23,7 @@ public class FourmiB extends Fourmi {
                 direction.unitaire();
         } else if (pheromonesEnVue(pheromones)) {
                 direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
+                direction = direction.somme(errance, 1, COEFF_ERRANCE);
                 direction.unitaire();
         } else {                             
                 direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
@@ -33,7 +34,7 @@ public class FourmiB extends Fourmi {
     // Indique s'il y a la foumiliere en vue
     private boolean fourmiliereEnVue(Fourmiliere fourmiliere) {
         boolean rep = false;
-        if (this.distanceA(fourmiliere.getPosition()) < PORTEE_VUE) {
+        if (position.distance(fourmiliere.getPosition()) < PORTEE_VUE) {
             rep = true;
         }
         return rep;

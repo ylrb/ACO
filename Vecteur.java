@@ -22,6 +22,11 @@ public class Vecteur {
         y = Y/norme;
     }
 
+    // Retourne la distance à un autre vecteur (pour les vecteurs positions)
+    public double distance(Vecteur p2) {
+        return (Math.sqrt((x-p2.x)*(x-p2.x)+(y-p2.y)*(y-p2.y)));
+    }
+
     // Somme des vecteurs v1 et v2 coefficientés
     public Vecteur somme(Vecteur v2, double coeff1, double coeff2) {
         double X = coeff1*x + coeff2*v2.x;
