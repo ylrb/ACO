@@ -16,7 +16,7 @@ public abstract class Fourmi extends Element {
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_PHEROMONES = 10; // Poids du vecteur force d'attraction des phéromones
-    protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double PORTEE_VUE = 60; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 
     public Fourmi(double x, double y) {
@@ -66,13 +66,13 @@ public abstract class Fourmi extends Element {
     }
 
     // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
-    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones) {
+    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) {
         Vecteur rep = new Vecteur();
         Vecteur distance = new Vecteur(); // Vecteur qui va de la fourmi à la phéromone en question
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
             // Augmente rep si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
-            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+            if ((distanceA(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
             }
         }

@@ -22,7 +22,7 @@ public class FourmiA extends Fourmi {
             direction = direction.somme(calculAttractionNourriture(nourritures), 1, COEFF_ATTRACTION_FOURMILIERE);
             direction.unitaire();
         } else if (pheromonesEnVue(pheromones)) {
-            direction = direction.somme(calculAttractionPheromones(pheromones), 1, COEFF_ATTRACTION_PHEROMONES);
+            direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
             direction.unitaire();
         } else {                             
             direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapproche du vecteur errance

@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
-    private int dt = 20;
+    private int dt = 0;
     private Timer timer;
     
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
@@ -27,7 +27,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 30; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
         fourmis.add(new FourmiB(600.0,600.0));
@@ -153,8 +153,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Integer i : promuBversA) {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
-            Vecteur dir = fourmis.get(i).getDirection();
-            dir.inverser();
+            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, true);
             fourmis.remove((int)i);
             fourmis.add(new FourmiA(X,Y,dir));
         }
