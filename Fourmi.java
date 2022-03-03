@@ -12,10 +12,10 @@ public abstract class Fourmi extends Element {
 
     //////////////////////// Tous les coefficients appliqués aux vecteurs (caractéristiques de la fourmi)
     protected static final double COEFF_ERRANCE = 0.1; // Poids du vecteur errance
-    protected static final double AMPLITUDE_ERRANCE = 10; // Amplitude max de la variation du vecteur errance
+    protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
-    protected static final double COEFF_ATTRACTION_PHEROMONES = 10; // Poids du vecteur force d'attraction des phéromones
+    protected static final double COEFF_ATTRACTION_PHEROMONES = 1; // Poids du vecteur force d'attraction des phéromones
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 

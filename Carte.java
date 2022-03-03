@@ -27,10 +27,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        nourritures.add(new Nourriture(600, 600, 10));       
+        nourritures.add(new Nourriture(600, 600, 10));
 
         setVisible(true);
         repaint();
