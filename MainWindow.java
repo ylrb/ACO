@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private final int width = 1000;
-    private final int height = 700;
+    private final int width = 1280;
+    private final int height = 720;
 
     public MainWindow() {
 
