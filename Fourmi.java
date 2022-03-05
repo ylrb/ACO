@@ -4,19 +4,21 @@ import java.awt.image.BufferedImage;
 
 public abstract class Fourmi extends Element {
     
-    // La fourmi possède aussi un vecteur() position et une couleur, héritées de la classe mère Element
+    // La fourmi possède aussi un vecteur position et une couleur, héritées de la classe mère Element
     protected double vitesse;
 
-    //////////////////////// Vecteurs
+    // Vecteurs
     protected Vecteur direction;
     protected Vecteur errance;
 
-    //////////////////////// Tous les coefficients appliqués aux vecteurs (caractéristiques de la fourmi)
-    protected static final double COEFF_ERRANCE = 0.1; // Poids du vecteur errance
+    // Tous les coefficients des forces (leur poids)
+    protected static final double COEFF_ERRANCE = 0.1;
+    protected static final double COEFF_ATTRACTION_NOURRITURE = 10;
+    protected static final double COEFF_ATTRACTION_FOURMILIERE = 10;
+    protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
+    
+    // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
-    protected static final double COEFF_ATTRACTION_NOURRITURE = 10; // Poids du vecteur force d'attraction de la nourriture
-    protected static final double COEFF_ATTRACTION_FOURMILIERE = 10; // Poids du vecteur force d'attraction de la nourriture
-    protected static final double COEFF_ATTRACTION_PHEROMONES = 1; // Poids du vecteur force d'attraction des phéromones
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 
@@ -34,9 +36,7 @@ public abstract class Fourmi extends Element {
     }
 
     public Vecteur getDirection() {
-        double x = direction.x;
-        double y = direction.y;
-        return new Vecteur(x,y);
+        return new Vecteur(direction.x,direction.y);
     }
 
     public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
@@ -45,35 +45,34 @@ public abstract class Fourmi extends Element {
         position.x += vitesse*direction.x;
         position.y += vitesse*direction.y;
     }
-
-    // Fait varier le vecteur errance
-    private void calculErrance() {
+  
+    /**
+    */
+    private void calculErrance() { 
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
     }
 
-    // Renvoie true si la fourmi a des phéromones dans son champ de vision
-    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) {
+    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) { // Renvoie true si la fourmi a des phéromones dans son champ de vision
         boolean rep = false;
-        Vecteur distance = new Vecteur(); // Vecteur qui va de la fourmi à la phéromone en question
+        Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            // Met rep à true si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
             if ((position.distance(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+                // Met rep à true si la phéromone se trouve dans le champ de visions de la fourmi
                 rep = true;
-                break; // On utilise un break pour réduire les calculs ; il n'est pas possible d'utiliser un while puisque l'on traverse une arraylist
+                break;
             }
         }
         return rep;
     }
 
-    // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
-    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) {
+    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) { // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
         Vecteur rep = new Vecteur();
-        Vecteur distance = new Vecteur(); // Vecteur qui va de la fourmi à la phéromone en question
+        Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            // Augmente rep si l'angle entre la direction des la fourmi et ce vecteur distance est inférieur à ANGLE_VUE
             if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
+                // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
             }
         }

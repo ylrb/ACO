@@ -20,9 +20,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private Fourmiliere fourmiliere;
 
-    private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
+    private static int compteur = 0; // Compteur qui indique le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualier les phéromones
+    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
 
     private BufferedImage imageFourmi;
 
@@ -38,11 +38,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
+        nourritures.add(new Nourriture(600, 600, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        nourritures.add(new Nourriture(600, 600, 10));
 
         setVisible(true);
         repaint();
@@ -74,10 +74,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
+            
             updatePheromones(); // Mise à jour des phéromones
             ajoutPheromones(); // On ajoute les nouvelles phéromones
             promotionFourmis(); // Promotion des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
-            for (Fourmi f : fourmis) { // Déplacement des fourmis
+            
+            // Déplacement des fourmis selon leur type et gestion des murs
+            for (Fourmi f : fourmis) { 
                 if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) { // Les fourmis "rebondissent" sur les murs
                     f.direction.inverserVertical();
                     f.errance.inverserVertical();
@@ -97,9 +100,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     private void updatePheromones() {
+        
         // Les phéromones disparaissent si leur taux est trop faible
         ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
         ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
+
         // On fait s'estomper les phéromones et on stocke les indices de celles qui ont un indice trop faible
         for (Pheromone p : pheromonesAller) {
             if (p.getTaux()<5) {
@@ -113,6 +118,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
             p.estompe();
         }
+
         // Les phéromones qui ont un taux trop faible sont supprimées
         for (Integer i : tauxTropBasAller) {
             pheromonesAller.remove((int)i);
@@ -140,6 +146,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void promotionFourmis() {
         ArrayList<Integer> promuAversB = new ArrayList<Integer>();
         ArrayList<Integer> promuBversA = new ArrayList<Integer>();
+
         // On stocke les indices des fourmis qui ont atteint leur objectif
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
@@ -154,6 +161,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 }
             }
         }
+
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
         for (Integer i : promuAversB) {
             double X = fourmis.get(i).getPosition().x;
@@ -167,7 +175,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
             Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, true);
-            fourmis.remove((int)i);
+            fourmis.remove((int)i); 
             fourmis.add(new FourmiA(X,Y,dir));
         }
     }
