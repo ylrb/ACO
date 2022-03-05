@@ -22,7 +22,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final boolean AFFICHAGE_PHEROMONES = false; // Doit-on visualier les phéromones
+    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualier les phéromones
 
     private BufferedImage imageFourmi;
 

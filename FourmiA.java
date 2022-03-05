@@ -5,7 +5,6 @@ public class FourmiA extends Fourmi {
     
     public FourmiA(double x, double y) {
         super(x,y);
-        couleur = Color.RED;
     }
 
     public FourmiA(Vecteur pos) {
@@ -14,7 +13,6 @@ public class FourmiA extends Fourmi {
 
     public FourmiA(double x, double y, Vecteur dir) {
         super(x,y,dir);
-        couleur = Color.RED;
     }
 
     protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {

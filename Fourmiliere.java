@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public class Fourmiliere extends Element {
+    protected Color couleur;
     private static int RAYON = 15; // Rayon du disque dessiné lors de la méthode dessine()
 
     public Fourmiliere(double x, double y) {

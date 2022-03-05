@@ -88,10 +88,9 @@ public abstract class Fourmi extends Element {
     protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
 
     public void dessine(Graphics g, BufferedImage imageFourmi) {
-        double r = 7;
+        double r = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
         g.setColor(Color.BLUE);
         g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
-        g.setColor(couleur);
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
     
@@ -106,16 +105,16 @@ public abstract class Fourmi extends Element {
         int type = img.getType();
 
         BufferedImage nouvelleImage = new BufferedImage(largeur, hauteur, type);
-        Graphics2D graphics2D = nouvelleImage.createGraphics();
+        Graphics2D g2 = nouvelleImage.createGraphics();
 
         // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
         if (direction.x<=0) {
-            graphics2D.rotate(direction.angle(new Vecteur(0,100)), largeur/2, hauteur/2);
+            g2.rotate(direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
         } else {
-            graphics2D.rotate(-direction.angle(new Vecteur(0,100)), largeur/2, hauteur/2);
+            g2.rotate(-direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
         }
-        graphics2D.drawImage(img, null, 0, 0);
-
+        g2.drawImage(img, null, 0, 0);
+        
         return nouvelleImage;
     }
 }

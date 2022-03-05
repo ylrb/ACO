@@ -5,7 +5,6 @@ public class FourmiB extends Fourmi {
     
     public FourmiB(double x, double y) {
         super(x,y);
-        couleur = Color.ORANGE;
     }
 
     public FourmiB(Vecteur pos) {
@@ -14,7 +13,6 @@ public class FourmiB extends Fourmi {
 
     public FourmiB(double x, double y, Vecteur dir) {
         super(x,y,dir);
-        couleur = Color.ORANGE;
     }
 
     protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
