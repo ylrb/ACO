@@ -59,8 +59,15 @@ public class Vecteur {
         return x*v2.x + y*v2.y;
     }
     
-    // Renvoie l'angle entre deux vecteurs (en radians)
+    // Renvoie l'angle entre deux vecteurs (en radians) (en valeur absolue)
     public double angle(Vecteur v2) {
+        double V1 = this.norme(); // Norme de v1
+        double V2 = v2.norme(); // Norme de v2
+        return Math.acos(scalaire(v2)/(V1*V2)); // NB : Arccos > 0
+    }
+
+    // Renvoie l'angle entre deux vecteurs (en radians) (positif ou négatif)
+    public double angle2(Vecteur v2) {
         double V1 = this.norme(); // Norme de v1
         double V2 = v2.norme(); // Norme de v2
         return Math.acos(scalaire(v2)/(V1*V2)); // NB : Arccos > 0

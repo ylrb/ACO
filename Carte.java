@@ -5,9 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.io.File;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
-    private int dt = 2;
+    private int dt = 10;
     private Timer timer;
     
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
@@ -18,12 +22,20 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     private static int compteur = 0; // Compteur qui compte le nombre de boucle effectué pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
+    private static final boolean AFFICHAGE_PHEROMONES = false; // Doit-on visualier les phéromones
+
+    private BufferedImage imageFourmi;
 
     public Carte() {
-        setBackground(new Color(43, 37, 20));
         this.addMouseListener(this);
         timer = new Timer(dt, this);
         timer.start();
+
+        try {
+            imageFourmi = ImageIO.read(new File("assets/Fourmi.png")); // On importe l'image de fourmi
+        } catch (IOException e) {
+            throw new RuntimeException("Impossible de lire le fichier.");
+        }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         fourmiliere = new Fourmiliere(300.0,300.0);
@@ -39,15 +51,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void paint (Graphics g) {
         Toolkit.getDefaultToolkit().sync();
 
-        g.setColor(new Color(43, 37, 20));
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0,this.getWidth(), this.getHeight());
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
-        fourmiliere.dessine(g);
-        for (Fourmi f : fourmis) {
-            f.dessine(g);
-        }
-        if (true) {
+        if (AFFICHAGE_PHEROMONES) {
             for (Pheromone p : pheromonesAller) {
                 p.dessine(g);
             }
@@ -55,8 +63,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 p.dessine(g);
             }
         }
+        fourmiliere.dessine(g);
         for (Nourriture n : nourritures) {
             n.dessine(g);
+        }
+        for (Fourmi f : fourmis) {
+            f.dessine(g,imageFourmi);
         }
     }
 

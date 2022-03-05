@@ -1,5 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.File;
 
 public abstract class Fourmi extends Element {
     
@@ -83,11 +87,35 @@ public abstract class Fourmi extends Element {
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
     protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
 
-    public void dessine (Graphics g) {
+    public void dessine(Graphics g, BufferedImage imageFourmi) {
         double r = 7;
         g.setColor(Color.BLUE);
         g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
         g.setColor(couleur);
-        g.fillOval((int)(position.x-r), (int)(position.y-r), (int)(2*r), (int)(2*r));
+        g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
+    }
+    
+    // Méthode hérité de Element qui ne sert pas car on souhaite avoir imageFourmi en attribut de dessine()
+    public void dessine(Graphics g) {}
+
+    // Fait tourner l'image de fourmi de manière à ce qu'elle soit dirigée dans le sens du vecteur direction
+    public BufferedImage orienterFourmi(BufferedImage imageFourmi) {
+        BufferedImage img = imageFourmi;
+        int largeur = img.getWidth();
+        int hauteur = img.getHeight();
+        int type = img.getType();
+
+        BufferedImage nouvelleImage = new BufferedImage(largeur, hauteur, type);
+        Graphics2D graphics2D = nouvelleImage.createGraphics();
+
+        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
+        if (direction.x<=0) {
+            graphics2D.rotate(direction.angle(new Vecteur(0,100)), largeur/2, hauteur/2);
+        } else {
+            graphics2D.rotate(-direction.angle(new Vecteur(0,100)), largeur/2, hauteur/2);
+        }
+        graphics2D.drawImage(img, null, 0, 0);
+
+        return nouvelleImage;
     }
 }

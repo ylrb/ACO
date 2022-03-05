@@ -5,7 +5,7 @@ public class Fourmiliere extends Element {
 
     public Fourmiliere(double x, double y) {
         position = new Vecteur(x,y);
-        couleur = Color.BLACK;
+        couleur = new Color(139,69,19);
     }
     
     public void dessine(Graphics g) {
