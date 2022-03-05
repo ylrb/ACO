@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
-    private int dt = 1;
+    private int dt = 2;
     private Timer timer;
     
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
@@ -27,7 +27,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
         nourritures.add(new Nourriture(600, 600, 10));
