@@ -20,6 +20,8 @@ public abstract class Fourmi extends Element {
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
 
+    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
+
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
         vitesse = 2.0;
@@ -86,8 +88,10 @@ public abstract class Fourmi extends Element {
     // Dessine une fourmi à la position de la fourmi
     public void dessine(Graphics g, BufferedImage imageFourmi) {
         double r = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
-        g.setColor(Color.BLUE);
-        g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
+        if (AFFICHAGE_DIRECTION) {
+            g.setColor(Color.BLUE);
+            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
+        }
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
     

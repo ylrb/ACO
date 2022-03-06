@@ -22,7 +22,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 20;
 
     // Variables du timer
-    private static int dt = 1;
+    private static int dt = 10;
     private static Timer timer;
 
     // Réglages des phéromones
