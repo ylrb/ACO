@@ -4,7 +4,7 @@ public class Pheromone extends Element {
     protected Color couleur;
     protected double taux = 100.0;
     protected static final int RAYON = 1;
-    protected static final double REDUCTION = 0.1; // Vitesse de disparition des phéromones
+    protected static final double REDUCTION = 0.15; // Vitesse de disparition des phéromones
 
     public double getTaux() {
         return taux;

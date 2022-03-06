@@ -17,7 +17,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
 
     // Images
-    private BufferedImage imageFourmi;
+    private BufferedImage imageFourmiA;
+    private BufferedImage imageFourmiB;
     protected static final int TAILLE = 20;
 
     // Variables du timer
@@ -34,10 +35,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer = new Timer(dt, this);
         timer.start();
 
-        // On importe l'image de fourmi
+        // On importe les images de fourmis
         try {
-            imageFourmi = ImageIO.read(new File("assets/Fourmi.png")); 
-            imageFourmi = redimensionner(imageFourmi);
+            imageFourmiA = ImageIO.read(new File("assets/Fourmi.png")); 
+            imageFourmiB = ImageIO.read(new File("assets/FourmiMiam.png")); 
+            imageFourmiA = redimensionner(imageFourmiA);
+            imageFourmiB = redimensionner(imageFourmiB);
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire le fichier.");
         }
@@ -73,7 +76,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             n.dessine(g);
         }
         for (Fourmi f : fourmis) {
-            f.dessine(g,imageFourmi);
+            if (f.getClass() == FourmiA.class) {
+                f.dessine(g,imageFourmiA);
+            } else {
+                f.dessine(g,imageFourmiB);
+            }
+            
         }
     }
 
