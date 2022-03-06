@@ -3,11 +3,11 @@ import java.awt.*;
 public class Fourmiliere extends Element {
     protected Color couleur;
     private int nourriture;
-    private static final double RAYON = 10;
+    private static final double RAYON = 15;
 
     public Fourmiliere(double x, double y) {
         position = new Vecteur(x,y);
-        couleur = new Color(139,69,19);
+        couleur = Color.BLACK;
     }
 
     public double getRayon() {

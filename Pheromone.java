@@ -15,8 +15,9 @@ public class Pheromone extends Element {
     }
 
     public void dessine(Graphics g) {
-        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2*taux)); // On rend plus transparentes les phéromones selon leur teux
+        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
-        g.fillOval((int)(position.x-1), (int)(position.y-1), 2, 2);
+        // g.drawLine((int)position.x,(int)position.y,(int)position.x+1,(int)position.y);
+        g.drawOval((int)(position.x-2), (int)(position.y-2), 3, 3);
     }
 }

@@ -19,10 +19,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Images
     private BufferedImage imageFourmiA, imageFourmiB;
-    protected static final int TAILLE = 20;
+    protected static final int TAILLE = 25;
 
     // Variables du timer
-    private static int dt = 10;
+    private static int dt = 20;
     private static Timer timer;
 
     // Réglages
@@ -60,7 +60,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void paint (Graphics g) {
         Toolkit.getDefaultToolkit().sync();
 
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(120,100,80));
         g.fillRect(0, 0, getWidth(), getHeight());
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
