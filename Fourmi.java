@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class Fourmi extends Element {
 
@@ -40,7 +41,7 @@ public abstract class Fourmi extends Element {
     }
 
     // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
-    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
+    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
         calculErrance();
         calculNouvelleDirection(nourritures, fourmiliere, pheromones);
         position.x += vitesse*direction.x;
@@ -53,10 +54,10 @@ public abstract class Fourmi extends Element {
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
+    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones);
     
     // Indique si la fourmi a des phéromones dans son champ de vision
-    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) { 
+    protected boolean pheromonesEnVue(LinkedList<Pheromone> pheromones) { 
         boolean rep = false;
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
@@ -71,7 +72,7 @@ public abstract class Fourmi extends Element {
     }
 
     // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
-    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) {
+    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, boolean initial) {
         Vecteur rep = new Vecteur();
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {

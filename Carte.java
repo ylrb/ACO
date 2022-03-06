@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -9,10 +10,10 @@ import java.io.File;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
     
-    // Tous les éléments du terrain, qui sont contenus séparément dans des ArrayLists
+    // Tous les éléments du terrain, qui sont contenus séparément dans des listes                                                                                        
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
-    private ArrayList<Pheromone> pheromonesAller = new ArrayList<Pheromone>();
-    private ArrayList<Pheromone> pheromonesRetour = new ArrayList<Pheromone>();
+    private LinkedList<Pheromone> pheromonesAller = new LinkedList<Pheromone>();
+    private LinkedList<Pheromone> pheromonesRetour = new LinkedList<Pheromone>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private Fourmiliere fourmiliere;
 
@@ -98,8 +99,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Les phéromones disparaissent si leur taux est trop faible
     private void updatePheromones() {
-        ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
-        ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
+        LinkedList<Integer> tauxTropBasAller = new LinkedList<Integer>();
+        LinkedList<Integer> tauxTropBasRetour = new LinkedList<Integer>();
 
         // On fait s'estomper les phéromones et on stocke les indices de celles qui ont un indice trop faible
         for (Pheromone p : pheromonesAller) {
@@ -115,7 +116,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             p.estompe();
         }
 
-        // Les phéromones qui ont un taux trop faible, dont on connaît les sont supprimées
+        // Les phéromones qui ont un taux trop faible, dont on connaît les indices sont supprimées
         for (Integer i : tauxTropBasAller) {
             pheromonesAller.remove((int)i);
         }

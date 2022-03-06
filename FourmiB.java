@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FourmiB extends Fourmi {
     
@@ -15,7 +16,7 @@ public class FourmiB extends Fourmi {
         super(x,y,dir);
     }
 
-    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
+    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
         if (fourmiliereEnVue(fourmiliere)) {           
             direction = direction.somme(calculAttractionFourmiliere(fourmiliere), 1, COEFF_ATTRACTION_NOURRITURE);
             direction.unitaire();
