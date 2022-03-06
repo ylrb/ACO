@@ -111,7 +111,7 @@ public abstract class Fourmi extends Element {
             g2.rotate(-direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
         }
         g2.drawImage(img, null, 0, 0);
-        
+
         return nouvelleImage;
     }
 }

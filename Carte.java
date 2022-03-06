@@ -18,6 +18,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Images
     private BufferedImage imageFourmi;
+    protected static final int TAILLE = 20;
 
     // Variables du timer
     private static int dt = 1;
@@ -36,6 +37,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // On importe l'image de fourmi
         try {
             imageFourmi = ImageIO.read(new File("assets/Fourmi.png")); 
+            imageFourmi = redimensionner(imageFourmi);
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire le fichier.");
         }
@@ -206,4 +208,20 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void mouseExited(MouseEvent e) {
     }
+
+    // Redimensionne l'image de fourmi à la taille désirée TAILLE
+    private BufferedImage redimensionner(BufferedImage img) {
+        int largeur = img.getWidth();
+        int hauteur = img.getHeight();
+    
+        BufferedImage nouvelleImage = new BufferedImage(TAILLE, TAILLE, img.getType());
+        Graphics2D g2 = nouvelleImage.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
+        g2.drawImage(img, 0, 0, TAILLE, TAILLE, 0, 0, largeur, hauteur, null);  
+        g2.dispose(); 
+
+        return nouvelleImage;
+    }
+
 }
