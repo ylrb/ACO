@@ -19,7 +19,7 @@ public abstract class Fourmi extends Element {
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double ANGLE_VUE = 1; // Angle de vision des fourmis (en radians)
+    protected static final double ANGLE_VUE = 0.8; // Angle de vision des fourmis (en radians)
 
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
 

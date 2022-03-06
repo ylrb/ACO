@@ -22,14 +22,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 20;
 
     // Variables du timer
-    private static int dt = 3;
+    private static int dt = 10;
     private static Timer timer;
 
     // Réglages
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-    private static final int NOMBRE_FOURMIS = 50;
+    private static final int NOMBRE_FOURMIS = 30;
 
     public Carte() {
         this.addMouseListener(this);
@@ -99,29 +99,29 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Les phéromones disparaissent si leur taux est trop faible
     private void updatePheromones() {
-        LinkedList<Integer> tauxTropBasAller = new LinkedList<Integer>();
-        LinkedList<Integer> tauxTropBasRetour = new LinkedList<Integer>();
+        int tauxTropBasAller = 0;
+        int tauxTropBasRetour = 0;
 
-        // On fait s'estomper les phéromones et on stocke les indices de celles qui ont un indice trop faible
+        // On fait s'estomper les phéromones et on compte le nombre de phéromones qui ont un indice trop faible
         for (Pheromone p : pheromonesAller) {
             if (p.getTaux()<5) {
-                tauxTropBasAller.add(pheromonesAller.indexOf(p));
+                tauxTropBasAller++;
             }
             p.estompe();
         }
         for (Pheromone p : pheromonesRetour) {
             if (p.getTaux()<5) {
-                tauxTropBasRetour.add(pheromonesRetour.indexOf(p));
+                tauxTropBasRetour++;
             }
             p.estompe();
         }
 
-        // Les phéromones qui ont un taux trop faible, dont on connaît les indices sont supprimées
-        for (Integer i : tauxTropBasAller) {
-            pheromonesAller.remove((int)i);
+        // Les phéromones qui ont un taux trop faible sont supprimées : on supprime les "tauxTropBas" premiers éléments des LinkedLists
+        for (int i = 0; i < tauxTropBasAller; i++) {
+            pheromonesAller.remove(0);
         }
-        for (Integer i : tauxTropBasRetour) {
-            pheromonesRetour.remove((int)i);
+        for (int i = 0; i < tauxTropBasRetour; i++) {
+            pheromonesRetour.remove(0);
         }
     }
 
