@@ -25,7 +25,8 @@ public class MainWindow extends JFrame {
         this.setMinimumSize(new Dimension(largeur, hauteur));
         pack();
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         repaint();
     }
 
