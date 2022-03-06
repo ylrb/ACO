@@ -17,8 +17,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
 
     // Images
-    private BufferedImage imageFourmiA;
-    private BufferedImage imageFourmiB;
+    private BufferedImage imageFourmiA, imageFourmiB;
     protected static final int TAILLE = 20;
 
     // Variables du timer
