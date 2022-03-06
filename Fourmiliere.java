@@ -3,7 +3,7 @@ import java.awt.*;
 public class Fourmiliere extends Element {
     protected Color couleur;
     private int nourriture;
-    private static double rayon = 10; // Rayon du disque dessiné lors de la méthode dessine()
+    private static final double RAYON = 10;
 
     public Fourmiliere(double x, double y) {
         position = new Vecteur(x,y);
@@ -11,17 +11,16 @@ public class Fourmiliere extends Element {
     }
 
     public double getRayon() {
-        return rayon;
+        return RAYON;
     }
     
     public void dessine(Graphics g) {
         g.setColor(couleur);
-        g.fillOval((int) (position.x-rayon), (int) (position.y-rayon), (int)(2*rayon), (int)(2*rayon));
+        g.fillOval((int) (position.x-RAYON), (int) (position.y-RAYON), (int)(2*RAYON), (int)(2*RAYON));
     }
 
     public void depot() {
         nourriture += 1;
-        rayon += 0.05;
     }
 
 }

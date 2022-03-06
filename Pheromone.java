@@ -3,7 +3,6 @@ import java.awt.*;
 public class Pheromone extends Element {
     protected Color couleur;
     protected double taux = 100.0;
-    protected static final int RAYON = 1;
     protected static final double REDUCTION = 0.15; // Vitesse de disparition des phéromones
 
     public double getTaux() {
@@ -16,8 +15,8 @@ public class Pheromone extends Element {
     }
 
     public void dessine(Graphics g) {
-        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
+        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
-        g.fillOval((int)(position.x-RAYON), (int)(position.y-RAYON), 2*RAYON, 2*RAYON);
+        g.fillOval((int)(position.x-1), (int)(position.y-1), 2, 2);
     }
 }

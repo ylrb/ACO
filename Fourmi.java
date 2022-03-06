@@ -20,8 +20,10 @@ public abstract class Fourmi extends Element {
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double ANGLE_VUE = 0.8; // Angle de vision des fourmis (en radians)
+    protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
 
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
+
 
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
@@ -79,7 +81,7 @@ public abstract class Fourmi extends Element {
             distance = p.getPosition().soustrait(getPosition());
             if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
-                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
+                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
             }
         }
         rep.unitaire();
