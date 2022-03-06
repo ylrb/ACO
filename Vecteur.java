@@ -7,7 +7,7 @@ public class Vecteur {
         y = Y;
     }
 
-    public Vecteur(Vecteur vecteur) { // Crée un vecteur à partir d'un autre vecteur, mais de manière à ce qu'ils ne soient pas liés
+    public Vecteur(Vecteur vecteur) {
         this(vecteur.x,vecteur.y);
     }
 
@@ -15,16 +15,21 @@ public class Vecteur {
         this(0,0);
     }
 
-    // Redéfinit les coordonnées d'un vecteur
-    public void set(double X, double Y) {
-        double norme = norme();
-        x = X/norme;
-        y = Y/norme;
+    private static double norme(double X, double Y) {
+        double rep = Math.sqrt(Math.pow(X,2) + Math.pow(Y,2));
+        return rep;
+    }
+
+    // Rend le vecteur unitaire
+    public void unitaire() {
+        double norme = norme(x,y);
+        x = x/norme;
+        y = y/norme;
     }
 
     // Retourne la distance à un autre vecteur (pour les vecteurs positions)
     public double distance(Vecteur p2) {
-        return (Math.sqrt((x-p2.x)*(x-p2.x)+(y-p2.y)*(y-p2.y)));
+        return norme(x-p2.x,y-p2.y);
     }
 
     // Somme des vecteurs v1 et v2 coefficientés
@@ -40,11 +45,11 @@ public class Vecteur {
         return somme(new Vecteur(-v2.x,-v2.y));
     }
 
-    // Rend le vecteur unitaire
-    public void unitaire() {
-        double norme = norme();
-        x = x/norme;
-        y = y/norme;
+    // Renvoie l'angle entre deux vecteurs (en radians) (en valeur absolue)
+    public double angle(Vecteur v2) {
+        double normeV1 = norme(x,y);
+        double normeV2 = norme(v2.x,v2.y);
+        return Math.acos(scalaire(v2)/(normeV1*normeV2)); // NB : Arccos > 0
     }
 
     // Tourne le vecteur d'un angle
@@ -55,22 +60,9 @@ public class Vecteur {
         y = Y;
     }
 
+    // Produit scalaire avec un autre vecteur
     private double scalaire(Vecteur v2) {
         return x*v2.x + y*v2.y;
-    }
-    
-    // Renvoie l'angle entre deux vecteurs (en radians) (en valeur absolue)
-    public double angle(Vecteur v2) {
-        double V1 = this.norme(); // Norme de v1
-        double V2 = v2.norme(); // Norme de v2
-        return Math.acos(scalaire(v2)/(V1*V2)); // NB : Arccos > 0
-    }
-
-    // Renvoie l'angle entre deux vecteurs (en radians) (positif ou négatif)
-    public double angle2(Vecteur v2) {
-        double V1 = this.norme(); // Norme de v1
-        double V2 = v2.norme(); // Norme de v2
-        return Math.acos(scalaire(v2)/(V1*V2)); // NB : Arccos > 0
     }
 
     public void inverser() {
@@ -84,14 +76,5 @@ public class Vecteur {
 
     public void inverserHorizontal() {
         y = -y;
-    }
-
-    public String toString() {
-        return "Vecteur{" + "x=" + x + ", y=" + y + '}';
-    }
-
-    public double norme(){
-        double rep = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
-        return rep;
     }
 }

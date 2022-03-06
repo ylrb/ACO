@@ -19,26 +19,13 @@ public class FourmiA extends Fourmi {
         if (nourritureEnVue(nourritures)) {           
             direction = direction.somme(calculAttractionNourriture(nourritures), 1, COEFF_ATTRACTION_FOURMILIERE);
             direction.unitaire();
-        } else if (pheromonesEnVue(pheromones)) {
-            direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
+        } else { 
+            if (pheromonesEnVue(pheromones)) {
+                direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
+            }
             direction = direction.somme(errance, 1, COEFF_ERRANCE);
             direction.unitaire();
-        } else {                             
-            direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapproche du vecteur errance
-            direction.unitaire();
         }
-    }
-
-    // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
-    private Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
-        Vecteur rep = new Vecteur();
-        for (Nourriture n : nourritures) {
-            if (position.distance(n.getPosition()) < PORTEE_VUE) {
-                rep = rep.somme(n.getPosition().soustrait(getPosition()));
-            }
-        }
-        rep.unitaire();
-        return rep;
     }
 
     // Indique s'il y a de la nourriture en vue
@@ -47,8 +34,21 @@ public class FourmiA extends Fourmi {
         for (Nourriture n : nourritures) {
             if (position.distance(n.getPosition()) < PORTEE_VUE) {
                 rep = true;
+                break;
             }
         }
+        return rep;
+    }
+
+    // Calcul de l'attraction d'une fourmiA aux nourritures dans son champ de vision
+    private Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
+        Vecteur rep = new Vecteur();
+        for (Nourriture n : nourritures) {
+            if (position.distance(n.getPosition()) < PORTEE_VUE) {
+                rep = rep.somme(n.getPosition().soustrait(getPosition()));
+            }
+        }
+        rep.unitaire();
         return rep;
     }
 

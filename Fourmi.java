@@ -1,21 +1,19 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Fourmi extends Element {
-    
-    // La fourmi possède aussi un vecteur position et une couleur, héritées de la classe mère Element
-    protected double vitesse;
 
-    // Vecteurs
+    // Vecteurs et variables (la fourmi possède aussi un vecteur position, hérité de la classe mère Element)
     protected Vecteur direction;
     protected Vecteur errance;
+    protected double vitesse;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
+    protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10;
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10;
-    protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
@@ -39,20 +37,24 @@ public abstract class Fourmi extends Element {
         return new Vecteur(direction.x,direction.y);
     }
 
+    // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
     public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
         calculErrance();
         calculNouvelleDirection(nourritures, fourmiliere, pheromones);
         position.x += vitesse*direction.x;
         position.y += vitesse*direction.y;
     }
-  
-    /**
-    */
+
+    // Calcule la nouvelle orientation du vecteur errance
     private void calculErrance() { 
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
     }
 
-    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) { // Renvoie true si la fourmi a des phéromones dans son champ de vision
+    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
+    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
+    
+    // Indique si la fourmi a des phéromones dans son champ de vision
+    protected boolean pheromonesEnVue(ArrayList<Pheromone> pheromones) { 
         boolean rep = false;
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
@@ -66,7 +68,8 @@ public abstract class Fourmi extends Element {
         return rep;
     }
 
-    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) { // Calcul de l'attraction d'une fourmiA à une nourriture dans son champ de vision
+    // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
+    protected Vecteur calculAttractionPheromones(ArrayList<Pheromone> pheromones, boolean initial) {
         Vecteur rep = new Vecteur();
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
@@ -80,9 +83,7 @@ public abstract class Fourmi extends Element {
         return rep;
     }
 
-    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones);
-
+    // Dessine une fourmi à la position de la fourmi
     public void dessine(Graphics g, BufferedImage imageFourmi) {
         double r = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
         g.setColor(Color.BLUE);
@@ -90,11 +91,11 @@ public abstract class Fourmi extends Element {
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
     
-    // Méthode hérité de Element qui ne sert pas car on souhaite avoir imageFourmi en attribut de dessine()
+    // Méthode héritée de Element qui ne sert pas car on souhaite avoir imageFourmi en attribut de dessine()
     public void dessine(Graphics g) {}
 
     // Fait tourner l'image de fourmi de manière à ce qu'elle soit dirigée dans le sens du vecteur direction
-    public BufferedImage orienterFourmi(BufferedImage imageFourmi) {
+    private BufferedImage orienterFourmi(BufferedImage imageFourmi) {
         BufferedImage img = imageFourmi;
         int largeur = img.getWidth();
         int hauteur = img.getHeight();

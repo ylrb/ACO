@@ -4,14 +4,14 @@ public class Nourriture extends Element {
     protected Color couleur;
     private int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
     private int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
-    private static int RAYON = 10; // Rayon du disque dessiné lors de la méthode dessine()
+    private static final int RAYON = 10;
 
     // En entrant un vecteur
-    public Nourriture(Vecteur position, int quantité) {
-        this.position = position;
-        this.couleur = Color.YELLOW;
-        this.quantité = quantité;
-        this.quantitéInitiale = quantité;
+    public Nourriture(Vecteur pos, int qte) {
+        position = pos;
+        couleur = Color.YELLOW;
+        quantité = qte;
+        quantitéInitiale = quantité;
     }
 
     // En entrant des coordonnées x et y (double)
@@ -19,7 +19,7 @@ public class Nourriture extends Element {
         this(new Vecteur(x,y), quantité);
     }
 
-    // Quand une fourmi vient piocher dans cette nourriture, on appelle cette methode qui traduit cette action
+    // Quand une fourmi vient piocher dans cette nourriture, on appelle cette méthode qui gère les variables
     public void servi() {           
         if (quantité > 0) {
             quantité--;

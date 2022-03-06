@@ -17,15 +17,14 @@ public class FourmiB extends Fourmi {
 
     protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, ArrayList<Pheromone> pheromones) {
         if (fourmiliereEnVue(fourmiliere)) {           
-                direction = direction.somme(calculAttractionFourmiliere(fourmiliere), 1, COEFF_ATTRACTION_NOURRITURE);
-                direction.unitaire();
-        } else if (pheromonesEnVue(pheromones)) {
+            direction = direction.somme(calculAttractionFourmiliere(fourmiliere), 1, COEFF_ATTRACTION_NOURRITURE);
+            direction.unitaire();
+        } else {
+            if (pheromonesEnVue(pheromones)) {
                 direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
-                direction = direction.somme(errance, 1, COEFF_ERRANCE);
-                direction.unitaire();
-        } else {                             
-                direction = direction.somme(errance, 1, COEFF_ERRANCE); // Le vecteur directeur se rapporche du vecteur errance
-                direction.unitaire();
+            }
+            direction = direction.somme(errance, 1, COEFF_ERRANCE);
+            direction.unitaire();
         }
     }
 

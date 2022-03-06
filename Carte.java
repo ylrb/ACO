@@ -1,38 +1,41 @@
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.File;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
-    private int dt = 10;
-    private Timer timer;
     
+    // Tous les éléments du terrain, qui sont contenus séparément dans des ArrayLists
     private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private ArrayList<Pheromone> pheromonesAller = new ArrayList<Pheromone>();
     private ArrayList<Pheromone> pheromonesRetour = new ArrayList<Pheromone>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
     private Fourmiliere fourmiliere;
 
-    private static int compteur = 0; // Compteur qui indique le nombre de boucle effectué pour pouvoir espacer les phéromones
+    // Images
+    private BufferedImage imageFourmi;
+
+    // Variables du timer
+    private static int dt = 1;
+    private static Timer timer;
+
+    // Réglages des phéromones
+    private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-
-    private BufferedImage imageFourmi;
 
     public Carte() {
         this.addMouseListener(this);
         timer = new Timer(dt, this);
         timer.start();
 
+        // On importe l'image de fourmi
         try {
-            imageFourmi = ImageIO.read(new File("assets/Fourmi.png")); // On importe l'image de fourmi
+            imageFourmi = ImageIO.read(new File("assets/Fourmi.png")); 
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire le fichier.");
         }
@@ -40,7 +43,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         nourritures.add(new Nourriture(600, 600, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
 
@@ -52,7 +55,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         Toolkit.getDefaultToolkit().sync();
 
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0,this.getWidth(), this.getHeight());
+        g.fillRect(0, 0, getWidth(), getHeight());
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
         if (AFFICHAGE_PHEROMONES) {
@@ -74,34 +77,18 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
-            
-            updatePheromones(); // Mise à jour des phéromones
+
+            updatePheromones(); // Mise à jour des phéromones actuelles
             ajoutPheromones(); // On ajoute les nouvelles phéromones
-            promotionFourmis(); // Promotion des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
-            
-            // Déplacement des fourmis selon leur type et gestion des murs
-            for (Fourmi f : fourmis) { 
-                if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) { // Les fourmis "rebondissent" sur les murs
-                    f.direction.inverserVertical();
-                    f.errance.inverserVertical();
-                }
-                if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
-                    f.direction.inverserHorizontal();
-                    f.errance.inverserHorizontal();
-                }
-                if (f.getClass() == FourmiA.class) {
-                    f.avancer(nourritures, fourmiliere, pheromonesRetour);
-                } else {
-                    f.avancer(nourritures, fourmiliere, pheromonesAller);
-                }
-            }
+            changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
+            deplacementFourmis(); // Déplacement des fourmis selon leur type et gestion des murs
+
             repaint();
         }
     }
 
+    // Les phéromones disparaissent si leur taux est trop faible
     private void updatePheromones() {
-        
-        // Les phéromones disparaissent si leur taux est trop faible
         ArrayList<Integer> tauxTropBasAller = new ArrayList<Integer>();
         ArrayList<Integer> tauxTropBasRetour = new ArrayList<Integer>();
 
@@ -119,7 +106,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             p.estompe();
         }
 
-        // Les phéromones qui ont un taux trop faible sont supprimées
+        // Les phéromones qui ont un taux trop faible, dont on connaît les sont supprimées
         for (Integer i : tauxTropBasAller) {
             pheromonesAller.remove((int)i);
         }
@@ -128,8 +115,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
     private void ajoutPheromones() {
-        // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
                 if (f.getClass() == FourmiA.class) {
@@ -143,27 +130,28 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         compteur++;
     }
 
-    private void promotionFourmis() {
-        ArrayList<Integer> promuAversB = new ArrayList<Integer>();
-        ArrayList<Integer> promuBversA = new ArrayList<Integer>();
+    // Les fourmis changent d'état si elles ont atteint leur objectif (nourriture/fourmilière)
+    private void changementFourmis() {
+        ArrayList<Integer> changeAversB = new ArrayList<Integer>();
+        ArrayList<Integer> changeBversA = new ArrayList<Integer>();
 
         // On stocke les indices des fourmis qui ont atteint leur objectif
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
                     if (f.getPosition().distance(n.getPosition())<3.0) {
-                        promuAversB.add(fourmis.indexOf(f));
+                        changeAversB.add(fourmis.indexOf(f));
                     }
                 }
             } else {
                 if (f.getPosition().distance(fourmiliere.getPosition())<3.0) {
-                    promuBversA.add(fourmis.indexOf(f));
+                    changeBversA.add(fourmis.indexOf(f));
                 }
             }
         }
 
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
-        for (Integer i : promuAversB) {
+        for (Integer i : changeAversB) {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
             Vecteur dir = fourmis.get(i).getDirection(); // Il faut conserver la direction initiale de la fourmi
@@ -171,12 +159,35 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.remove((int)i);
             fourmis.add(new FourmiB(X,Y,dir));
         }
-        for (Integer i : promuBversA) {
+        for (Integer i : changeBversA) {
             double X = fourmis.get(i).getPosition().x;
             double Y = fourmis.get(i).getPosition().y;
             Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, true);
             fourmis.remove((int)i); 
             fourmis.add(new FourmiA(X,Y,dir));
+        }
+    }
+
+    // Déplacement des fourmis selon leur type et gestion des murs
+    private void deplacementFourmis() {
+        for (Fourmi f : fourmis) { 
+            
+            // Les fourmis "rebondissent" sur les murs
+            if ((f.getPosition().x<5)||(f.getPosition().x>getWidth()-5)) {
+                f.direction.inverserVertical();
+                f.errance.inverserVertical();
+            }
+            if ((f.getPosition().y<5)||(f.getPosition().y>getHeight()-5)) {
+                f.direction.inverserHorizontal();
+                f.errance.inverserHorizontal();
+            }
+
+            // Les fourmis avancent en fonction de leur environnement
+            if (f.getClass() == FourmiA.class) {
+                f.avancer(nourritures, fourmiliere, pheromonesRetour);
+            } else {
+                f.avancer(nourritures, fourmiliere, pheromonesAller);
+            }
         }
     }
 
