@@ -6,7 +6,6 @@ public class Nourriture extends Element {
     private int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
     private static final int RAYON = 10;
 
-    // En entrant un vecteur
     public Nourriture(Vecteur pos, int qte) {
         position = pos;
         couleur = Color.YELLOW;
@@ -14,9 +13,12 @@ public class Nourriture extends Element {
         quantitéInitiale = quantité;
     }
 
-    // En entrant des coordonnées x et y (double)
     public Nourriture(double x, double y, int quantité) {
         this(new Vecteur(x,y), quantité);
+    }
+
+    public int getRayon() {
+        return RAYON;
     }
 
     // Quand une fourmi vient piocher dans cette nourriture, on appelle cette méthode qui gère les variables

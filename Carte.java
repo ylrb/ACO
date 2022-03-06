@@ -22,13 +22,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 20;
 
     // Variables du timer
-    private static int dt = 10;
+    private static int dt = 3;
     private static Timer timer;
 
-    // Réglages des phéromones
+    // Réglages
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
+    private static final int NOMBRE_FOURMIS = 50;
 
     public Carte() {
         this.addMouseListener(this);
@@ -48,7 +49,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // Initialisation de la fourmilière, des fourmis et de la nourriture
         nourritures.add(new Nourriture(600, 600, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
 
@@ -71,17 +72,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 p.dessine(g);
             }
         }
-        fourmiliere.dessine(g);
         for (Nourriture n : nourritures) {
             n.dessine(g);
         }
+        fourmiliere.dessine(g);
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 f.dessine(g,imageFourmiA);
             } else {
                 f.dessine(g,imageFourmiB);
             }
-            
         }
     }
 
@@ -149,12 +149,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
-                    if (f.getPosition().distance(n.getPosition())<3.0) {
+                    if (f.getPosition().distance(n.getPosition()) < 1.8*n.getRayon()) {
                         changeAversB.add(fourmis.indexOf(f));
                     }
                 }
             } else {
-                if (f.getPosition().distance(fourmiliere.getPosition())<3.0) {
+                if (f.getPosition().distance(fourmiliere.getPosition()) < 1.0) {
                     changeBversA.add(fourmis.indexOf(f));
                 }
             }
@@ -170,8 +170,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.add(new FourmiB(X,Y,dir));
         }
         for (Integer i : changeBversA) {
-            double X = fourmis.get(i).getPosition().x;
-            double Y = fourmis.get(i).getPosition().y;
+            fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
+            double X = fourmiliere.getPosition().x;
+            double Y = fourmiliere.getPosition().y;
             Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, true);
             fourmis.remove((int)i); 
             fourmis.add(new FourmiA(X,Y,dir));
