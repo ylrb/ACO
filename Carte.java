@@ -22,14 +22,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 25;
 
     // Variables du timer
-    private static int dt = 20;
+    private static int dt = 1;
     private static Timer timer;
 
     // Réglages
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-    private static final int NOMBRE_FOURMIS = 30;
+    private static final boolean AFFICHAGE_PHEROMONES = false; // Doit-on visualiser les phéromones ou non
+    private static final int NOMBRE_FOURMIS = 20;
 
     public Carte() {
         this.addMouseListener(this);

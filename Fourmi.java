@@ -8,7 +8,6 @@ public abstract class Fourmi extends Element {
     // Vecteurs et variables (la fourmi possède aussi un vecteur position, hérité de la classe mère Element)
     protected Vecteur direction;
     protected Vecteur errance;
-    protected double vitesse;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
@@ -27,7 +26,6 @@ public abstract class Fourmi extends Element {
 
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
-        vitesse = 2.0;
         direction = new Vecteur(2*Math.random()-1,2*Math.random()-1);
         direction.unitaire();
         errance = direction;
@@ -46,8 +44,8 @@ public abstract class Fourmi extends Element {
     public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
         calculErrance();
         calculNouvelleDirection(nourritures, fourmiliere, pheromones);
-        position.x += vitesse*direction.x;
-        position.y += vitesse*direction.y;
+        position.x += 2*direction.x;
+        position.y += 2*direction.y;
     }
 
     // Calcule la nouvelle orientation du vecteur errance
