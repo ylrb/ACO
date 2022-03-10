@@ -16,7 +16,7 @@ public class FourmiB extends Fourmi {
         super(x,y,dir);
     }
 
-    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
+    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
         if (fourmiliereEnVue(fourmiliere)) {           
             direction = direction.somme(calculAttractionFourmiliere(fourmiliere), 1, COEFF_ATTRACTION_NOURRITURE);
             direction.unitaire();

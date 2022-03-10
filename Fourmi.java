@@ -46,9 +46,9 @@ public abstract class Fourmi {
     }
 
     // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
-    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
+    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
         calculErrance();
-        calculNouvelleDirection(nourritures, fourmiliere, pheromones);
+        calculNouvelleDirection(nourritures, fourmiliere, pheromones, obstacles);
         position.x += 2*direction.x;
         position.y += 2*direction.y;
     }
@@ -59,7 +59,7 @@ public abstract class Fourmi {
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones);
+    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles);
     
     // Indique si la fourmi a des phéromones dans son champ de vision
     protected boolean pheromonesEnVue(LinkedList<Pheromone> pheromones) { 
@@ -121,4 +121,17 @@ public abstract class Fourmi {
 
         return nouvelleImage;
     }
+/*
+    public boolean mursEnVue(ArrayList<Obstacle> obstacles) {
+        repulsionMur.x = 0;
+        repulsionMur.y = 0;
+        Vecteur positionRelative = new Vecteur(0, 0);
+        for (Obstacle obstacles : obstacles) {
+            for (int i = 0; i < 4; i++) {
+
+            }
+            
+        }
+    }
+    */
 }

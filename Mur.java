@@ -7,15 +7,19 @@ public class Mur {
 
     public Mur(int o, Vecteur a, Vecteur b) {
         orientation = o;
-        point1 = a;
-        point2 = b;
-        // if (orientation%2 == 0) {
-        //     if (a.x < b.x) {
-
-        //     }
-        // }
-
-
+        if (orientation%2 == 0) {
+            if (a.x < b.x) {
+                point1 = a; point2 = b;
+            } else {
+                point1 = b; point2 = a;
+            }
+        } else {
+            if (a.y < b.y) {
+                point1 = a; point2 = b;
+            } else {
+                point1 = b; point2 = a;
+            }
+        }
     }
 
     public Vecteur proche(Vecteur position) {

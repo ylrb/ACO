@@ -53,7 +53,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        // obstacles.add(new Obstacle());
+        Vecteur[] coins = {new Vecteur(500,100), new Vecteur(700,100), new Vecteur(700,200), new Vecteur(500,200)};
+        obstacles.add(new Obstacle(coins));
 
         setVisible(true);
         repaint();
@@ -66,6 +67,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
+        for (Obstacle o : obstacles) {
+            o.dessine(g);
+        }
         if (AFFICHAGE_PHEROMONES) {
             for (Pheromone p : pheromonesAller) {
                 p.dessine(g);
@@ -197,9 +201,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
             // Les fourmis avancent en fonction de leur environnement
             if (f.getClass() == FourmiA.class) {
-                f.avancer(nourritures, fourmiliere, pheromonesRetour);
+                f.avancer(nourritures, fourmiliere, pheromonesRetour, obstacles);
             } else {
-                f.avancer(nourritures, fourmiliere, pheromonesAller);
+                f.avancer(nourritures, fourmiliere, pheromonesAller, obstacles);
             }
         }
     }

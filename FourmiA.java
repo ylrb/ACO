@@ -2,6 +2,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.swing.plaf.multi.MultiScrollBarUI;
+
 public class FourmiA extends Fourmi {
     
     public FourmiA(double x, double y) {
@@ -16,7 +18,7 @@ public class FourmiA extends Fourmi {
         super(x,y,dir);
     }
 
-    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones) {
+    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
         if (nourritureEnVue(nourritures)) {           
             direction = direction.somme(calculAttractionNourriture(nourritures), 1, COEFF_ATTRACTION_FOURMILIERE);
             direction.unitaire();
