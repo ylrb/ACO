@@ -1,9 +1,12 @@
 import java.awt.*;
 
-public class Nourriture extends Element {
+public class Nourriture {
+
+    protected Vecteur position;
     protected Color couleur;
     private int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
     private int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
+    
     private static final int RAYON = 10;
 
     public Nourriture(Vecteur pos, int qte) {
@@ -16,6 +19,10 @@ public class Nourriture extends Element {
     public Nourriture(double x, double y, int quantité) {
         this(new Vecteur(x,y), quantité);
     }
+
+    public Vecteur getPosition() {
+        return new Vecteur(position.x,position.y);
+    }  
 
     public int getRayon() {
         return RAYON;

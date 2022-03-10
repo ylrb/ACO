@@ -1,14 +1,21 @@
 import java.awt.*;
 
-public class Fourmiliere extends Element {
+public class Fourmiliere {
+    
+    protected Vecteur position;
     protected Color couleur;
     private int nourriture;
+
     private static final double RAYON = 15;
 
     public Fourmiliere(double x, double y) {
         position = new Vecteur(x,y);
         couleur = Color.BLACK;
     }
+
+    public Vecteur getPosition() {
+        return new Vecteur(position.x,position.y);
+    }  
 
     public double getRayon() {
         return RAYON;

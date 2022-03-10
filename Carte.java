@@ -15,6 +15,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private LinkedList<Pheromone> pheromonesAller = new LinkedList<Pheromone>();
     private LinkedList<Pheromone> pheromonesRetour = new LinkedList<Pheromone>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
+    private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
     private Fourmiliere fourmiliere;
 
     // Images
@@ -28,9 +29,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     // Réglages
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final boolean AFFICHAGE_PHEROMONES = false; // Doit-on visualiser les phéromones ou non
+    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
     private static final int NOMBRE_FOURMIS = 20;
-
+    
     public Carte() {
         this.addMouseListener(this);
         timer = new Timer(dt, this);
@@ -52,6 +53,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
+        // obstacles.add(new Obstacle());
 
         setVisible(true);
         repaint();

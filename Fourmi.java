@@ -3,9 +3,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public abstract class Fourmi extends Element {
+public abstract class Fourmi {
 
-    // Vecteurs et variables (la fourmi possède aussi un vecteur position, hérité de la classe mère Element)
+    // Vecteurs propres à la fourmi
+    protected Vecteur position;
     protected Vecteur direction;
     protected Vecteur errance;
 
@@ -34,6 +35,10 @@ public abstract class Fourmi extends Element {
     public Fourmi(double x, double y, Vecteur dir) {
         this(x,y);
         direction = dir;
+    }
+
+    public Vecteur getPosition() {
+        return new Vecteur(position.x,position.y);
     }
 
     public Vecteur getDirection() {
@@ -95,9 +100,6 @@ public abstract class Fourmi extends Element {
         }
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
-    
-    // Méthode héritée de Element qui ne sert pas car on souhaite avoir imageFourmi en attribut de dessine()
-    public void dessine(Graphics g) {}
 
     // Fait tourner l'image de fourmi de manière à ce qu'elle soit dirigée dans le sens du vecteur direction
     private BufferedImage orienterFourmi(BufferedImage imageFourmi) {
