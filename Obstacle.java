@@ -16,9 +16,15 @@ public class Obstacle {
         murs = new Mur[4];
         couleur = Color.YELLOW;
     }
+
+    public Mur[] getMur() {
+        return murs;
+    }
     
     public void dessine(Graphics g) {
         g.setColor(couleur);
         g.drawRect((int)murs[0].point1.x,(int)murs[0].point1.y,(int)(murs[2].point2.x-murs[0].point1.x),(int)(murs[2].point2.y-murs[0].point1.y));
     }
+
+    
 }
