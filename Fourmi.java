@@ -121,17 +121,22 @@ public abstract class Fourmi {
 
         return nouvelleImage;
     }
-/*
-    public boolean mursEnVue(ArrayList<Obstacle> obstacles) {
-        repulsionMur.x = 0;
-        repulsionMur.y = 0;
-        Vecteur positionRelative = new Vecteur(0, 0);
-        for (Obstacle obstacles : obstacles) {
-            for (int i = 0; i < 4; i++) {
 
+    protected boolean mursEnVue(ArrayList<Obstacle> obstacles) {
+        boolean rep = false;
+        boolean doitBreak = false;
+        for (Obstacle o : obstacles) {
+            for (int i = 0; i < 4; i++) {
+                Vecteur a = o.getMur()[i].proche(this.position);
+                if (a.x != 0 || a.y != 0) {
+                    doitBreak = true;
+                    rep = true;
+                    break;
+                }
             }
-            
+            if (doitBreak) { break; }
         }
+        return rep;
     }
-    */
+    
 }
