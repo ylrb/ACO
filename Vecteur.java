@@ -20,6 +20,10 @@ public class Vecteur {
         return rep;
     }
 
+    public double norme() {
+        return norme(x,y);
+    }    
+
     // Rend le vecteur unitaire
     public void unitaire() {
         double norme = norme(x,y);
@@ -61,7 +65,7 @@ public class Vecteur {
     }
 
     // Produit scalaire avec un autre vecteur
-    private double scalaire(Vecteur v2) {
+    public double scalaire(Vecteur v2) {
         return x*v2.x + y*v2.y;
     }
 
@@ -76,5 +80,11 @@ public class Vecteur {
 
     public void inverserHorizontal() {
         y = -y;
+    }
+
+    public void perpendiculaire() {
+        double X = x;
+        x = y;
+        y = X;
     }
 }

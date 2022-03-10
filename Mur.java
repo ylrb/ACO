@@ -3,7 +3,7 @@ public class Mur {
     Vecteur point1;
     Vecteur point2;
 
-    private static final double LARGEUR = 20;
+    private static final double LARGEUR = 50;
 
     public Mur(int o, Vecteur a, Vecteur b) {
         orientation = o;
@@ -27,23 +27,23 @@ public class Mur {
         double dy = 0;
         switch (orientation) {
             case 0:
-                if (position.x >= point1.x-LARGEUR && position.x <= point1.x+LARGEUR && position.y >= point1.y-LARGEUR && position.y <= point1.y) {
+                if (position.x >= point1.x && position.x <= point2.x && position.y >= point1.y-LARGEUR && position.y <= point1.y) {
                     dy = position.y - point1.y;
                 }
                 break;
             case 1:
-                if (position.y >= point1.y-LARGEUR && position.y <= point2.y+LARGEUR && position.x >= point1.x && position.x <= point1.x+LARGEUR) {
+                if (position.y >= point1.y && position.y <= point2.y && position.x >= point1.x && position.x <= point1.x+LARGEUR) {
                     dx = position.x - point1.x;
                 }
                 break;
             case 2:
-                if (position.x >= point1.x-LARGEUR && position.x <= point1.x+LARGEUR && position.y <= point1.y+LARGEUR && position.y >= point1.y) {
+                if (position.x >= point1.x && position.x <= point2.x && position.y <= point1.y+LARGEUR && position.y >= point1.y) {
                     dy = position.y - point1.y;
                 }
                 break;
             case 3:
-                if (position.y >= point1.y-LARGEUR && position.y <= point2.y+LARGEUR && position.x >= point1.x-LARGEUR && position.x <= point1.x) {
-                    dx = position.x-point1.x;
+                if (position.y >= point1.y && position.y <= point2.y && position.x >= point1.x-LARGEUR && position.x <= point1.x) {
+                    dx = position.x - point1.x;
                 }
                 break;
         }

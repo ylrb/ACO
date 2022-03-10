@@ -12,8 +12,13 @@ public class Obstacle {
         couleur = Color.YELLOW;
     }
 
-    public Obstacle(Mur[] murs) {
+    // Cette version du constructeur sert à initialiser les contours de la carte uniquement
+    public Obstacle() {
+        Vecteur[] coins = {new Vecteur(10,10), new Vecteur(1010,10), new Vecteur(1010,710), new Vecteur(10,710)};
         murs = new Mur[4];
+        for (int i = 0; i<4; i++) {
+            murs[i] = new Mur((i+2)%4, coins[i], coins[(i+1)%4]);
+        }
         couleur = Color.YELLOW;
     }
 

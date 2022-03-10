@@ -15,13 +15,15 @@ public abstract class Fourmi {
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_NOURRITURE = 10;
     protected static final double COEFF_ATTRACTION_FOURMILIERE = 10;
+    protected static final double COEFF_REPULSION_MURS = 2.5;
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double ANGLE_VUE = 0.8; // Angle de vision des fourmis (en radians)
+    protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
+    protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
-
+    
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
 
 
@@ -67,7 +69,7 @@ public abstract class Fourmi {
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < ANGLE_VUE)) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < Math.toRadians(ANGLE_VUE))) {
                 // Met rep à true si la phéromone se trouve dans le champ de visions de la fourmi
                 rep = true;
                 break;
@@ -82,7 +84,7 @@ public abstract class Fourmi {
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < ANGLE_VUE)||(initial))) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < Math.toRadians(ANGLE_VUE))||(initial))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
             }
@@ -97,6 +99,8 @@ public abstract class Fourmi {
         if (AFFICHAGE_DIRECTION) {
             g.setColor(Color.BLUE);
             g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
+            g.setColor(Color.GREEN);
+            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
         }
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
@@ -139,4 +143,27 @@ public abstract class Fourmi {
         return rep;
     }
     
+    protected Vecteur calculRepulsionMur(ArrayList<Obstacle> obstacles) {
+        Vecteur rep = new Vecteur();
+        for (Obstacle o : obstacles) {
+            for (int i = 0; i < 4; i++) {
+                /* On récupère le vecteur (non unitaire) de la distance au mur.
+                 * Si le vecteur n'est pas nul, on extrait la direction et la valeur de la norme.
+                 * Finalement on l'ajoute à la somme des forces avec un coefficient qui est proportionnel à l'inverse de la distance.
+                 */ 
+                Vecteur a = o.getMur()[i].proche(this.position);
+                if (a.x != 0 || a.y != 0) {
+                    double distance = a.norme();
+                    a.unitaire();
+                    double coeff = 1/distance;
+                    if (distance<10) { // On rend l'augmentation de la force plus rapide près de 0 pour pas que les fourmis rebondissent à moitié dans les murs
+                        coeff += 10-distance;
+                    }
+                    rep = rep.somme(a,1,coeff);
+                }
+            }
+        }
+        return rep;
+    }
+
 }
