@@ -7,25 +7,21 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         this.setSize(largeur,hauteur);
-
+        this.setLocationRelativeTo(null);
+        Insets insets = getInsets();
         //Conteneur principal
-        JPanel conteneur = new JPanel();
-        conteneur.setBounds(100,100,getWidth()-getInsets().left-getInsets().right,getHeight()-getInsets().top-getInsets().bottom);
-        System.out.println(largeur +" "+ hauteur);
+        JPanel conteneur = (JPanel)this.getContentPane();
+
         Carte carte = new Carte();
-        //Parametres parametres = new Parametres();
+        carte.setPreferredSize(new Dimension((int)(0.8*largeur),hauteur-insets.top));
+
         JPanel parametres = new JPanel();
         parametres.setBackground(Color.red);
-        parametres.setLayout(null);
-        parametres.setBounds(100,100,(int)(0.2*getWidth()), (int)getHeight());
+        parametres.setPreferredSize(new Dimension((int)(0.2*largeur),hauteur-insets.top));
 
-        carte.setBounds((int)(0.2*getWidth()), 0, (int)(0.8*getWidth()), getHeight());
+        conteneur.add(parametres, BorderLayout.WEST);
+        conteneur.add(carte, BorderLayout.EAST);
 
-        conteneur.setLayout(null);
-        conteneur.add(parametres);
-        conteneur.add(carte);
-        
-        this.add(conteneur);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         repaint();
