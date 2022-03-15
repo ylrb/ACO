@@ -8,7 +8,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         this.setSize(largeur,hauteur);
         this.setLocationRelativeTo(null);
-        //this.setResizable(false);
+        this.setResizable(false);
         Insets insets = getInsets();
         
         JPanel conteneur = (JPanel)this.getContentPane();
