@@ -8,15 +8,15 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         this.setSize(largeur,hauteur);
         this.setLocationRelativeTo(null);
+        //this.setResizable(false);
         Insets insets = getInsets();
-        //Conteneur principal
+        
         JPanel conteneur = (JPanel)this.getContentPane();
 
         Carte carte = new Carte();
         carte.setPreferredSize(new Dimension((int)(0.8*largeur),hauteur-insets.top));
 
-        JPanel parametres = new JPanel();
-        parametres.setBackground(Color.red);
+        Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*largeur),hauteur-insets.top));
 
         conteneur.add(parametres, BorderLayout.WEST);

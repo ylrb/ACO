@@ -66,7 +66,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         g.setColor(new Color(120,100,80));
         g.fillRect(0, 0, getWidth(), getHeight());
-        System.out.println(getHeight());
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
         for (Obstacle o : obstacles) {
