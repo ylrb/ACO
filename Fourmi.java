@@ -10,6 +10,9 @@ public abstract class Fourmi {
     protected Vecteur direction;
     protected Vecteur errance;
 
+    // Autres
+    protected int sensRotation; // 0 si pas de rotation, sinon -1 ou 1
+
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
@@ -132,14 +135,18 @@ public abstract class Fourmi {
         return rep.get(i);
     }
 
-    // On détermine le sens rotation de la fourmi
-    // public double angleRotationMur(Segment s) {
-        
-    // }
-
-
-
-
+    // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
+    public void angleRotationMur(Segment s) {
+        Vecteur direction2 = direction.tourner2(0.1);
+        Vecteur mur = s.pointA.soustrait(s.pointB);
+        double angle1 = mur.angle(direction);
+        double angle2 = mur.angle(direction2);
+        if (Math.abs(angle1-Math.PI/2) < Math.abs(angle2-Math.PI/2)) {
+            sensRotation = 1; // 1 : il faut tourner dans le sens indirect
+        } else {
+            sensRotation = -1; // -1 : il faut tourner dans le sens direct
+        }
+    }
 
     // Dessine une fourmi à la position de la fourmi
     public void dessine(Graphics g, BufferedImage imageFourmi) {
