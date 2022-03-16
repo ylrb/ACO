@@ -113,8 +113,29 @@ public abstract class Fourmi {
         return rep;
     }
 
-    public angleRotation
+    // On isole le segment de mur le plus proche de la fourmi
+    public Segment segmentLePlusProche(ArrayList<Segment> rep) {
+        double distances[] = new double[rep.size()];
+        int i = 0;
+        int min = 0; // Indice de l'élément le plus proche
+       
+        // On calcule la distance de la fourmi aux deux points de chaque segment, et on les stocke dans distances[]
+        for (Segment s : rep) {
+            distances[i] = position.distance(s.pointA) + position.distance(s.pointB);
+            if (distances[i]<distances[min]) {
+                min = i;
+            }
+            i++;
+        }
 
+        // On renvoie le segment avec la distance la plus courte
+        return rep.get(i);
+    }
+
+    // On détermine le sens rotation de la fourmi
+    // public double angleRotationMur(Segment s) {
+        
+    // }
 
 
 
