@@ -8,12 +8,12 @@ import java.awt.event.*;
 public class Parametres extends JPanel implements ActionListener{
 
 	public Parametres(){
-		BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
-		setLayout(box);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		setBackground(new Color(214,214,214));
 
 		JLabel titre = new JLabel("ANT COLONY OPTIMIZATION");
+		titre.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(titre);
 
 	}

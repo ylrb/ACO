@@ -250,12 +250,20 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void reset(){
         pheromonesAller.clear();
         pheromonesRetour.clear();
-        for (Fourmi f : fourmis) {
-            f.setPosition(fourmiliere.getPosition());
+        int length = fourmis.size();
+        fourmis.clear();
+        for (int i=0; i<length; i++) {
+            fourmis.add( new FourmiA(fourmiliere.getPosition()) );
         }
-        System.out.println(fourmis.size());
-
         repaint();
+    }
+
+    public void changeNbFourmis(int nb){
+        fourmis.clear();
+        for (int i=0; i<nb; i++) {
+            fourmis.add( new FourmiA(fourmiliere.getPosition()) );
+        }
+        reset();
     }
 
 }

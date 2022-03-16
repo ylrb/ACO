@@ -7,6 +7,7 @@ public class MainWindow extends JFrame implements ActionListener{
     private final int HAUTEUR = 720;
     public Carte carte;
     public JTextField dt;
+    public JTextField nbFourmis;
     public JButton reset;
 
     public MainWindow() {
@@ -26,7 +27,15 @@ public class MainWindow extends JFrame implements ActionListener{
 
         dt = new JTextField("5");
 		dt.addActionListener(this);
+        dt.setMaximumSize( new Dimension(100,20) );
 		parametres.add(dt);
+
+        nbFourmis = new JTextField("30");
+		nbFourmis.addActionListener(this);
+        nbFourmis.setMaximumSize( new Dimension(100,20) );
+		parametres.add(nbFourmis);
+
+        parametres.add(Box.createVerticalGlue());
 
         reset = new JButton("Reset");
         reset.addActionListener(this);
@@ -49,6 +58,10 @@ public class MainWindow extends JFrame implements ActionListener{
             int k = Integer.parseInt(dt.getText());
             carte.changeDt(k);
         }
+        if(e.getSource()== nbFourmis){
+            int k = Integer.parseInt(nbFourmis.getText());
+            carte.changeNbFourmis(k);
+        }        
     }
 
 
