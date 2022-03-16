@@ -1,35 +1,28 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Obstacle {
     private Color couleur;
-    private Mur[] murs;
+    private ArrayList<Segment> murs = new ArrayList<Segment>();
 
-    public Obstacle (Vecteur[] coins) {
-        murs = new Mur[4];
-        for (int i = 0; i<4; i++) {
-            murs[i] = new Mur(i, coins[i], coins[(i+1)%4]);
+    public Obstacle (Vecteur[] points) {
+        for (int i = 0; i < points.length; i++) {
+            murs.add(new Segment(points[i],points[(i+1)%points.length]));
         }
         couleur = Color.YELLOW;
     }
 
-    // Cette version du constructeur sert à initialiser les contours de la carte uniquement
-    public Obstacle() {
-        Vecteur[] coins = {new Vecteur(10,10), new Vecteur(1010,10), new Vecteur(1010,688), new Vecteur(10,688)};
-        murs = new Mur[4];
-        for (int i = 0; i<4; i++) {
-            murs[i] = new Mur((i+2)%4, coins[i], coins[(i+1)%4]);
-        }
-        couleur = Color.YELLOW;
-    }
-
-    public Mur[] getMur() {
-        return murs;
-    }
-    
     public void dessine(Graphics g) {
         g.setColor(couleur);
-        g.drawRect((int)murs[0].point1.x,(int)murs[0].point1.y,(int)(murs[2].point2.x-murs[0].point1.x),(int)(murs[2].point2.y-murs[0].point1.y));
+        int[] X = new int[murs.size()];
+        int[] Y = new int[murs.size()];
+        int i = 0;
+        for (Segment m : murs) {
+            X[i] = (int)m.pointA.x;
+            Y[i] = (int)m.pointA.y;
+            i++;
+        }
+        g.drawPolygon(X, Y, X.length);
     }
 
-    
 }

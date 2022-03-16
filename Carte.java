@@ -55,7 +55,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
         Vecteur[] coins = {new Vecteur(200,400), new Vecteur(700,400), new Vecteur(700,500), new Vecteur(200,500)};
         obstacles.add(new Obstacle(coins));
-        obstacles.add(new Obstacle());
 
         setVisible(true);
         repaint();

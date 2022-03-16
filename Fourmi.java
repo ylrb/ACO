@@ -126,44 +126,4 @@ public abstract class Fourmi {
         return nouvelleImage;
     }
 
-    protected boolean mursEnVue(ArrayList<Obstacle> obstacles) {
-        boolean rep = false;
-        boolean doitBreak = false;
-        for (Obstacle o : obstacles) {
-            for (int i = 0; i < 4; i++) {
-                Vecteur a = o.getMur()[i].proche(this.position);
-                if (a.x != 0 || a.y != 0) {
-                    doitBreak = true;
-                    rep = true;
-                    break;
-                }
-            }
-            if (doitBreak) { break; }
-        }
-        return rep;
-    }
-    
-    protected Vecteur calculRepulsionMur(ArrayList<Obstacle> obstacles) {
-        Vecteur rep = new Vecteur();
-        for (Obstacle o : obstacles) {
-            for (int i = 0; i < 4; i++) {
-                /* On récupère le vecteur (non unitaire) de la distance au mur.
-                 * Si le vecteur n'est pas nul, on extrait la direction et la valeur de la norme.
-                 * Finalement on l'ajoute à la somme des forces avec un coefficient qui est proportionnel à l'inverse de la distance.
-                 */ 
-                Vecteur a = o.getMur()[i].proche(this.position);
-                if (a.x != 0 || a.y != 0) {
-                    double distance = a.norme();
-                    a.unitaire();
-                    double coeff = 1/distance;
-                    if (distance<10) { // On rend l'augmentation de la force plus rapide près de 0 pour pas que les fourmis rebondissent à moitié dans les murs
-                        coeff += 10-distance;
-                    }
-                    rep = rep.somme(a,1,coeff);
-                }
-            }
-        }
-        return rep;
-    }
-
 }
