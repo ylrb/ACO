@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -6,8 +7,8 @@ public class MainWindow extends JFrame implements ActionListener{
     private final int LARGEUR = 1280;
     private final int HAUTEUR = 720;
     public Carte carte;
-    public JTextField dt;
-    public JTextField nbFourmis;
+    public JSpinner dt;
+    public JSpinner nbFourmis;
     public JButton reset;
 
     public MainWindow() {
@@ -22,17 +23,29 @@ public class MainWindow extends JFrame implements ActionListener{
         carte = new Carte();
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
+        // PARAMETRES
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
-        dt = new JTextField("5");
-		dt.addActionListener(this);
+        JLabel txtDt = new JLabel("Période de rafraichissement (en ms)");
+        parametres.add(txtDt);
+        dt = new JSpinner(new SpinnerNumberModel(10, 0, 100, 1));
+		dt.addChangeListener(new ChangeListener() {      
+            public void stateChanged(ChangeEvent e) {
+                //int k = Integer.parseInt(dt.getValue());
+                //carte.changeDt(k);
+            }
+        });
         dt.setMaximumSize( new Dimension(100,20) );
+        dt.setAlignmentX(Component.CENTER_ALIGNMENT);
 		parametres.add(dt);
 
-        nbFourmis = new JTextField("30");
-		nbFourmis.addActionListener(this);
+        JLabel txtNbFourmis = new JLabel("Nombre de fourmis");
+        parametres.add(txtNbFourmis);
+        nbFourmis = new JSpinner(new SpinnerNumberModel(30, 0, 100, 5));
+		//nbFourmis.addActionListener(this);
         nbFourmis.setMaximumSize( new Dimension(100,20) );
+        nbFourmis.setAlignmentX(Component.CENTER_ALIGNMENT);
 		parametres.add(nbFourmis);
 
         parametres.add(Box.createVerticalGlue());
@@ -51,17 +64,17 @@ public class MainWindow extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==reset) {
-            int k = Integer.parseInt(dt.getText());
             carte.reset();
         }
-        if(e.getSource()== dt){
-            int k = Integer.parseInt(dt.getText());
+        /*
+        if(e.getSource()== dt && dt.getText() != null){
+            int k = Integer.parseInt(dt.getValue());
             carte.changeDt(k);
         }
         if(e.getSource()== nbFourmis){
-            int k = Integer.parseInt(nbFourmis.getText());
+            int k = Integer.parseInt(nbFourmis.getValue());
             carte.changeNbFourmis(k);
-        }        
+        } */     
     }
 
 
