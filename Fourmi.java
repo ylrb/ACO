@@ -44,6 +44,10 @@ public abstract class Fourmi {
         return new Vecteur(position.x,position.y);
     }
 
+    public void setPosition(Vecteur nvPosition){
+        position = nvPosition;
+    }
+
     public Vecteur getDirection() {
         return new Vecteur(direction.x,direction.y);
     }
@@ -147,10 +151,6 @@ public abstract class Fourmi {
         g2.drawImage(img, null, 0, 0);
 
         return nouvelleImage;
-    }
-
-    public void setPosition(Vecteur nvPosition){
-        position = nvPosition;
     }
 
 }
