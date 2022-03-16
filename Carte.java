@@ -27,8 +27,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public Timer timer;
 
     // Réglages
-    private static boolean dragFourmiliere = false;
-    private static Nourriture dragNourriture;
+    private static boolean deplaceFourmiliere = false;
+    private static Nourriture deplaceNourriture;
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
@@ -218,26 +218,26 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void mousePressed(MouseEvent e) {
         Vecteur mousePos = new Vecteur(e.getX(), e.getY());
         if ( mousePos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
-            dragFourmiliere = true;
+            deplaceFourmiliere = true;
         }
         for (Nourriture n : nourritures){
             if ( mousePos.distance(n.getPosition()) < n.getRayon()){
-                dragNourriture = n;
+                deplaceNourriture = n;
             }
         }
     }
 
     public void mouseReleased(MouseEvent e) {
         Vecteur mousePos = new Vecteur(e.getX(), e.getY());
-        if (dragFourmiliere){
+        if (deplaceFourmiliere){
             fourmiliere.setPosition(mousePos);
             repaint();
-            dragFourmiliere = false;
+            deplaceFourmiliere = false;
         }
-        if (dragNourriture != null){
-            dragNourriture.setPosition(mousePos);
+        if (deplaceNourriture != null){
+            deplaceNourriture.setPosition(mousePos);
             repaint();
-            dragNourriture = null;
+            deplaceNourriture = null;
         }
     }
 
