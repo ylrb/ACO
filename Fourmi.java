@@ -98,22 +98,18 @@ public abstract class Fourmi {
     public ArrayList<Segment> murEnVue(ArrayList<Obstacle> obstacles) {
         Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
         Segment segmentVue = new Segment(getPosition(),p2);
-        boolean rep = false;
+        ArrayList<Segment> rep = new ArrayList<Segment>();
         for (Obstacle o : obstacles) {
             for (Segment s : o.getMurs()) {
                 if (segmentVue.secante(s)) {
-                    rep = true;
-                    break;
+                    rep.add(s);
                 }
-            }
-            if (rep) {
-                break;
             }
         }
         return rep;
     }
 
-    public void 
+    public angleRotation
 
 
 
