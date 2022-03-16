@@ -27,9 +27,9 @@ public abstract class Fourmi {
     protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
-    protected static final double ANGLE_ROTATION = 1;
+    protected static final double ANGLE_ROTATION = 0.5;
 
-    private static final boolean AFFICHAGE_DIRECTION = true; // Doit-on visualiser la direction de la fourmi
+    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
 
 
     public Fourmi(double x, double y) {

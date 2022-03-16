@@ -16,6 +16,21 @@ public class Segment {
     public boolean secante(Segment s2) {
         if (colineaire(s2)) {
             return false;
+        } else if (s2.pointB.x-s2.pointA.x == 0) { // L'algorithme ne fonctionne pas si un des segments est vertical
+            // On détermine les coefficients de la droite non verticale
+            double A1 = coeffs()[0];
+            double B1 = coeffs()[1];
+            double X = s2.pointB.x;
+            double Y = A1*X + B1;
+
+            return ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y)));
+        } else if (pointB.x-pointA.x == 0) { // Si le segment de la fourmi est vertical
+            double A1 = s2.coeffs()[0];
+            double B1 = s2.coeffs()[1];
+            double X = pointB.x;
+            double Y = A1*X + B1;
+
+            return ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y)));
         } else { 
             // On détermine les coefficients des deux droites
             double A1 = coeffs()[0];

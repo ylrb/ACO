@@ -21,9 +21,9 @@ public class FourmiA extends Fourmi {
         if (mursProches.size()>0) {
             if (sensRotation == 0) {
                 angleRotationMur(segmentLePlusProche(mursProches));
-                System.out.println("letsgo");
             }
             direction.tourner(sensRotation*ANGLE_ROTATION);
+            errance = direction;
         } else {
             sensRotation = 0;
             if (nourritureEnVue(nourritures)) {           

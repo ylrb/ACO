@@ -50,15 +50,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
-        nourritures.add(new Nourriture(600, 600, 10));
+        nourritures.add(new Nourriture(800, 400, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        Vecteur[] coins1 = {new Vecteur(600,0), new Vecteur(700,0), new Vecteur(700,500), new Vecteur(600,500)};
+        Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680), new Vecteur(10,680)};
+        obstacles.add(new Obstacle(bordures));
+        Vecteur[] coins1 = {new Vecteur(600,200), new Vecteur(700,200), new Vecteur(700,500), new Vecteur(600,500)};
         obstacles.add(new Obstacle(coins1));
-        // Vecteur[] coins2 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(700,300), new Vecteur(600,350),new Vecteur(400,300)};
-        // obstacles.add(new Obstacle(coins2));
+
 
         setVisible(true);
         repaint();
@@ -213,6 +214,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        System.out.println("click");
     }
 
     public void mousePressed(MouseEvent e) {
@@ -228,14 +230,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseReleased(MouseEvent e) {
-        Vecteur mousePos = new Vecteur(e.getX(), e.getY());
+        Vecteur sourisPos = new Vecteur(e.getX(), e.getY());
         if (deplaceFourmiliere){
-            fourmiliere.setPosition(mousePos);
+            fourmiliere.setPosition(sourisPos);
             repaint();
             deplaceFourmiliere = false;
         }
         if (deplaceNourriture != null){
-            deplaceNourriture.setPosition(mousePos);
+            deplaceNourriture.setPosition(sourisPos);
             repaint();
             deplaceNourriture = null;
         }
