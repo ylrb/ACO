@@ -1,20 +1,24 @@
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.Dimension;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.*;
 
-public class Parametres extends JPanel{
+public class Parametres extends JPanel implements ActionListener{
 
 	public Parametres(){
-		Box box = new Box(BoxLayout.Y_AXIS);
-		add(box);
+		BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
+		setLayout(box);
+		setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		setBackground(new Color(214,214,214));
 
-		box.add(Box.createVerticalStrut(30));
-
 		JLabel titre = new JLabel("ANT COLONY OPTIMIZATION");
-		titre.setAlignmentX(CENTER_ALIGNMENT);
-		this.add(titre);
+		add(titre);
+
 	}
 	
+	public void actionPerformed(ActionEvent e) {
+        
+    }
 }
