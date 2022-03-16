@@ -126,4 +126,8 @@ public abstract class Fourmi {
         return nouvelleImage;
     }
 
+    public void setPosition(Vecteur nvPosition){
+        position = nvPosition;
+    }
+
 }

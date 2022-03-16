@@ -22,9 +22,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private BufferedImage imageFourmiA, imageFourmiB;
     protected static final int TAILLE = 25;
 
-    // Variables du timer
-    private static int dt = 5;
-    private static Timer timer;
+    // Variables du timer par défaut
+    public static int dt = 5;
+    public Timer timer;
 
     // Réglages
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
@@ -239,6 +239,23 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         g2.dispose(); 
 
         return nouvelleImage;
+    }
+
+    public void changeDt(int newDt){
+        timer.stop();
+        timer = new Timer(newDt, this);
+        timer.start();
+    }
+
+    public void reset(){
+        pheromonesAller.clear();
+        pheromonesRetour.clear();
+        for (Fourmi f : fourmis) {
+            f.setPosition(fourmiliere.getPosition());
+        }
+        System.out.println(fourmis.size());
+
+        repaint();
     }
 
 }
