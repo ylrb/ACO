@@ -63,6 +63,11 @@ public class Vecteur {
         x = X;
         y = Y;
     }
+    public Vecteur tourner2(double angle) {
+        double X = x*Math.cos(angle) - y*Math.sin(angle);
+        double Y = x*Math.sin(angle) + y*Math.cos(angle);
+        return new Vecteur(X,Y);
+    }
 
     // Produit scalaire avec un autre vecteur
     public double scalaire(Vecteur v2) {

@@ -27,6 +27,7 @@ public abstract class Fourmi {
     protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
+    protected static final double ANGLE_ROTATION = 1;
 
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
 
@@ -101,8 +102,8 @@ public abstract class Fourmi {
         return rep;
     }
 
-    // Vérifie si la fourmi est trop près d'un mur
-    public ArrayList<Segment> murEnVue(ArrayList<Obstacle> obstacles) {
+    // On détermine dans quels murs va la fourmi
+    public ArrayList<Segment> mursSecants(ArrayList<Obstacle> obstacles) {
         Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
         Segment segmentVue = new Segment(getPosition(),p2);
         ArrayList<Segment> rep = new ArrayList<Segment>();
