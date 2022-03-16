@@ -2,22 +2,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private final int largeur = 1280;
-    private final int hauteur = 720;
+    private final int LARGEUR = 1280;
+    private final int HAUTEUR = 720;
 
     public MainWindow() {
-        this.setSize(largeur,hauteur);
+        // Création de l'interface graphique
+        this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         Insets insets = getInsets();
         
         JPanel conteneur = (JPanel)this.getContentPane();
-
+        // Création de l'objet Carte
         Carte carte = new Carte();
-        carte.setPreferredSize(new Dimension((int)(0.8*largeur),hauteur-insets.top));
+        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
         Parametres parametres = new Parametres();
-        parametres.setPreferredSize(new Dimension((int)(0.2*largeur),hauteur-insets.top));
+        parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
         conteneur.add(parametres, BorderLayout.WEST);
         conteneur.add(carte, BorderLayout.EAST);
