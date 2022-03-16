@@ -23,7 +23,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 25;
 
     // Variables du timer par défaut
-    public static int dt = 5;
+    public static int dt = 10;
     public Timer timer;
 
     // Réglages
@@ -32,7 +32,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-    private static final int NOMBRE_FOURMIS = 30;
+    private static final int NOMBRE_FOURMIS = 1;
     
     public Carte() {
         this.addMouseListener(this);
@@ -55,7 +55,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        Vecteur[] coins1 = {new Vecteur(200,400), new Vecteur(700,400), new Vecteur(700,500), new Vecteur(200,500)};
+        Vecteur[] coins1 = {new Vecteur(600,0), new Vecteur(700,0), new Vecteur(700,500), new Vecteur(600,500)};
         obstacles.add(new Obstacle(coins1));
         // Vecteur[] coins2 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(700,300), new Vecteur(600,350),new Vecteur(400,300)};
         // obstacles.add(new Obstacle(coins2));

@@ -23,13 +23,13 @@ public abstract class Fourmi {
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double PORTEE_VUE_MUR = 50; // Distance à laquelle les fourmis considère les murs devant elles
+    protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
     protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
     protected static final double ANGLE_ROTATION = 1;
 
-    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
+    private static final boolean AFFICHAGE_DIRECTION = true; // Doit-on visualiser la direction de la fourmi
 
 
     public Fourmi(double x, double y) {
@@ -133,7 +133,7 @@ public abstract class Fourmi {
         }
 
         // On renvoie le segment avec la distance la plus courte
-        return rep.get(i);
+        return rep.get(min);
     }
 
     // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
@@ -155,8 +155,8 @@ public abstract class Fourmi {
         if (AFFICHAGE_DIRECTION) {
             g.setColor(Color.BLUE);
             g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
-            g.setColor(Color.GREEN);
-            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
+            // g.setColor(Color.GREEN);
+            // g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
         }
         g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }

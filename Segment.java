@@ -69,7 +69,7 @@ public class Segment {
         }
 
         // On vérifie que le point d'intersection appartient au segment (au rectangle formé par le vecteur)
-        return (((ymin<Y)&&(Y<ymax))&&((xmin<X)&&(X<xmax)));
+        return (((ymin<=Y)&&(Y<=ymax))&&((xmin<=X)&&(X<=xmax)));
     }
 
 }  
