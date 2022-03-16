@@ -11,6 +11,10 @@ public class Obstacle {
         }
         couleur = Color.YELLOW;
     }
+    
+    public ArrayList<Segment> getMurs() {
+        return murs;
+    }
 
     public void dessine(Graphics g) {
         g.setColor(couleur);
