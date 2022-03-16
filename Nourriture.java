@@ -20,6 +20,10 @@ public class Nourriture {
         this(new Vecteur(x,y), quantité);
     }
 
+    public void setPosition(Vecteur newPos){
+        position = newPos;
+    }
+    
     public Vecteur getPosition() {
         return new Vecteur(position.x,position.y);
     }  

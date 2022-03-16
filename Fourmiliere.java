@@ -17,6 +17,10 @@ public class Fourmiliere {
         return new Vecteur(position.x,position.y);
     }  
 
+    public void setPosition(Vecteur newPos){
+        position = newPos;
+    }
+
     public double getRayon() {
         return RAYON;
     }
