@@ -27,8 +27,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public Timer timer;
 
     // Réglages
-    private static boolean dragFourmiliere = false;
-    private static Nourriture dragNourriture;
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
@@ -50,15 +48,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
-        nourritures.add(new Nourriture(600, 600, 10));
+        nourritures.add(new Nourriture(800, 400, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        Vecteur[] coins1 = {new Vecteur(600,0), new Vecteur(700,0), new Vecteur(700,500), new Vecteur(600,500)};
+        Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680), new Vecteur(10,680)};
+        obstacles.add(new Obstacle(bordures));
+        Vecteur[] coins1 = {new Vecteur(600,200), new Vecteur(700,200), new Vecteur(700,500), new Vecteur(600,500)};
         obstacles.add(new Obstacle(coins1));
-        // Vecteur[] coins2 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(700,300), new Vecteur(600,350),new Vecteur(400,300)};
-        // obstacles.add(new Obstacle(coins2));
+
 
         setVisible(true);
         repaint();
@@ -213,32 +212,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        System.out.println("click");
     }
 
     public void mousePressed(MouseEvent e) {
-        Vecteur mousePos = new Vecteur(e.getX(), e.getY());
-        if ( mousePos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
-            dragFourmiliere = true;
-        }
-        for (Nourriture n : nourritures){
-            if ( mousePos.distance(n.getPosition()) < n.getRayon()){
-                dragNourriture = n;
-            }
-        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        Vecteur mousePos = new Vecteur(e.getX(), e.getY());
-        if (dragFourmiliere){
-            fourmiliere.setPosition(mousePos);
-            repaint();
-            dragFourmiliere = false;
-        }
-        if (dragNourriture != null){
-            dragNourriture.setPosition(mousePos);
-            repaint();
-            dragNourriture = null;
-        }
     }
 
     public void mouseEntered(MouseEvent e) {
