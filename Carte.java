@@ -20,7 +20,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Images
     private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
-    protected static final int TAILLE = 25;
+    protected static final int TAILLE_FOURMI = 25;
+    protected static final int TAILLE_FOURMILIERE = 40;
+    protected static final int TAILLE_NOURRITURE = 30;
 
     // Variables du timer par défaut
     private static int dt = 10;
@@ -47,22 +49,27 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer = new Timer(dt, this);
         timer.start();
 
-        // On importe les images
         try {
+
+            // On importe les images
             imageFourmiA = ImageIO.read(new File("assets/Fourmi.png")); 
             imageFourmiB = ImageIO.read(new File("assets/FourmiMiam.png")); 
             imageFourmiliere = ImageIO.read(new File("assets/Fourmiliere.png")); 
             imageNourriture = ImageIO.read(new File("assets/Nourriture.png")); 
             imageFond = ImageIO.read(new File("assets/Fond.png")); 
-            imageFourmiA = redimensionner(imageFourmiA);
-            imageFourmiB = redimensionner(imageFourmiB);
+
+            // On leur donne la taille désirée
+            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
+            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
+            imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
+            imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire les fichiers images.");
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
-        nourritures.add(new Nourriture(600, 200, 10));
-        fourmiliere = new Fourmiliere(300.0,300.0);
+        nourritures.add(new Nourriture(600, 200, TAILLE_NOURRITURE));
+        fourmiliere = new Fourmiliere(300.0, 300.0, TAILLE_FOURMILIERE);
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
@@ -261,21 +268,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    // Redimensionne l'image de fourmi à la taille désirée TAILLE
-    private BufferedImage redimensionner(BufferedImage img) {
-        int largeur = img.getWidth();
-        int hauteur = img.getHeight();
-    
-        BufferedImage nouvelleImage = new BufferedImage(TAILLE, TAILLE, img.getType());
-        Graphics2D g2 = nouvelleImage.createGraphics();
-
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
-        g2.drawImage(img, 0, 0, TAILLE, TAILLE, 0, 0, largeur, hauteur, null);  
-        g2.dispose(); 
-
-        return nouvelleImage;
-    }
-
     public void changeDt(int newDt){
         timer.stop();
         timer = new Timer(newDt, this);
@@ -309,6 +301,22 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         changeNbFourmis(nbFourmis);
         changeAffichagePhero(afficherPhero);
         reinitialiser();
+    }
+
+    // Redimensionne l'image de fourmi à la taille désirée
+    private static BufferedImage redimensionner(BufferedImage img, int largeurVoulue) {
+        int largeur = img.getWidth();
+        int hauteur = img.getHeight();
+        int hauteurVoulue = (largeurVoulue*hauteur)/largeur; // Simple produit en croit
+
+        BufferedImage nouvelleImage = new BufferedImage(largeurVoulue, hauteurVoulue, img.getType());
+        Graphics2D g = nouvelleImage.createGraphics();
+
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
+        g.drawImage(img, 0, 0, largeurVoulue, hauteurVoulue, 0, 0, largeur, hauteur, null);  
+        g.dispose(); 
+
+        return nouvelleImage;
     }
 
 }

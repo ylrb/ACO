@@ -3,22 +3,16 @@ import java.awt.image.BufferedImage;
 
 public class Nourriture {
 
-    protected Vecteur position;
-    protected Color couleur;
-    private int quantité; // Le nombre de fois que cette source de nourriture peut encore fournir de la nourriture
-    private int quantitéInitiale; // Le nombre initial de fois que cette source de nourriture pouvait fournir de la nourriture
-    
-    private static final int RAYON = 10;
+    private Vecteur position;
+    private int rayon;
 
-    public Nourriture(Vecteur pos, int qte) {
+    public Nourriture(Vecteur pos, int taille) {
         position = pos;
-        couleur = Color.YELLOW;
-        quantité = qte;
-        quantitéInitiale = quantité;
+        rayon = taille/2;
     }
 
-    public Nourriture(double x, double y, int quantité) {
-        this(new Vecteur(x,y), quantité);
+    public Nourriture(double x, double y, int taille) {
+        this(new Vecteur(x,y), taille);
     }
 
     public void setPosition(Vecteur newPos){
@@ -30,21 +24,10 @@ public class Nourriture {
     }  
 
     public int getRayon() {
-        return RAYON;
-    }
-
-    // Quand une fourmi vient piocher dans cette nourriture, on appelle cette méthode qui gère les variables
-    public void servi() {           
-        if (quantité > 0) {
-            quantité--;
-            couleur = new Color((int)(64-(48*(quantité/quantitéInitiale))),(int)(255-(191*(quantité/quantitéInitiale))),0); // La couleur va "se dégrader" et tendre vers un vert pâle
-        }
-        if (quantité <= 0) {
-            couleur =  new Color(123, 138, 29);
-        }
+        return rayon;
     }
 
     public void dessine(Graphics2D g, BufferedImage imageNourriture) {
-        g.drawImage(imageNourriture, (int)(position.x-RAYON), (int)(position.y-RAYON), null);
+        g.drawImage(imageNourriture, (int)(position.x-rayon), (int)(position.y-rayon), null);
     }
 }

@@ -3,15 +3,13 @@ import java.awt.image.BufferedImage;
 
 public class Fourmiliere {
     
-    protected Vecteur position;
-    protected Color couleur;
+    private Vecteur position;
     private int nourriture;
+    private int rayon;
 
-    private static final double RAYON = 20;
-
-    public Fourmiliere(double x, double y) {
+    public Fourmiliere(double x, double y, int taille) {
         position = new Vecteur(x,y);
-        couleur = Color.BLACK;
+        rayon = taille/2;
     }
 
     public Vecteur getPosition() {
@@ -23,11 +21,11 @@ public class Fourmiliere {
     }
 
     public double getRayon() {
-        return RAYON;
+        return rayon;
     }
     
     public void dessine(Graphics2D g, BufferedImage imageFourmiliere) {
-        g.drawImage(imageFourmiliere, (int)(position.x-RAYON), (int)(position.y-RAYON), null);
+        g.drawImage(imageFourmiliere, (int)(position.x-rayon), (int)(position.y-rayon), null);
     }
 
     public void depot() {
