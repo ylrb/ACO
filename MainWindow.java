@@ -26,45 +26,63 @@ public class MainWindow extends JFrame implements ActionListener{
         carte = new Carte();
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
-        // PARAMETRES
+        // Parametres
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
+        JPanel champs = new JPanel();
+        champs.setLayout(new BoxLayout(champs, BoxLayout.Y_AXIS));
+        champs.add(Box.createHorizontalGlue());
+        champs.setBackground(parametres.getFond());
+        champs.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel txtChampDt = new JLabel("Période de rafraichissement");
-        parametres.add(txtChampDt);
+        txtChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champs.add(txtChampDt);
         champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
 		champDt.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
                 dt = (int)((JSpinner)e.getSource()).getValue();
             }
         });
-        champDt.setMaximumSize( new Dimension(100,20) );
-		parametres.add(champDt);
+        champDt.setMaximumSize( new Dimension(100,30) );
+        champDt.setAlignmentX(Component.LEFT_ALIGNMENT);
+		champs.add(champDt);
 
         JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
-        parametres.add(txtChampNbFourmis);
+        txtChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champs.add(txtChampNbFourmis);
         champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 50, 5));
 		champNombreFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
                 nombreFourmis = (int)((JSpinner)e.getSource()).getValue();
             }
         });
-        champNombreFourmis.setMaximumSize( new Dimension(100,20) );
-		parametres.add(champNombreFourmis);
+        champNombreFourmis.setMaximumSize( new Dimension(100,30) );
+        champNombreFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
+		champs.add(champNombreFourmis);
+        parametres.add(champs);
 
         cocherPheromones = new JCheckBox("Affichage des phéromones", true);
         cocherPheromones.addActionListener(this);
+        cocherPheromones.setAlignmentX(Component.CENTER_ALIGNMENT);
         parametres.add(cocherPheromones);
-
         parametres.add(Box.createVerticalGlue());
+        parametres.add(Box.createVerticalGlue());
+        parametres.add(Box.createVerticalGlue());
+
+
+        JPanel boutons = new JPanel();
+        boutons.setLayout(new FlowLayout(FlowLayout.CENTER));
+        boutons.setBackground(parametres.getFond());
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-		parametres.add(reinitialiser);
+		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
-        parametres.add(valider);
+        boutons.add(valider);
+        parametres.add(boutons);
 
         // Ajouts des JPanel
         conteneur.add(parametres, BorderLayout.WEST);
@@ -92,11 +110,6 @@ public class MainWindow extends JFrame implements ActionListener{
                 afficherPheromones = false;
             }
         }
-        /*
-        if(e.getSource()== champNombreFourmis){
-            int k = Integer.parseInt(champNombreFourmis.getValue());
-            carte.changechampNombreFourmis(k);
-        } */     
     }
 
 
