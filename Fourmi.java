@@ -31,7 +31,10 @@ public abstract class Fourmi {
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
     protected static final double ANGLE_ROTATION = 0.5;
 
+    // Grandeurs liées à l'affichage
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
+    private static final double VITESSE_ANIMATION = 0.1;
+    private int compteur; // Compteur de tour
 
 
     public Fourmi(double x, double y) {
@@ -170,11 +173,14 @@ public abstract class Fourmi {
     }
 
     // Dessine une fourmi à la position de la fourmi
-    public void dessine(Graphics2D g, BufferedImage imageFourmi) {
-        double rayon = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
+    public void dessine(Graphics2D g, BufferedImage[] imagesFourmi) {
+        double rayon = imagesFourmi[0].getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
         
-        // On dessine l'image à laquelle on a appliqué une rotation d'angle désiré
-        g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-rayon), (int)(position.y-rayon), null);
+        /* On dessine l'image à laquelle on a appliqué une rotation d'angle désiré.
+         * Pour simuler une animation de déplacement, on on boucle dans le tableau imagesFourmi[]
+         */
+        g.drawImage(orienterFourmi(imagesFourmi[(int)(VITESSE_ANIMATION*compteur)%4]), (int)(position.x-rayon), (int)(position.y-rayon), null);
+        compteur++;
 
         // On peut choisir d'afficher le vecteur direction de la fourmi également
         if (AFFICHAGE_DIRECTION) {

@@ -19,7 +19,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
 
     // Images et tailles
-    private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
+    private BufferedImage imageFourmiliere, imageNourriture, imageFond;
+    private BufferedImage[] imagesFourmiA = new BufferedImage[4];
+    private BufferedImage[] imagesFourmiB = new BufferedImage[4];
     protected static final int TAILLE_FOURMI = 25;
     protected static final int TAILLE_FOURMILIERE = 40;
     protected static final int TAILLE_NOURRITURE = 30;
@@ -68,15 +70,25 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void importerImages() {
         try {
             // On importe les images
-            imageFourmiA = ImageIO.read(new File("assets/Fourmi.png")); 
-            imageFourmiB = ImageIO.read(new File("assets/FourmiMiam.png")); 
+            imagesFourmiA[0] = ImageIO.read(new File("assets/FourmiA2.png")); 
+            imagesFourmiA[1] = ImageIO.read(new File("assets/FourmiA3.png")); 
+            imagesFourmiA[2] = ImageIO.read(new File("assets/FourmiA2.png")); 
+            imagesFourmiA[3] = ImageIO.read(new File("assets/FourmiA1.png"));
+
+            imagesFourmiB[0] = ImageIO.read(new File("assets/FourmiB2.png")); 
+            imagesFourmiB[1] = ImageIO.read(new File("assets/FourmiB3.png")); 
+            imagesFourmiB[2] = ImageIO.read(new File("assets/FourmiB2.png")); 
+            imagesFourmiB[3] = ImageIO.read(new File("assets/FourmiB1.png"));
+
             imageFourmiliere = ImageIO.read(new File("assets/Fourmiliere.png")); 
             imageNourriture = ImageIO.read(new File("assets/Nourriture.png")); 
             imageFond = ImageIO.read(new File("assets/Fond.png")); 
 
             // On leur donne la taille désirée
-            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
-            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
+            for (int i = 0; i < 4; i++) {
+                imagesFourmiA[i] = redimensionner(imagesFourmiA[i], TAILLE_FOURMI);
+                imagesFourmiB[i] = redimensionner(imagesFourmiB[i], TAILLE_FOURMI);
+            }
             imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
             imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
             imageFond = redimensionner(imageFond, 1025);
@@ -147,9 +159,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         fourmiliere.dessine(g, imageFourmiliere);
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
-                f.dessine(g,imageFourmiA);
+                f.dessine(g,imagesFourmiA);
             } else {
-                f.dessine(g,imageFourmiB);
+                f.dessine(g,imagesFourmiB);
             }
         }
     }
