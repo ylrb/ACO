@@ -6,7 +6,7 @@ public class Fourmiliere {
     protected Color couleur;
     private int nourriture;
 
-    private static final double RAYON = 15;
+    private static final double RAYON = 20;
 
     public Fourmiliere(double x, double y) {
         position = new Vecteur(x,y);
