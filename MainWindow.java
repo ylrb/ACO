@@ -30,19 +30,14 @@ public class MainWindow extends JFrame implements ActionListener{
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
-<<<<<<< HEAD
-        JLabel texteChampDt = new JLabel("Période de rafraichissement");
-        parametres.add(texteChampDt);
-=======
         JPanel champs = new JPanel();
         champs.setLayout(new BoxLayout(champs, BoxLayout.Y_AXIS));
         champs.add(Box.createHorizontalGlue());
         champs.setBackground(parametres.getFond());
         champs.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel txtChampDt = new JLabel("Période de rafraichissement");
-        txtChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
-        champs.add(txtChampDt);
->>>>>>> 1024ab292edb27dce29236633a65cdc0095ad511
+        JLabel texteChampDt = new JLabel("Période de rafraichissement");
+        texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champs.add(texteChampDt);
         champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
 		champDt.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
@@ -53,9 +48,9 @@ public class MainWindow extends JFrame implements ActionListener{
         champDt.setAlignmentX(Component.LEFT_ALIGNMENT);
 		champs.add(champDt);
 
-        JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
-        txtChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
-        champs.add(txtChampNbFourmis);
+        JLabel texteChampNbFourmis = new JLabel("Nombre de fourmis");
+        texteChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champs.add(texteChampNbFourmis);
         champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 50, 5));
 		champNombreFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
