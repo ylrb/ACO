@@ -33,7 +33,7 @@ public abstract class Fourmi {
 
     // Grandeurs liées à l'affichage
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
-    private static final double VITESSE_ANIMATION = 0.1;
+    private static final double VITESSE_ANIMATION = 0.05;
     private int compteur; // Compteur de tour
 
 
