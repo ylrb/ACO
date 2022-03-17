@@ -23,17 +23,25 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 25;
 
     // Variables du timer par défaut
-    public static int dt = 1;
-    public Timer timer;
+    private static int dt = 10;
+    private Timer timer;
 
     // Réglages
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-    private static final int NOMBRE_FOURMIS = 50;
+    private static boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
+    private static int NOMBRE_FOURMIS = 50;
     
+    public int getDt(){
+        return dt;
+    }
+
+    public int getNbFourmis(){
+        return NOMBRE_FOURMIS;
+    }
+
     public Carte() {
         this.addMouseListener(this);
         timer = new Timer(dt, this);
@@ -220,6 +228,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void mousePressed(MouseEvent e) {
         Vecteur mousePos = new Vecteur(e.getX(), e.getY());
         if ( mousePos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
+
             deplaceFourmiliere = true;
         }
         for (Nourriture n : nourritures){
@@ -270,7 +279,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer.start();
     }
 
-    public void reset(){
+    public void reinitialiser(){
         pheromonesAller.clear();
         pheromonesRetour.clear();
         int length = fourmis.size();
@@ -286,7 +295,17 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i=0; i<nb; i++) {
             fourmis.add( new FourmiA(fourmiliere.getPosition()) );
         }
-        reset();
+    }
+
+    public void changeAffichagePhero(boolean afficher){
+        AFFICHAGE_PHEROMONES = afficher;
+    }
+
+    public void valider(int dt, int nbFourmis, boolean afficherPhero){
+        changeDt(dt);
+        changeNbFourmis(nbFourmis);
+        changeAffichagePhero(afficherPhero);
+        reinitialiser();
     }
 
 }

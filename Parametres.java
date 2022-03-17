@@ -13,7 +13,6 @@ public class Parametres extends JPanel implements ActionListener{
 		setBackground(new Color(214,214,214));
 
 		JLabel titre = new JLabel("ANT COLONY OPTIMIZATION");
-		titre.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(titre);
 
 	}
