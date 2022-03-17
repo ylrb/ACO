@@ -20,8 +20,8 @@ public class MainWindow extends JFrame implements ActionListener{
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         Insets insets = getInsets();
-        
         JPanel conteneur = (JPanel)this.getContentPane();
+
         // Création de l'objet Carte
         carte = new Carte();
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
@@ -66,14 +66,17 @@ public class MainWindow extends JFrame implements ActionListener{
         valider.addActionListener(this);
         parametres.add(valider);
 
+        // Ajouts des JPanel
         conteneur.add(parametres, BorderLayout.WEST);
         conteneur.add(carte, BorderLayout.EAST);
 
+        // Fin
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         repaint();
     }
 
+    // Gestions des interactions avec l'utilisateur
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == reinitialiser) {
             carte.reinitialiser();
