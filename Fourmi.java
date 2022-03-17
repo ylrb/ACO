@@ -12,6 +12,7 @@ public abstract class Fourmi {
 
     // Autres
     protected int sensRotation; // 0 si pas de rotation, sinon -1 ou 1
+    protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
@@ -106,34 +107,34 @@ public abstract class Fourmi {
     public ArrayList<Segment> mursSecants(ArrayList<Obstacle> obstacles) {
         Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
         Segment segmentVue = new Segment(getPosition(),p2);
-        ArrayList<Segment> rep = new ArrayList<Segment>();
+        ArrayList<Segment> murs = new ArrayList<Segment>();
+        Vecteur pointSecant = new Vecteur();
+        contactMurs.clear();
         for (Obstacle o : obstacles) {
             for (Segment s : o.getMurs()) {
-                if (segmentVue.secante(s)) {
-                    rep.add(s);
+                pointSecant = segmentVue.secante(s);
+                if (pointSecant != null) {
+                    murs.add(s);
+                    contactMurs.add(pointSecant);
                 }
             }
         }
-        return rep;
+        return murs;
     }
 
     // On isole le segment de mur le plus proche de la fourmi
-    public Segment segmentLePlusProche(ArrayList<Segment> rep) {
-        double distances[] = new double[rep.size()];
+    public Segment segmentLePlusProche(ArrayList<Segment> murs) {
+        int min = 0; // Indice du point le plus proche de la fourmi
         int i = 0;
-        int min = 0; // Indice de l'élément le plus proche
-       
-        // On calcule la distance de la fourmi aux deux points de chaque segment, et on les stocke dans distances[]
-        for (Segment s : rep) {
-            distances[i] = position.distance(s.pointA) + position.distance(s.pointB);
-            if (distances[i]<distances[min]) {
+        double distanceMin = position.distance(contactMurs.get(0)); // Distance minimale à la fourmi
+        for (Vecteur v : contactMurs) { 
+            if (position.distance(v) < distanceMin) {
+                distanceMin = position.distance(v);
                 min = i;
             }
             i++;
         }
-
-        // On renvoie le segment avec la distance la plus courte
-        return rep.get(min);
+        return murs.get(min);
     }
 
     // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
