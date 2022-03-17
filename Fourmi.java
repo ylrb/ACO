@@ -89,18 +89,36 @@ public abstract class Fourmi {
     }
 
     // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
-    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, boolean initial) {
+    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles, boolean initial) {
         Vecteur rep = new Vecteur();
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < Math.toRadians(ANGLE_VUE))||(initial))) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < Math.toRadians(ANGLE_VUE))||(initial))&&(vueDirecte(p, obstacles))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
             }
         }
         rep.unitaire();
         return rep;
+    }
+
+    // On vérifie qu'il n'y ait pas de mur entre la fourmi et les phéromones
+    public boolean vueDirecte(Pheromone p, ArrayList<Obstacle> obstacles) {
+        Segment chemin = new Segment(getPosition(), p.position);
+        boolean rep = false;
+        for (Obstacle o : obstacles) {
+            for (Segment s : o.getMurs()) {
+                if (chemin.secante(s) != null) {
+                    rep = true;
+                    break;
+                }
+            }
+            if (rep) {
+                break;
+            }
+        }
+        return !rep;
     }
 
     // On détermine dans quels murs va la fourmi

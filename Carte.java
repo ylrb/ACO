@@ -192,7 +192,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
             double X = fourmiliere.getPosition().x;
             double Y = fourmiliere.getPosition().y;
-            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, true);
+            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, obstacles, true);
             fourmis.remove((int)i); 
             fourmis.add(new FourmiA(X,Y,dir));
         }

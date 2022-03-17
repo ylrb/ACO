@@ -23,6 +23,5 @@ public class Pheromone {
         couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
         g.drawLine((int)position.x,(int)position.y,(int)position.x+1,(int)position.y);
-        // g.drawOval((int)(position.x-2), (int)(position.y-2), 1, 1);
     }
 }
