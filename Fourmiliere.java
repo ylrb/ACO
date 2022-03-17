@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Fourmiliere {
     
@@ -25,9 +26,8 @@ public class Fourmiliere {
         return RAYON;
     }
     
-    public void dessine(Graphics g) {
-        g.setColor(couleur);
-        g.fillOval((int) (position.x-RAYON), (int) (position.y-RAYON), (int)(2*RAYON), (int)(2*RAYON));
+    public void dessine(Graphics g, BufferedImage imageFourmiliere) {
+        g.drawImage(imageFourmiliere, (int)(position.x-RAYON), (int)(position.y-RAYON), null);
     }
 
     public void depot() {
