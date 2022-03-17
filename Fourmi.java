@@ -182,11 +182,18 @@ public abstract class Fourmi {
         }
 
         // On applique une transformation affine qui permet de faire tourner l'image de l'angle voulu
-        AffineTransform tranformation = AffineTransform.getRotateInstance(angle, rayon, rayon);
+        // AffineTransform tranformation = AffineTransform.getRotateInstance(angle, rayon, rayon);
+        // AffineTransformOp tranformation2 = new AffineTransformOp(tranformation, AffineTransformOp.TYPE_BILINEAR);
+
+        AffineTransform tranformation = new AffineTransform();
+        tranformation.rotate(angle, rayon, rayon);
+
         AffineTransformOp tranformation2 = new AffineTransformOp(tranformation, AffineTransformOp.TYPE_BILINEAR);
-    
+        BufferedImage nouvelleImage = tranformation2.filter(imageFourmi, null);
+
+
         // On dessine l'image à laquelle on a appliqué une rotation d'angle désiré
-        g.drawImage(tranformation2.filter(imageFourmi, null), (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.drawImage(nouvelleImage, (int)(position.x-rayon), (int)(position.y-rayon), null);
 
         // On peut choisir d'afficher le vecteur direction de la fourmi également
         if (AFFICHAGE_DIRECTION) {
