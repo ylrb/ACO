@@ -126,7 +126,7 @@ public abstract class Fourmi {
     public Segment segmentLePlusProche(ArrayList<Segment> murs) {
         int min = 0; // Indice du point le plus proche de la fourmi
         int i = 0;
-        double distanceMin = position.distance(contactMurs.get(0)); // Distance minimale à la fourmi
+        double distanceMin = 1000; // Distance minimale à la fourmi
         for (Vecteur v : contactMurs) { 
             if (position.distance(v) < distanceMin) {
                 distanceMin = position.distance(v);

@@ -31,9 +31,11 @@ public class FourmiB extends Fourmi {
             } else {
                 if (pheromonesEnVue(pheromones)) {
                     direction = direction.somme(calculAttractionPheromones(pheromones, false), 1, COEFF_ATTRACTION_PHEROMONES);
+                    direction.unitaire();
+                } else {
+                    direction = direction.somme(errance, 1, COEFF_ERRANCE);
+                    direction.unitaire();
                 }
-                direction = direction.somme(errance, 1, COEFF_ERRANCE);
-                direction.unitaire();
             }
         }
     }

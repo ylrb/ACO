@@ -23,7 +23,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE = 25;
 
     // Variables du timer par défaut
-    public static int dt = 10;
+    public static int dt = 1;
     public Timer timer;
 
     // Réglages
@@ -50,14 +50,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
-        nourritures.add(new Nourriture(800, 400, 10));
+        nourritures.add(new Nourriture(600, 200, 10));
         fourmiliere = new Fourmiliere(300.0,300.0);
         for (int i = 0; i < NOMBRE_FOURMIS; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-        Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680), new Vecteur(10,680)};
+        Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680-300), new Vecteur(10,680-300)};
         obstacles.add(new Obstacle(bordures));
-        Vecteur[] coins1 = {new Vecteur(600,200), new Vecteur(700,200), new Vecteur(700,500), new Vecteur(600,500)};
+        Vecteur[] coins1 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(500,500), new Vecteur(400,500)};
         obstacles.add(new Obstacle(coins1));
 
 
