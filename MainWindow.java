@@ -12,9 +12,9 @@ public class MainWindow extends JFrame implements ActionListener{
     private JButton reset;
     private JButton valider;
     private JCheckBox cocherPhero;
-    private int dt;
-    private int nbFourmis;
-    private boolean afficherPhero;
+    private int dt = 10;
+    private int nbFourmis = 30;
+    private boolean afficherPhero = true;
 
     public MainWindow() {
         // Création de l'interface graphique
@@ -34,7 +34,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         JLabel txtChampDt = new JLabel("Période de rafraichissement (en ms)");
         parametres.add(txtChampDt);
-        champDt = new JSpinner(new SpinnerNumberModel(10, 0, 100, 1));
+        champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
 		champDt.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
                 dt = (int)((JSpinner)e.getSource()).getValue();
@@ -46,7 +46,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
         parametres.add(txtChampNbFourmis);
-        champNbFourmis = new JSpinner(new SpinnerNumberModel(30, 0, 100, 5));
+        champNbFourmis = new JSpinner(new SpinnerNumberModel(nbFourmis, 0, 100, 5));
 		champNbFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
                 System.out.println(((JSpinner)e.getSource()).getValue());
