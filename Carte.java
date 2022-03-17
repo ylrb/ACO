@@ -18,7 +18,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
     private Fourmiliere fourmiliere;
 
-    // Images
+    // Images et tailles
     private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
     protected static final int TAILLE_FOURMI = 25;
     protected static final int TAILLE_FOURMILIERE = 40;
@@ -34,7 +34,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static boolean AFFICHAGE_PHEROMONES = true; // Doit-on visualiser les phéromones ou non
-    private static int NOMBRE_FOURMIS = 50;
+    private static int NOMBRE_FOURMIS = 30;
     
     public int getDt(){
         return dt;
@@ -50,7 +50,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer.start();
 
         try {
-
             // On importe les images
             imageFourmiA = ImageIO.read(new File("assets/Fourmi.png")); 
             imageFourmiB = ImageIO.read(new File("assets/FourmiMiam.png")); 
@@ -63,6 +62,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
             imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
             imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
+            imageFond = redimensionner(imageFond, imageFond.getWidth());
+
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire les fichiers images.");
         }
@@ -74,18 +75,18 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
         Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680-300), new Vecteur(10,680-300)};
-        obstacles.add(new Obstacle(bordures));
+        obstacles.add(new Obstacle(bordures, true));
         Vecteur[] coins1 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(500,500), new Vecteur(400,500)};
-        obstacles.add(new Obstacle(coins1));
-
+        obstacles.add(new Obstacle(coins1, false));
 
         setVisible(true);
         repaint();
     }
 
     public void paint (Graphics gr) {
-        Toolkit.getDefaultToolkit().sync();
         Graphics2D g = (Graphics2D) gr;
+        Toolkit.getDefaultToolkit().sync();
+        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);  
         
         g.setColor(new Color(120,100,80));
         g.drawImage(imageFond, 0, 0, null); // Taille de l'image : 1024x698
@@ -236,13 +237,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        Vecteur mousePos = new Vecteur(e.getX(), e.getY());
-        if ( mousePos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
-
+        Vecteur sourisPos = new Vecteur(e.getX(), e.getY());
+        if (sourisPos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
             deplaceFourmiliere = true;
         }
         for (Nourriture n : nourritures){
-            if ( mousePos.distance(n.getPosition()) < n.getRayon()){
+            if (sourisPos.distance(n.getPosition()) < n.getRayon()){
                 deplaceNourriture = n;
             }
         }
@@ -250,14 +250,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void mouseReleased(MouseEvent e) {
         Vecteur sourisPos = new Vecteur(e.getX(), e.getY());
-        if (deplaceFourmiliere){
+        if (deplaceFourmiliere) {
             fourmiliere.setPosition(sourisPos);
-            repaint();
             deplaceFourmiliere = false;
         }
-        if (deplaceNourriture != null){
+        if (deplaceNourriture != null) {
             deplaceNourriture.setPosition(sourisPos);
-            repaint();
             deplaceNourriture = null;
         }
     }
@@ -268,38 +266,38 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    public void changeDt(int newDt){
+    public void changerDt(int nouveauDt){
         timer.stop();
-        timer = new Timer(newDt, this);
+        timer = new Timer(nouveauDt, this);
         timer.start();
     }
 
     public void reinitialiser(){
         pheromonesAller.clear();
         pheromonesRetour.clear();
-        int length = fourmis.size();
+        int taille = fourmis.size();
         fourmis.clear();
-        for (int i=0; i<length; i++) {
-            fourmis.add( new FourmiA(fourmiliere.getPosition()) );
+        for (int i = 0; i < taille; i++) {
+            fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
         repaint();
     }
 
-    public void changeNbFourmis(int nb){
+    public void changerNombreFourmis(int nombre){
         fourmis.clear();
-        for (int i=0; i<nb; i++) {
-            fourmis.add( new FourmiA(fourmiliere.getPosition()) );
+        for (int i = 0; i < nombre; i++) {
+            fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
     }
 
-    public void changeAffichagePhero(boolean afficher){
+    public void changerAffichagePheromones(boolean afficher){
         AFFICHAGE_PHEROMONES = afficher;
     }
 
-    public void valider(int dt, int nbFourmis, boolean afficherPhero){
-        changeDt(dt);
-        changeNbFourmis(nbFourmis);
-        changeAffichagePhero(afficherPhero);
+    public void valider(int dt, int nombreFourmis, boolean afficherPheromones){
+        changerDt(dt);
+        changerNombreFourmis(nombreFourmis);
+        changerAffichagePheromones(afficherPheromones);
         reinitialiser();
     }
 

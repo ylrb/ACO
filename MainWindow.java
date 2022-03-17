@@ -7,12 +7,12 @@ public class MainWindow extends JFrame implements ActionListener{
     private final int LARGEUR = 1280;
     private final int HAUTEUR = 720;
     private Carte carte;
-    private JSpinner champDt, champNbFourmis;
+    private JSpinner champDt, champNombreFourmis;
     private JButton reinitialiser, valider;
-    private JCheckBox cocherPhero;
+    private JCheckBox cocherPheromones;
     private int dt = 10;
-    private int nbFourmis = 30;
-    private boolean afficherPhero = true;
+    private int nombreFourmis = 30;
+    private boolean afficherPheromones = true;
 
     public MainWindow() {
         // Création de l'interface graphique
@@ -43,18 +43,18 @@ public class MainWindow extends JFrame implements ActionListener{
 
         JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
         parametres.add(txtChampNbFourmis);
-        champNbFourmis = new JSpinner(new SpinnerNumberModel(nbFourmis, 0, 80, 5));
-		champNbFourmis.addChangeListener(new ChangeListener() {      
+        champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 50, 5));
+		champNombreFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
-                nbFourmis = (int)((JSpinner)e.getSource()).getValue();
+                nombreFourmis = (int)((JSpinner)e.getSource()).getValue();
             }
         });
-        champNbFourmis.setMaximumSize( new Dimension(100,20) );
-		parametres.add(champNbFourmis);
+        champNombreFourmis.setMaximumSize( new Dimension(100,20) );
+		parametres.add(champNombreFourmis);
 
-        cocherPhero = new JCheckBox("Affichage des phéromones", true);
-        cocherPhero.addActionListener(this);
-        parametres.add(cocherPhero);
+        cocherPheromones = new JCheckBox("Affichage des phéromones", true);
+        cocherPheromones.addActionListener(this);
+        parametres.add(cocherPheromones);
 
         parametres.add(Box.createVerticalGlue());
 
@@ -75,24 +75,24 @@ public class MainWindow extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==reinitialiser) {
+        if (e.getSource() == reinitialiser) {
             carte.reinitialiser();
         }
-        if (e.getSource()==valider) {
-            carte.valider(dt, nbFourmis, afficherPhero);
+        if (e.getSource() == valider) {
+            carte.valider(dt, nombreFourmis, afficherPheromones);
         }
-        if(e.getSource() == cocherPhero){
+        if(e.getSource() == cocherPheromones){
             JCheckBox c = (JCheckBox)e.getSource();
             if (c.isSelected()){
-                afficherPhero = true;
+                afficherPheromones = true;
             } else{
-                afficherPhero = false;
+                afficherPheromones = false;
             }
         }
         /*
-        if(e.getSource()== champNbFourmis){
-            int k = Integer.parseInt(champNbFourmis.getValue());
-            carte.changechampNbFourmis(k);
+        if(e.getSource()== champNombreFourmis){
+            int k = Integer.parseInt(champNombreFourmis.getValue());
+            carte.changechampNombreFourmis(k);
         } */     
     }
 

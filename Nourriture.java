@@ -15,8 +15,8 @@ public class Nourriture {
         this(new Vecteur(x,y), taille);
     }
 
-    public void setPosition(Vecteur newPos){
-        position = newPos;
+    public void setPosition(Vecteur nouvellePosition){
+        position = nouvellePosition;
     }
     
     public Vecteur getPosition() {
