@@ -62,7 +62,7 @@ public abstract class Fourmi {
     }
 
     // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
-    public void avancer(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
+    public void avancer(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
         calculErrance();
         calculNouvelleDirection(nourritures, fourmiliere, pheromones, obstacles);
         position.x += 2*direction.x;
@@ -75,7 +75,7 @@ public abstract class Fourmi {
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles);
+    protected abstract void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles);
     
     // Indique si la fourmi a des phéromones dans son champ de vision
     protected boolean pheromonesEnVue(LinkedList<Pheromone> pheromones) { 
@@ -93,7 +93,7 @@ public abstract class Fourmi {
     }
 
     // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
-    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles, boolean initial) {
+    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles, boolean initial) {
         Vecteur rep = new Vecteur();
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
@@ -108,7 +108,7 @@ public abstract class Fourmi {
     }
 
     // On vérifie qu'il n'y ait pas de mur entre la fourmi et les phéromones
-    public boolean vueDirecte(Pheromone p, ArrayList<Obstacle> obstacles) {
+    public boolean vueDirecte(Pheromone p, LinkedList<Obstacle> obstacles) {
         Segment chemin = new Segment(getPosition(), p.position);
         boolean rep = false;
         for (Obstacle o : obstacles) {
@@ -126,10 +126,10 @@ public abstract class Fourmi {
     }
 
     // On détermine dans quels murs va la fourmi
-    public ArrayList<Segment> mursSecants(ArrayList<Obstacle> obstacles) {
+    public LinkedList<Segment> mursSecants(LinkedList<Obstacle> obstacles) {
         Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
         Segment segmentVue = new Segment(getPosition(),p2);
-        ArrayList<Segment> murs = new ArrayList<Segment>();
+        LinkedList<Segment> murs = new LinkedList<Segment>();
         Vecteur pointSecant = new Vecteur();
         contactMurs.clear();
         for (Obstacle o : obstacles) {
@@ -145,7 +145,7 @@ public abstract class Fourmi {
     }
 
     // On isole le segment de mur le plus proche de la fourmi
-    public Segment segmentLePlusProche(ArrayList<Segment> murs) {
+    public Segment segmentLePlusProche(LinkedList<Segment> murs) {
         int min = 0; // Indice du point le plus proche de la fourmi
         int i = 0;
         double distanceMin = 1000; // Distance minimale à la fourmi
