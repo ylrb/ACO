@@ -13,9 +13,9 @@ public class Segment {
         return(0.05 > Math.abs(v1.angle(v2))); // Angle inférieur à 2,5° environ
     }
 
-    public boolean secante(Segment s2) {
+    public Vecteur secante(Segment s2) {
         if (colineaire(s2)) {
-            return false;
+            return null;
         } else if (s2.pointB.x-s2.pointA.x == 0) { // L'algorithme ne fonctionne pas si un des segments est vertical
             // On détermine les coefficients de la droite non verticale
             double A1 = coeffs()[0];
@@ -23,14 +23,22 @@ public class Segment {
             double X = s2.pointB.x;
             double Y = A1*X + B1;
 
-            return ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y)));
+            if ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y))) {
+                return new Vecteur(X,Y);
+            } else {
+                return null;
+            }
         } else if (pointB.x-pointA.x == 0) { // Si le segment de la fourmi est vertical
             double A1 = s2.coeffs()[0];
             double B1 = s2.coeffs()[1];
             double X = pointB.x;
             double Y = A1*X + B1;
 
-            return ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y)));
+            if ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y))) {
+                return new Vecteur(X,Y);
+            } else {
+                return null;
+            }
         } else { 
             // On détermine les coefficients des deux droites
             double A1 = coeffs()[0];
@@ -43,7 +51,11 @@ public class Segment {
             double Y = A1*X + B1;
 
             // On vérifie que le point trouvé appartient aux deux segments
-            return ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y)));
+            if ((appartientSegment(X,Y))&&(s2.appartientSegment(X,Y))) {
+                return new Vecteur(X,Y);
+            } else {
+                return null;
+            }
         }
 
     }
