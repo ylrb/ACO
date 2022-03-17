@@ -19,7 +19,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
 
     // Images
-    private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageFond;
+    private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
     protected static final int TAILLE = 25;
 
     // Variables du timer par défaut
@@ -52,11 +52,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             imageFourmiA = ImageIO.read(new File("assets/Fourmi.png")); 
             imageFourmiB = ImageIO.read(new File("assets/FourmiMiam.png")); 
             imageFourmiliere = ImageIO.read(new File("assets/Fourmiliere.png")); 
+            imageNourriture = ImageIO.read(new File("assets/Nourriture.png")); 
             imageFond = ImageIO.read(new File("assets/Fond.png")); 
             imageFourmiA = redimensionner(imageFourmiA);
             imageFourmiB = redimensionner(imageFourmiB);
         } catch (IOException e) {
-            throw new RuntimeException("Impossible de lire le fichier.");
+            throw new RuntimeException("Impossible de lire les fichiers images.");
         }
 
         // Initialisation de la fourmilière, des fourmis et de la nourriture
@@ -75,9 +76,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         repaint();
     }
 
-    public void paint (Graphics g) {
+    public void paint (Graphics gr) {
         Toolkit.getDefaultToolkit().sync();
-
+        Graphics2D g = (Graphics2D) gr;
+        
         g.setColor(new Color(120,100,80));
         g.drawImage(imageFond, 0, 0, null); // Taille de l'image : 1024x698
 
@@ -94,7 +96,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
         }
         for (Nourriture n : nourritures) {
-            n.dessine(g);
+            n.dessine(g, imageNourriture);
         }
         fourmiliere.dessine(g, imageFourmiliere);
         for (Fourmi f : fourmis) {

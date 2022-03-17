@@ -1,5 +1,6 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -169,36 +170,28 @@ public abstract class Fourmi {
     }
 
     // Dessine une fourmi à la position de la fourmi
-    public void dessine(Graphics g, BufferedImage imageFourmi) {
-        double r = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
+    public void dessine(Graphics2D g, BufferedImage imageFourmi) {
+        double rayon = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
+        
+        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
+        double angle;
+        if (direction.x<=0) {
+            angle = direction.angle(new Vecteur(0,100)) + Math.PI;
+        } else {
+            angle = -direction.angle(new Vecteur(0,100)) + Math.PI;
+        }
+
+        // On applique une transformation affine qui permet de faire tourner l'image de l'angle voulu
+        AffineTransform tx = AffineTransform.getRotateInstance(angle, rayon, rayon);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+    
+        // On dessine l'image à laquelle on a appliqué une rotation d'angle désiré
+        g.drawImage(op.filter(imageFourmi, null), (int)(position.x-rayon), (int)(position.y-rayon), null);
+
+        // On peut choisir d'afficher le vecteur direction de la fourmi également
         if (AFFICHAGE_DIRECTION) {
             g.setColor(Color.BLUE);
             g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
-            // g.setColor(Color.GREEN);
-            // g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
         }
-        g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-r), (int)(position.y-r), null);
     }
-
-    // Fait tourner l'image de fourmi de manière à ce qu'elle soit dirigée dans le sens du vecteur direction
-    private BufferedImage orienterFourmi(BufferedImage imageFourmi) {
-        BufferedImage img = imageFourmi;
-        int largeur = img.getWidth();
-        int hauteur = img.getHeight();
-        int type = img.getType();
-
-        BufferedImage nouvelleImage = new BufferedImage(largeur, hauteur, type);
-        Graphics2D g2 = nouvelleImage.createGraphics();
-
-        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
-        if (direction.x<=0) {
-            g2.rotate(direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
-        } else {
-            g2.rotate(-direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
-        }
-        g2.drawImage(img, null, 0, 0);
-
-        return nouvelleImage;
-    }
-
 }

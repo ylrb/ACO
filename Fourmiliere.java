@@ -26,7 +26,7 @@ public class Fourmiliere {
         return RAYON;
     }
     
-    public void dessine(Graphics g, BufferedImage imageFourmiliere) {
+    public void dessine(Graphics2D g, BufferedImage imageFourmiliere) {
         g.drawImage(imageFourmiliere, (int)(position.x-RAYON), (int)(position.y-RAYON), null);
     }
 

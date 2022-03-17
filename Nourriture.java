@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Nourriture {
 
@@ -43,8 +44,7 @@ public class Nourriture {
         }
     }
 
-    public void dessine(Graphics g) {
-        g.setColor(couleur);
-        g.fillOval((int) position.x-RAYON, (int) position.y-RAYON, 2*RAYON, 2*RAYON);
+    public void dessine(Graphics2D g, BufferedImage imageNourriture) {
+        g.drawImage(imageNourriture, (int)(position.x-RAYON), (int)(position.y-RAYON), null);
     }
 }

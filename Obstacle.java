@@ -16,7 +16,7 @@ public class Obstacle {
         return murs;
     }
 
-    public void dessine(Graphics g) {
+    public void dessine(Graphics2D g) {
         g.setColor(couleur);
         int[] X = new int[murs.size()];
         int[] Y = new int[murs.size()];
