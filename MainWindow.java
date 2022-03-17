@@ -8,7 +8,7 @@ public class MainWindow extends JFrame implements ActionListener{
     private final int HAUTEUR = 720;
     private Carte carte;
     private JSpinner champDt, champNbFourmis;
-    private JButton reset, valider;
+    private JButton reinitialiser, valider;
     private JCheckBox cocherPhero;
     private int dt = 10;
     private int nbFourmis = 30;
@@ -58,9 +58,9 @@ public class MainWindow extends JFrame implements ActionListener{
 
         parametres.add(Box.createVerticalGlue());
 
-        reset = new JButton("Reset");
-        reset.addActionListener(this);
-		parametres.add(reset);
+        reinitialiser = new JButton("Réinitialiser");
+        reinitialiser.addActionListener(this);
+		parametres.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
@@ -75,8 +75,8 @@ public class MainWindow extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==reset) {
-            carte.reset();
+        if (e.getSource()==reinitialiser) {
+            carte.reinitialiser();
         }
         if (e.getSource()==valider) {
             carte.valider(dt, nbFourmis, afficherPhero);

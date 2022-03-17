@@ -279,7 +279,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         timer.start();
     }
 
-    public void reset(){
+    public void reinitialiser(){
         pheromonesAller.clear();
         pheromonesRetour.clear();
         int length = fourmis.size();
@@ -305,7 +305,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         changeDt(dt);
         changeNbFourmis(nbFourmis);
         changeAffichagePhero(afficherPhero);
-        reset();
+        reinitialiser();
     }
 
 }
