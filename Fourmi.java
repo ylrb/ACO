@@ -18,14 +18,13 @@ public abstract class Fourmi {
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
-    protected static final double COEFF_ATTRACTION_NOURRITURE = 10;
-    protected static final double COEFF_ATTRACTION_FOURMILIERE = 10;
+    protected static final double COEFF_ATTRACTION_FOURMILIERE_NOURRITURE = 10;
     protected static final double COEFF_REPULSION_MURS = 2.5;
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
-    protected static final double PORTEE_VUE = 70; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
+    protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double PORTEE_VUE_MUR = 50; // Distance à laquelle les fourmis considère les murs devant elles
     protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
@@ -74,9 +73,36 @@ public abstract class Fourmi {
         errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
     }
 
-    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
-    protected abstract void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles);
-    
+    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement  
+    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
+        LinkedList<Segment> mursProches = mursSecants(obstacles);
+        if (mursProches.size()>0) {
+            if (sensRotation == 0) {
+                angleRotationMur(segmentLePlusProche(mursProches));
+            }
+            direction.tourner(sensRotation*ANGLE_ROTATION);
+            errance = direction;
+        } else {
+            sensRotation = 0;
+            Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
+            if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
+                direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
+                direction.unitaire();
+            } else { 
+                if (pheromonesEnVue(pheromones)) {
+                    direction = direction.somme(calculAttractionPheromones(pheromones, obstacles, false), 1, COEFF_ATTRACTION_PHEROMONES);
+                    direction.unitaire();
+                } else {
+                    direction = direction.somme(errance, 1, COEFF_ERRANCE);
+                    direction.unitaire();
+                }
+            }
+        } 
+    }
+
+    // Les fourmiA (resp. fourmiB) doivent impléter cette méthode, qui correspond à l'attraction à la nourriture (resp. la fourmilière)
+    protected abstract Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures);
+
     // Indique si la fourmi a des phéromones dans son champ de vision
     protected boolean pheromonesEnVue(LinkedList<Pheromone> pheromones) { 
         boolean rep = false;

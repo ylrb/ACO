@@ -250,7 +250,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
-                    if (f.getPosition().distance(n.getPosition()) < 1.7*n.getRayon()) {
+                    if (f.getPosition().distance(n.getPosition()) < 1.5*n.getRayon()) {
                         indices.add(fourmis.indexOf(f));
                     }
                 }

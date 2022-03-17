@@ -26,30 +26,9 @@ public class FourmiB extends Fourmi {
         return new PheroRetour(getPosition(), tauxInitial);
     }
 
-    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
-        LinkedList<Segment> mursProches = mursSecants(obstacles);
-        if (mursProches.size()>0) {
-            if (sensRotation == 0) {
-                angleRotationMur(segmentLePlusProche(mursProches));
-            }
-            direction.tourner(sensRotation*ANGLE_ROTATION);
-            errance = direction;
-        } else {
-            Vecteur forceAttractionFourmiliere = calculAttractionFourmiliere(fourmiliere);
-            if ((forceAttractionFourmiliere.x!=0)&&(forceAttractionFourmiliere.y!=0)) {           
-                direction = direction.somme(forceAttractionFourmiliere, 1, COEFF_ATTRACTION_NOURRITURE);
-                direction.unitaire();
-            } else {
-                if (pheromonesEnVue(pheromones)) {
-                    direction = direction.somme(calculAttractionPheromones(pheromones, obstacles, false), 1, COEFF_ATTRACTION_PHEROMONES);
-                    direction.unitaire();
-                } else {
-                    direction = direction.somme(errance, 1, COEFF_ERRANCE);
-                    direction.unitaire();
-                }
-            }
-        }
-        tempsRetour++;
+    // Pour les fourmiA, la force spéciale est la force d'attraction à la fourmilière
+    protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
+        return calculAttractionFourmiliere(fourmiliere);
     }
 
     // Calcul de l'attraction d'une fourmiB à la fourmiliere dans son champ de vision
