@@ -125,7 +125,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void paint (Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
         Toolkit.getDefaultToolkit().sync();
-        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);  
         
         g.setColor(new Color(120,100,80));
         g.drawImage(imageFond, 0, 0, null); // Taille de l'image : 1024x698

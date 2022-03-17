@@ -173,32 +173,34 @@ public abstract class Fourmi {
     public void dessine(Graphics2D g, BufferedImage imageFourmi) {
         double rayon = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
         
-        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
-        double angle;
-        if (direction.x<=0) {
-            angle = direction.angle(new Vecteur(0,100)) + Math.PI;
-        } else {
-            angle = -direction.angle(new Vecteur(0,100)) + Math.PI;
-        }
-
-        // On applique une transformation affine qui permet de faire tourner l'image de l'angle voulu
-        // AffineTransform tranformation = AffineTransform.getRotateInstance(angle, rayon, rayon);
-        // AffineTransformOp tranformation2 = new AffineTransformOp(tranformation, AffineTransformOp.TYPE_BILINEAR);
-
-        AffineTransform tranformation = new AffineTransform();
-        tranformation.rotate(angle, rayon, rayon);
-
-        AffineTransformOp tranformation2 = new AffineTransformOp(tranformation, AffineTransformOp.TYPE_BILINEAR);
-        BufferedImage nouvelleImage = tranformation2.filter(imageFourmi, null);
-
-
         // On dessine l'image à laquelle on a appliqué une rotation d'angle désiré
-        g.drawImage(nouvelleImage, (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.drawImage(orienterFourmi(imageFourmi), (int)(position.x-rayon), (int)(position.y-rayon), null);
 
         // On peut choisir d'afficher le vecteur direction de la fourmi également
         if (AFFICHAGE_DIRECTION) {
             g.setColor(Color.BLUE);
             g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
         }
+    }
+
+    // Renvoie l'image de fourmi tournée d'un angle correspondant à sa direction
+    private BufferedImage orienterFourmi(BufferedImage imageFourmi) {
+        BufferedImage img = imageFourmi;
+        int largeur = img.getWidth();
+        int hauteur = img.getHeight();
+        int type = img.getType();
+
+        BufferedImage nouvelleImage = new BufferedImage(largeur, hauteur, type);
+        Graphics2D g2 = nouvelleImage.createGraphics();
+
+        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
+        if (direction.x<=0) {
+            g2.rotate(direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
+        } else {
+            g2.rotate(-direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
+        }
+        g2.drawImage(img, null, 0, 0);
+
+        return nouvelleImage;
     }
 }
