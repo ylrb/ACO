@@ -7,10 +7,8 @@ public class MainWindow extends JFrame implements ActionListener{
     private final int LARGEUR = 1280;
     private final int HAUTEUR = 720;
     private Carte carte;
-    private JSpinner champDt;
-    private JSpinner champNbFourmis;
-    private JButton reset;
-    private JButton valider;
+    private JSpinner champDt, champNbFourmis;
+    private JButton reset, valider;
     private JCheckBox cocherPhero;
     private int dt = 10;
     private int nbFourmis = 30;
@@ -32,7 +30,7 @@ public class MainWindow extends JFrame implements ActionListener{
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
-        JLabel txtChampDt = new JLabel("Période de rafraichissement (en ms)");
+        JLabel txtChampDt = new JLabel("Période de rafraichissement");
         parametres.add(txtChampDt);
         champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
 		champDt.addChangeListener(new ChangeListener() {      
@@ -41,7 +39,6 @@ public class MainWindow extends JFrame implements ActionListener{
             }
         });
         champDt.setMaximumSize( new Dimension(100,20) );
-        champDt.setAlignmentX(Component.CENTER_ALIGNMENT);
 		parametres.add(champDt);
 
         JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
@@ -49,12 +46,10 @@ public class MainWindow extends JFrame implements ActionListener{
         champNbFourmis = new JSpinner(new SpinnerNumberModel(nbFourmis, 0, 100, 5));
 		champNbFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
-                System.out.println(((JSpinner)e.getSource()).getValue());
                 nbFourmis = (int)((JSpinner)e.getSource()).getValue();
             }
         });
         champNbFourmis.setMaximumSize( new Dimension(100,20) );
-        champNbFourmis.setAlignmentX(Component.CENTER_ALIGNMENT);
 		parametres.add(champNbFourmis);
 
         cocherPhero = new JCheckBox("Affichage des phéromones", true);
