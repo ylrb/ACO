@@ -23,8 +23,8 @@ public abstract class Fourmi {
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
-    protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double PORTEE_VUE_MUR = 50; // Distance à laquelle les fourmis considère les murs devant elles
+    protected static final double PORTEE_VUE = 60; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double PORTEE_VUE_MUR = 60; // Distance à laquelle les fourmis considère les murs devant elles
     protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
