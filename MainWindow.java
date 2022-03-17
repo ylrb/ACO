@@ -30,8 +30,8 @@ public class MainWindow extends JFrame implements ActionListener{
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
-        JLabel txtChampDt = new JLabel("Période de rafraichissement");
-        parametres.add(txtChampDt);
+        JLabel texteChampDt = new JLabel("Période de rafraichissement");
+        parametres.add(texteChampDt);
         champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
 		champDt.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
@@ -41,8 +41,8 @@ public class MainWindow extends JFrame implements ActionListener{
         champDt.setMaximumSize( new Dimension(100,20) );
 		parametres.add(champDt);
 
-        JLabel txtChampNbFourmis = new JLabel("Nombre de fourmis");
-        parametres.add(txtChampNbFourmis);
+        JLabel texteChampNombreFourmis = new JLabel("Nombre de fourmis");
+        parametres.add(texteChampNombreFourmis);
         champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 50, 5));
 		champNombreFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {

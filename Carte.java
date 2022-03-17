@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,7 +30,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
 
     // Réglages
-    private static int nombreFourmis = 30;
+    private static int nombreFourmis = 20;
     private static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
@@ -47,6 +46,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public int getNbFourmis(){
         return nombreFourmis;
     }
+
 
 
     /*
@@ -127,16 +127,25 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Générations des murs
     private void genererObstacles() {
-        Vecteur[] bordures = {new Vecteur(10,10), new Vecteur(1015,10), new Vecteur(1015,680-300), new Vecteur(10,680-300)};
-        obstacles.add(new Obstacle(bordures, true));
+        // Créations des murs extérieurs qui sont en fait 4 obstacles collés
+        Vecteur[] bordureNord = {new Vecteur(0,0), new Vecteur(80,80), new Vecteur(200,40), new Vecteur(350,30), new Vecteur(500,40), new Vecteur(650,55), new Vecteur(810,50), new Vecteur(945,80), new Vecteur(1030,0)};
+        Vecteur[] bordureEst = {new Vecteur(1030,0), new Vecteur(945,80), new Vecteur(975,180), new Vecteur(970,300), new Vecteur(955,400), new Vecteur(975,520), new Vecteur(945,600), new Vecteur(1030, 700)};
+        Vecteur[] bordureSud = {new Vecteur(945,600), new Vecteur(810,640), new Vecteur(650,660), new Vecteur(500,660), new Vecteur(350,630), new Vecteur(200,640), new Vecteur(80,600), new Vecteur(0, 700), new Vecteur(1030, 700)};
+        Vecteur[] bordureOuest = {new Vecteur(80,600), new Vecteur(55,520), new Vecteur(70,400), new Vecteur(65,300), new Vecteur(50,180), new Vecteur(80,80), new Vecteur(0,0), new Vecteur(0, 700)};
+        obstacles.add(new Obstacle(bordureNord));
+        obstacles.add(new Obstacle(bordureEst));
+        obstacles.add(new Obstacle(bordureSud));
+        obstacles.add(new Obstacle(bordureOuest));
+
         Vecteur[] obstacle1 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(500,500), new Vecteur(400,500)};
-        obstacles.add(new Obstacle(obstacle1, false));
+        obstacles.add(new Obstacle(obstacle1));
     }
 
     // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des rotations d'éléments)
     public void paint (Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
         Toolkit.getDefaultToolkit().sync();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         g.setColor(new Color(120,100,80));
         g.drawImage(imageFond, 0, 0, null); // Taille de l'image : 1024x698
@@ -191,13 +200,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // On fait s'estomper les phéromones et on compte le nombre de phéromones qui ont un indice trop faible
         for (Pheromone p : pheromonesAller) {
-            if (p.getTaux()<5) {
+            if (p.getTaux()<=5) {
                 tauxTropBasAller++;
             }
             p.estompe();
         }
         for (Pheromone p : pheromonesRetour) {
-            if (p.getTaux()<5) {
+            if (p.getTaux()<=5) {
                 tauxTropBasRetour++;
             }
             p.estompe();
@@ -217,9 +226,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
                 if (f.getClass() == FourmiA.class) {
-                    pheromonesAller.add(new PheroAller(f.getPosition()));
+                    FourmiA fA = (FourmiA) f;
+                    pheromonesAller.add(fA.deposerPheromoneAller());
                 } else {
-                    pheromonesRetour.add(new PheroRetour(f.getPosition()));
+                    FourmiB fB = (FourmiB) f;
+                    if (fB.deposerPheromoneRetour() != null) {
+                        pheromonesRetour.add(fB.deposerPheromoneRetour());
+                    }
                 }
             }
             compteur=0;
@@ -229,41 +242,63 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Les fourmis changent d'état si elles ont atteint leur objectif (nourriture/fourmilière)
     private void changementFourmis() {
-        ArrayList<Integer> changeAversB = new ArrayList<Integer>();
-        ArrayList<Integer> changeBversA = new ArrayList<Integer>();
-
-        // On stocke les indices des fourmis qui ont atteint leur objectif
+    
+        // On stocke les indices de toutes les fourmis à changer
+        LinkedList<Integer> indices = new LinkedList<Integer>();
+        
+        // On parcout la LinkedList de fourmis à la recherche d'une fourmiA qui a trouvé de la nourriture
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
-                    if (f.getPosition().distance(n.getPosition()) < 1.8*n.getRayon()) {
-                        changeAversB.add(fourmis.indexOf(f));
+                    if (f.getPosition().distance(n.getPosition()) < 1.7*n.getRayon()) {
+                        indices.add(fourmis.indexOf(f));
                     }
-                }
-            } else {
-                if (f.getPosition().distance(fourmiliere.getPosition()) < 1.0) {
-                    changeBversA.add(fourmis.indexOf(f));
                 }
             }
         }
 
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
-        for (Integer i : changeAversB) {
-            double X = fourmis.get(i).getPosition().x;
-            double Y = fourmis.get(i).getPosition().y;
+        for (Integer i : indices) {
+            Vecteur pos = fourmis.get(i).getPosition();
             Vecteur dir = fourmis.get(i).getDirection(); // Il faut conserver la direction initiale de la fourmi
             dir.inverser(); // Puis il faut l'inverser pour que la fourmi reparte en arrière
             fourmis.remove((int)i);
-            fourmis.add(new FourmiB(X,Y,dir));
+            fourmis.add(new FourmiB(pos,dir));
         }
-        for (Integer i : changeBversA) {
+        indices.clear();
+
+        // On reparcourt la LinkedList de fourmis à la recherche d'une fourmiB qui a atteint la fourmilière
+        for (Fourmi f : fourmis) {
+            if (f.getClass() == FourmiB.class) {
+                if (f.getPosition().distance(fourmiliere.getPosition()) < 1.0) {
+                    indices.add(fourmis.indexOf(f));
+                }
+            }
+        }
+
+        // On change le type de ces fourmis
+        for (Integer i : indices) {
             fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
-            double X = fourmiliere.getPosition().x;
-            double Y = fourmiliere.getPosition().y;
+            Vecteur pos = fourmis.get(i).getPosition();
             Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, obstacles, true);
+            if ((dir.x == 0)&(dir.y == 0)) { // S'il n'y a aucune phéromone autour de la fourmi
+                dir = new Vecteur(Math.random(),Math.random());
+                dir.unitaire();
+            }
             fourmis.remove((int)i); 
-            fourmis.add(new FourmiA(X,Y,dir));
+            fourmis.add(new FourmiA(pos,dir));
         }
+        indices.clear();
+        
+        /* 
+         * Il n'est pas possible de faire les deux tris en parallèle.
+         * Imaginons que nous soyons dans le cas où une fourmi 1 arrive à la fourmilière en même qu'une fourmi 2 trouve de la nourriture.
+         * Il faudrait alors supprimer la fourmi 1, d'incide i, puis ensuite la fourmi 2, d'incide j.
+         * Or, supprimer la fourmi i décale vers la gauche tous les éléments de la liste.
+         * Ainsi, si elle se trouvait après la fourmi 1 dans la LinkedList, la fourmi 2 se trouverait alors à l'indice j-1.
+         * Ce serait donc la fourmi après elle qui serait supprimée à sa place.
+        */
+    
     }
 
     // Déplacement des fourmis selon leur type et gestion des murs

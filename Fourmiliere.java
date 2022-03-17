@@ -25,8 +25,19 @@ public class Fourmiliere {
     }
     
     public void dessine(Graphics2D g, BufferedImage imageFourmiliere) {
-
         g.drawImage(imageFourmiliere, (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.setColor(Color.BLACK);
+
+        // On récupère le nombre de chiffres dans 'nourriture' grâce au logarithme, et on définit la longueur du texte en fonction de cette valeur
+        int longueur;
+        if (nourriture > 0) {
+            longueur = 4*((int)Math.log10(nourriture)+1);
+        } else {
+            longueur = 4;
+        }
+
+        String nombre = Integer.toString(nourriture);
+        g.drawString(nombre,(int)position.x-longueur, (int)position.y-30);
     }
 
     public void depot() {

@@ -1,9 +1,9 @@
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class FourmiB extends Fourmi {
-    
+    private int tempsRetour = 0;
+    private static final double BAISSE_TAUX_INITIAL = 0.1;
+
     public FourmiB(double x, double y) {
         super(x,y);
     }
@@ -12,8 +12,18 @@ public class FourmiB extends Fourmi {
         this(pos.x,pos.y);
     }
 
-    public FourmiB(double x, double y, Vecteur dir) {
-        super(x,y,dir);
+    public FourmiB(Vecteur pos, Vecteur dir) {
+        super(pos.x,pos.y,dir);
+    }
+
+    public PheroRetour deposerPheromoneRetour() {
+        double tauxInitial = 100.0;
+        if (100 - tempsRetour/10 > 5) {
+            tauxInitial -= BAISSE_TAUX_INITIAL*tempsRetour;
+        } else {
+            return null;
+        }
+        return new PheroRetour(getPosition(), tauxInitial);
     }
 
     protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
@@ -39,6 +49,7 @@ public class FourmiB extends Fourmi {
                 }
             }
         }
+        tempsRetour++;
     }
 
     // Calcul de l'attraction d'une fourmiB à la fourmiliere dans son champ de vision

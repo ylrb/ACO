@@ -4,14 +4,12 @@ import java.util.ArrayList;
 public class Obstacle {
     private Color couleur;
     private ArrayList<Segment> murs = new ArrayList<Segment>();
-    boolean exterieur;
 
-    public Obstacle (Vecteur[] points, boolean ext) {
+    public Obstacle (Vecteur[] points) {
         for (int i = 0; i < points.length; i++) {
             murs.add(new Segment(points[i],points[(i+1)%points.length]));
         }
         couleur = new Color(140,70,20);
-        exterieur = ext;
     }
     
     public ArrayList<Segment> getMurs() {
@@ -28,12 +26,7 @@ public class Obstacle {
             Y[i] = (int)m.pointA.y;
             i++;
         }
-        if (exterieur) {
-            g.drawPolygon(X, Y, X.length);
-        } else {
-            g.fillPolygon(X, Y, X.length);
-        }
-        
+        g.fillPolygon(X, Y, X.length);   
     }
 
 }

@@ -7,4 +7,9 @@ public class PheroRetour extends Pheromone {
         couleur = Color.YELLOW;
     }
 
+    public PheroRetour(Vecteur pos, double tauxInitial) {
+        this(pos);
+        taux = tauxInitial;
+    }
+
 }

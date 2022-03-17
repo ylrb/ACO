@@ -98,9 +98,11 @@ public abstract class Fourmi {
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < Math.toRadians(ANGLE_VUE))||(initial))&&(vueDirecte(p, obstacles))) {
-                // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
-                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
+            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&((direction.angle(distance) < Math.toRadians(ANGLE_VUE))||(initial))) {
+                if (vueDirecte(p, obstacles)) {
+                    // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
+                    rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
+                }
             }
         }
         rep.unitaire();

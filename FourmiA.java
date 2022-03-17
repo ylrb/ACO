@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class FourmiA extends Fourmi {
@@ -12,8 +10,12 @@ public class FourmiA extends Fourmi {
         this(pos.x,pos.y);
     }
 
-    public FourmiA(double x, double y, Vecteur dir) {
-        super(x,y,dir);
+    public FourmiA(Vecteur pos, Vecteur dir) {
+        super(pos.x,pos.y,dir);
+    }
+
+    public PheroAller deposerPheromoneAller() {
+        return new PheroAller(getPosition());
     }
 
     protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
@@ -51,9 +53,7 @@ public class FourmiA extends Fourmi {
                 rep = rep.somme(n.getPosition().soustrait(getPosition()));
             }
         }
-        if (rep.x != 0 && rep.y != 0) {
-            rep.unitaire();
-        }
+        rep.unitaire();
         return rep;
     }
 

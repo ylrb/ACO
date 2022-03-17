@@ -27,8 +27,10 @@ public class Vecteur {
     // Rend le vecteur unitaire
     public void unitaire() {
         double norme = norme(x,y);
-        x = x/norme;
-        y = y/norme;
+        if  (norme != 0) { // Sinon on divise par zéro
+            x = x/norme;
+            y = y/norme;
+        }
     }
 
     // Retourne la distance à un autre vecteur (pour les vecteurs positions)
