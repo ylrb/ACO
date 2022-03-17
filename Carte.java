@@ -284,9 +284,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     ** MÉTHODES PERMETTANT L'INTERACTION DE L'UTILISATEUR AVEC LA CARTE
     */
 
-    public void mouseClicked(MouseEvent e) {
-    }
-
+    // Si l'utilisateur clique sur un objet, on stocke cette information dans la carte
     public void mousePressed(MouseEvent e) {
         Vecteur sourisPos = new Vecteur(e.getX(), e.getY());
         if (sourisPos.distance(fourmiliere.getPosition()) < fourmiliere.getRayon()){
@@ -299,6 +297,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    // Quand l'utilisateur relâche le click, on remet à false les booleans et on met à jour les positions
     public void mouseReleased(MouseEvent e) {
         Vecteur sourisPos = new Vecteur(e.getX(), e.getY());
         if (deplaceFourmiliere) {
@@ -311,27 +310,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    public void mouseClicked(MouseEvent e) {
+    }
+
     public void mouseEntered(MouseEvent e) {
     }
 
     public void mouseExited(MouseEvent e) {
     }
 
-    public void reinitialiser(){
-        pheromonesAller.clear();
-        pheromonesRetour.clear();
-        int taille = fourmis.size();
-        fourmis.clear();
-        for (int i = 0; i < taille; i++) {
-            fourmis.add(new FourmiA(fourmiliere.getPosition()));
-        }
-        repaint();
-    }
-
-    public void changerAffichagePheromones(boolean afficher){
-        affichagePheromones = afficher;
-    }
-
+    // Quand l'utilisateur appuie sur le bouton "valider"
     public void valider(int dt, int nombreFourmis, boolean afficherPheromones){
         setDt(dt);
         changerNombreFourmis(nombreFourmis);
@@ -352,6 +340,19 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    public void changerAffichagePheromones(boolean afficher){
+        affichagePheromones = afficher;
+    }
 
+    // Relance une instance avec les paramètres actuels
+    public void reinitialiser(){
+        pheromonesAller.clear();
+        pheromonesRetour.clear();
+        int taille = fourmis.size();
+        fourmis.clear();
+        for (int i = 0; i < taille; i++) {
+            fourmis.add(new FourmiA(fourmiliere.getPosition()));
+        }
+    }
 
 }
