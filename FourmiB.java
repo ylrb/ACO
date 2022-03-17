@@ -16,8 +16,8 @@ public class FourmiB extends Fourmi {
         super(x,y,dir);
     }
 
-    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
-        ArrayList<Segment> mursProches = mursSecants(obstacles);
+    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
+        LinkedList<Segment> mursProches = mursSecants(obstacles);
         if (mursProches.size()>0) {
             if (sensRotation == 0) {
                 angleRotationMur(segmentLePlusProche(mursProches));

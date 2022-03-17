@@ -16,8 +16,8 @@ public class FourmiA extends Fourmi {
         super(x,y,dir);
     }
 
-    protected void calculNouvelleDirection(ArrayList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, ArrayList<Obstacle> obstacles) {
-        ArrayList<Segment> mursProches = mursSecants(obstacles);
+    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
+        LinkedList<Segment> mursProches = mursSecants(obstacles);
         if (mursProches.size()>0) {
             if (sensRotation == 0) {
                 angleRotationMur(segmentLePlusProche(mursProches));
@@ -44,7 +44,7 @@ public class FourmiA extends Fourmi {
     }
 
     // Calcul de l'attraction d'une fourmiA aux nourritures dans son champ de vision
-    private Vecteur calculAttractionNourriture(ArrayList<Nourriture> nourritures) {
+    private Vecteur calculAttractionNourriture(LinkedList<Nourriture> nourritures) {
         Vecteur rep = new Vecteur();
         for (Nourriture n : nourritures) {
             if (position.distance(n.getPosition()) < PORTEE_VUE) {
