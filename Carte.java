@@ -11,7 +11,7 @@ import java.io.File;
 public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Tous les éléments du terrain, qui sont contenus séparément dans des listes                                                                                        
-    private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>(nombreFourmis);
+    private ArrayList<Fourmi> fourmis = new ArrayList<Fourmi>();
     private LinkedList<Pheromone> pheromonesAller = new LinkedList<Pheromone>();
     private LinkedList<Pheromone> pheromonesRetour = new LinkedList<Pheromone>();
     private ArrayList<Nourriture> nourritures = new ArrayList<Nourriture>();
