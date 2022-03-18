@@ -4,7 +4,7 @@ public class Pheromone {
     protected Vecteur position;
     protected Color couleur;
     protected double taux = 100.0;
-    protected static final double REDUCTION = 0.15; // Vitesse de disparition des phéromones
+    protected static final double REDUCTION = 0.2; // Vitesse de disparition des phéromones
     
     public Vecteur getPosition() {
         return new Vecteur(position.x,position.y);
