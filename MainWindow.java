@@ -13,20 +13,22 @@ public class MainWindow extends JFrame implements ActionListener{
     private int dt = 10;
     private int nombreFourmis = 30;
     private boolean afficherPheromones = true;
+    private JPanel conteneur;
+    private Insets insets;
 
     public MainWindow() {
         // Création de l'interface graphique
         this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        Insets insets = getInsets();
-        JPanel conteneur = (JPanel)this.getContentPane();
+        insets = getInsets();
+        conteneur = (JPanel)this.getContentPane();
 
-        // Création de l'objet Carte
-        carte = new Carte();
+        // Création du premier objet Carte
+        carte = new Carte(dt, nombreFourmis, afficherPheromones);
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
-        // Parametres
+        // Création du JPanel Parametres ** A OPTIMISER TOUT **
         Parametres parametres = new Parametres();
         parametres.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
@@ -100,7 +102,13 @@ public class MainWindow extends JFrame implements ActionListener{
             carte.reinitialiser();
         }
         if (e.getSource() == valider) {
-            carte.valider(dt, nombreFourmis, afficherPheromones);
+            conteneur.remove(carte);
+            carte.stop();
+            carte = new Carte(dt, nombreFourmis, afficherPheromones);
+            conteneur.add(carte, BorderLayout.EAST);
+            carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
+            conteneur.revalidate();
+            conteneur.repaint();
         }
         if(e.getSource() == cocherPheromones){
             JCheckBox c = (JCheckBox)e.getSource();

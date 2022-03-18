@@ -26,34 +26,27 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE_NOURRITURE = 30;
 
     // Variables du timer par défaut
-    private static int dt = 10;
+    private static int dt;
     private Timer timer;
 
     // Réglages
-    private static int nombreFourmis = 20;
-    private static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
+    private static int nombreFourmis;
+    private static boolean affichagePheromones ; // Doit-on visualiser les phéromones ou non
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
 
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
-    
-    // Getters
-    public int getDt(){
-        return dt;
-    }
-    public int getNbFourmis(){
-        return nombreFourmis;
-    }
-
-
 
     /*
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
     */
 
-    public Carte() {
+    public Carte(int delta, int nbFourmis, boolean phero) {
+        dt = delta;
+        nombreFourmis = nbFourmis;
+        affichagePheromones = phero;
         this.addMouseListener(this);
         timer = new Timer(dt, this);
         timer.start();
@@ -365,31 +358,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    // Quand l'utilisateur appuie sur le bouton "valider"
-    public void valider(int dt, int nombreFourmis, boolean afficherPheromones){
-        setDt(dt);
-        changerNombreFourmis(nombreFourmis);
-        changerAffichagePheromones(afficherPheromones);
-        reinitialiser();
-    }
-
-    public void setDt(int nouveauDt){
-        timer.stop();
-        timer = new Timer(nouveauDt, this);
-        timer.start();
-    }
-
-    public void changerNombreFourmis(int nombre){
-        fourmis.clear();
-        for (int i = 0; i < nombre; i++) {
-            fourmis.add(new FourmiA(fourmiliere.getPosition()));
-        }
-    }
-
-    public void changerAffichagePheromones(boolean afficher){
-        affichagePheromones = afficher;
-    }
-
     // Relance une instance avec les paramètres actuels
     public void reinitialiser(){
         pheromonesAller.clear();
@@ -399,6 +367,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < taille; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
+    }
+
+    // Arrête les calculs d'une ancienne instance
+    public void stop(){
+        timer.stop();
     }
 
 }
