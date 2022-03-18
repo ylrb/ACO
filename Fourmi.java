@@ -100,6 +100,53 @@ public abstract class Fourmi {
         } 
     }
 
+    // On détermine dans quels murs va la fourmi
+    public LinkedList<Segment> mursSecants(LinkedList<Obstacle> obstacles) {
+        Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
+        Segment segmentVue = new Segment(getPosition(),p2);
+        LinkedList<Segment> murs = new LinkedList<Segment>();
+        Vecteur pointSecant = new Vecteur();
+        contactMurs.clear();
+        for (Obstacle o : obstacles) {
+            for (Segment s : o.getMurs()) {
+                pointSecant = segmentVue.secante(s);
+                if (pointSecant != null) {
+                    murs.add(s);
+                    contactMurs.add(pointSecant);
+                }
+            }
+        }
+        return murs;
+    }
+
+    // On isole le segment de mur le plus proche de la fourmi
+    public Segment segmentLePlusProche(LinkedList<Segment> murs) {
+        int min = 0; // Indice du point le plus proche de la fourmi
+        int i = 0;
+        double distanceMin = 2000; // Distance minimale à la fourmi
+        for (Vecteur v : contactMurs) { 
+            if (position.distance(v) < distanceMin) {
+                distanceMin = position.distance(v);
+                min = i;
+            }
+            i++;
+        }
+        return murs.get(min);
+    }
+
+    // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
+    public void angleRotationMur(Segment s) {
+        Vecteur direction2 = direction.tourner2(0.1);
+        Vecteur mur = s.pointA.soustrait(s.pointB);
+        double angle1 = mur.angle(direction);
+        double angle2 = mur.angle(direction2);
+        if (Math.abs(angle1-Math.PI/2) < Math.abs(angle2-Math.PI/2)) {
+            sensRotation = 1; // 1 : il faut tourner dans le sens indirect
+        } else {
+            sensRotation = -1; // -1 : il faut tourner dans le sens direct
+        }
+    }
+
     // Les fourmiA (resp. fourmiB) doivent impléter cette méthode, qui correspond à l'attraction à la nourriture (resp. la fourmilière)
     protected abstract Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures);
 
@@ -151,53 +198,6 @@ public abstract class Fourmi {
             }
         }
         return !rep;
-    }
-
-    // On détermine dans quels murs va la fourmi
-    public LinkedList<Segment> mursSecants(LinkedList<Obstacle> obstacles) {
-        Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y);
-        Segment segmentVue = new Segment(getPosition(),p2);
-        LinkedList<Segment> murs = new LinkedList<Segment>();
-        Vecteur pointSecant = new Vecteur();
-        contactMurs.clear();
-        for (Obstacle o : obstacles) {
-            for (Segment s : o.getMurs()) {
-                pointSecant = segmentVue.secante(s);
-                if (pointSecant != null) {
-                    murs.add(s);
-                    contactMurs.add(pointSecant);
-                }
-            }
-        }
-        return murs;
-    }
-
-    // On isole le segment de mur le plus proche de la fourmi
-    public Segment segmentLePlusProche(LinkedList<Segment> murs) {
-        int min = 0; // Indice du point le plus proche de la fourmi
-        int i = 0;
-        double distanceMin = 1000; // Distance minimale à la fourmi
-        for (Vecteur v : contactMurs) { 
-            if (position.distance(v) < distanceMin) {
-                distanceMin = position.distance(v);
-                min = i;
-            }
-            i++;
-        }
-        return murs.get(min);
-    }
-
-    // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
-    public void angleRotationMur(Segment s) {
-        Vecteur direction2 = direction.tourner2(0.1);
-        Vecteur mur = s.pointA.soustrait(s.pointB);
-        double angle1 = mur.angle(direction);
-        double angle2 = mur.angle(direction2);
-        if (Math.abs(angle1-Math.PI/2) < Math.abs(angle2-Math.PI/2)) {
-            sensRotation = 1; // 1 : il faut tourner dans le sens indirect
-        } else {
-            sensRotation = -1; // -1 : il faut tourner dans le sens direct
-        }
     }
 
     // Dessine une fourmi à la position de la fourmi
