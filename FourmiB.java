@@ -28,6 +28,7 @@ public class FourmiB extends Fourmi {
 
     // Pour les fourmiA, la force spéciale est la force d'attraction à la fourmilière
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
+        tempsRetour++;
         return calculAttractionFourmiliere(fourmiliere);
     }
 
