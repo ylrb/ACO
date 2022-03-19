@@ -19,7 +19,6 @@ public abstract class Fourmi {
     protected static final double COEFF_ERRANCE = 0.1;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_FOURMILIERE_NOURRITURE = 10;
-    protected static final double COEFF_REPULSION_MURS = 2.5;
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
@@ -31,7 +30,7 @@ public abstract class Fourmi {
     protected static final double ANGLE_ROTATION = 0.5;
 
     // Grandeurs liées à l'affichage
-    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
+    private static final boolean AFFICHAGE_DIRECTION = true; // Doit-on visualiser la direction de la fourmi
     private static final double VITESSE_ANIMATION = 0.05;
     private int compteur; // Compteur de tour
 
@@ -81,21 +80,19 @@ public abstract class Fourmi {
                 angleRotationMur(segmentLePlusProche(mursProches));
             }
             direction.tourner(sensRotation*ANGLE_ROTATION);
-            errance = direction;
+            errance = getDirection();
         } else {
             sensRotation = 0;
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
             if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
                 direction.unitaire();
-            } else { 
-                if (pheromonesEnVue(pheromones)) {
-                    direction = direction.somme(calculAttractionPheromones(pheromones, obstacles, false), 1, COEFF_ATTRACTION_PHEROMONES);
-                    direction.unitaire();
-                } else {
-                    direction = direction.somme(errance, 1, COEFF_ERRANCE);
-                    direction.unitaire();
-                }
+            } else if (pheromonesEnVue(pheromones)) {
+                direction = direction.somme(calculAttractionPheromones(pheromones, obstacles, false), 1, COEFF_ATTRACTION_PHEROMONES);
+                direction.unitaire();
+            } else {
+                direction = direction.somme(errance, 1, COEFF_ERRANCE);
+                direction.unitaire();
             }
         } 
     }
@@ -203,38 +200,24 @@ public abstract class Fourmi {
     // Dessine une fourmi à la position de la fourmi
     public void dessine(Graphics2D g, BufferedImage[] imagesFourmi) {
         double rayon = imagesFourmi[0].getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
-        
-        /* On dessine l'image à laquelle on a appliqué une rotation d'angle désiré.
-         * Pour simuler une animation de déplacement, on on boucle dans le tableau imagesFourmi[]
-         */
-        g.drawImage(orienterFourmi(imagesFourmi[(int)(VITESSE_ANIMATION*compteur)%4]), (int)(position.x-rayon), (int)(position.y-rayon), null);
-        compteur++;
+
+        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
+        double angle =direction.angle(new Vecteur(0,100))+Math.PI;
+        if (direction.x>=0) {
+            angle = -angle+2*Math.PI;
+        }
+
+        // On fait tourner la carte de l'angle désiré, on peint la fourmi, puis on le retourne dans l'autre sens
+        g.rotate(angle, (int)position.x, (int)position.y);
+        g.drawImage(imagesFourmi[(int)(VITESSE_ANIMATION*compteur)%4], (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.rotate(-angle, (int)position.x, (int)position.y);
 
         // On peut choisir d'afficher le vecteur direction de la fourmi également
         if (AFFICHAGE_DIRECTION) {
             g.setColor(Color.BLUE);
             g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
+            g.setColor(Color.GREEN);
+            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
         }
-    }
-
-    // Renvoie l'image de fourmi tournée d'un angle correspondant à sa direction
-    private BufferedImage orienterFourmi(BufferedImage imageFourmi) {
-        BufferedImage img = imageFourmi;
-        int largeur = img.getWidth();
-        int hauteur = img.getHeight();
-        int type = img.getType();
-
-        BufferedImage nouvelleImage = new BufferedImage(largeur, hauteur, type);
-        Graphics2D g2 = nouvelleImage.createGraphics();
-
-        // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
-        if (direction.x<=0) {
-            g2.rotate(direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
-        } else {
-            g2.rotate(-direction.angle(new Vecteur(0,100))+Math.PI, largeur/2, hauteur/2);
-        }
-        g2.drawImage(img, null, 0, 0);
-
-        return nouvelleImage;
     }
 }

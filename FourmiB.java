@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class FourmiB extends Fourmi {
     private int tempsRetour = 0;
-    private static final double BAISSE_TAUX_INITIAL = 0.1;
+    private static final double BAISSE_TAUX_INITIAL = 0.01;
 
     public FourmiB(double x, double y) {
         super(x,y);

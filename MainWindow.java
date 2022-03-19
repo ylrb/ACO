@@ -51,7 +51,7 @@ public class MainWindow extends JFrame implements ActionListener{
         JLabel texteChampNbFourmis = new JLabel("Nombre de fourmis");
         texteChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampNbFourmis);
-        champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 50, 5));
+        champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 100, 5));
 		champNombreFourmis.addChangeListener(new ChangeListener() {      
             public void stateChanged(ChangeEvent e) {
                 nombreFourmis = (int)((JSpinner)e.getSource()).getValue();
