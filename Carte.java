@@ -21,7 +21,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private BufferedImage imageFourmiliere, imageNourriture, imageFond;
     private BufferedImage[] imagesFourmiA = new BufferedImage[4];
     private BufferedImage[] imagesFourmiB = new BufferedImage[4];
-    protected static final int TAILLE_FOURMI = 25;
+    protected static final int TAILLE_FOURMI = 20;
     protected static final int TAILLE_FOURMILIERE = 40;
     protected static final int TAILLE_NOURRITURE = 30;
 

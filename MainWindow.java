@@ -10,8 +10,8 @@ public class MainWindow extends JFrame implements ActionListener{
     private JSpinner champDt, champNombreFourmis;
     private JButton reinitialiser, valider;
     private JCheckBox cocherPheromones;
-    private int dt = 10;
-    private int nombreFourmis = 30;
+    private int dt = 0;
+    private int nombreFourmis = 50;
     private boolean afficherPheromones = true;
     private JPanel conteneur;
     private Insets insets;
