@@ -26,11 +26,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     protected static final int TAILLE_NOURRITURE = 30;
 
     // Variables du timer par défaut
-    private static int dt;
     private Timer timer;
 
     // Réglages
-    private static int nombreFourmis;
     private static boolean affichagePheromones ; // Doit-on visualiser les phéromones ou non
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
@@ -46,16 +44,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
     */
 
-    public Carte(int delta, int nbFourmis, boolean phero) {
-        dt = delta;
-        nombreFourmis = nbFourmis;
+    public Carte(int dt, int nombreFourmis, boolean phero) {
         affichagePheromones = phero;
         this.addMouseListener(this);
         timer = new Timer(dt, this);
         timer.start();
 
         importerImages();
-        initialiserTerrain();
+        initialiserTerrain(nombreFourmis);
         genererObstacles();
         
         setVisible(true);
@@ -113,7 +109,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     // Initialisation de la fourmilière, des fourmis et de la nourriture
-    private void initialiserTerrain() {
+    private void initialiserTerrain(int nombreFourmis) {
         fourmiliere = new Fourmiliere(300.0, 300.0, TAILLE_FOURMILIERE);
         nourritures.add(new Nourriture(600, 200, TAILLE_NOURRITURE));
         for (int i = 0; i < nombreFourmis; i++) {
@@ -219,9 +215,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
     /* 
-     * Lorsque les fourmis créent un chemin, les phéromones sont très concentrés.
-     * Et puisque cela engendre beaucoup de calcule, on observe de grands ralentissements.
-     * Donc pour réduire ce lag, on place une phéromone seulement si elle est assez loin d'une phéromone déjà existante.
+     * Lorsque les fourmis créent un chemin, les phéromones sont très concentrées.
+     * Et puisque cela engendre beaucoup de calculs, on observe de grands ralentissements.
+     * Donc pour réduire ce lag, on place une phéromone seulement si elle est assez loin des phéromones déjà existantes.
     */
     private void ajoutPheromones() {
         if (compteur>COMPTEUR_MAX) {
