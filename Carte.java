@@ -47,12 +47,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public Carte(int dt, int nombreFourmis, boolean phero) {
         affichagePheromones = phero;
         this.addMouseListener(this);
-        timer = new Timer(dt, this);
-        timer.start();
 
         importerImages();
         initialiserTerrain(nombreFourmis);
         genererObstacles();
+
+        timer = new Timer(dt, this);
+        timer.start();
         
         setVisible(true);
         repaint();
