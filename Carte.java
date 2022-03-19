@@ -34,10 +34,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static boolean affichagePheromones ; // Doit-on visualiser les phéromones ou non
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
+    private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
 
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
+
+
 
     /*
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
@@ -215,15 +218,35 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     // On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle
+    /* 
+     * Lorsque les fourmis créent un chemin, les phéromones sont très concentrés.
+     * Et puisque cela engendre beaucoup de calcule, on observe de grands ralentissements.
+     * Donc pour réduire ce lag, on place une phéromone seulement si elle est assez loin d'une phéromone déjà existante.
+    */
     private void ajoutPheromones() {
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
+                boolean assezLoin = true; // Si la phéromone à plcaer est assez loin des autres phéromones existantes
                 if (f.getClass() == FourmiA.class) {
                     FourmiA fA = (FourmiA) f;
-                    pheromonesAller.add(fA.deposerPheromoneAller());
+                    for (Pheromone p : pheromonesAller) {
+                        if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                            assezLoin = false;
+                            break;
+                        }
+                    }
+                    if (assezLoin) {
+                        pheromonesAller.add(fA.deposerPheromoneAller());
+                    }
                 } else {
                     FourmiB fB = (FourmiB) f;
-                    if (fB.deposerPheromoneRetour() != null) {
+                    for (Pheromone p : pheromonesRetour) {
+                        if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                            assezLoin = false;
+                            break;
+                        }
+                    }
+                    if (assezLoin) {
                         pheromonesRetour.add(fB.deposerPheromoneRetour());
                     }
                 }
@@ -291,7 +314,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
          * Ainsi, si elle se trouvait après la fourmi 1 dans la LinkedList, la fourmi 2 se trouverait alors à l'indice j-1.
          * Ce serait donc la fourmi après elle qui serait supprimée à sa place.
         */
-    
     }
 
     // Déplacement des fourmis selon leur type et gestion des murs

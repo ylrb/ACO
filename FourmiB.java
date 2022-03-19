@@ -1,8 +1,6 @@
 import java.util.LinkedList;
 
 public class FourmiB extends Fourmi {
-    private int tempsRetour = 0;
-    private static final double BAISSE_TAUX_INITIAL = 0.01;
 
     public FourmiB(double x, double y) {
         super(x,y);
@@ -17,18 +15,11 @@ public class FourmiB extends Fourmi {
     }
 
     public PheroRetour deposerPheromoneRetour() {
-        double tauxInitial = 100.0;
-        if (100 - tempsRetour/10 > 5) {
-            tauxInitial -= BAISSE_TAUX_INITIAL*tempsRetour;
-        } else {
-            return null;
-        }
-        return new PheroRetour(getPosition(), tauxInitial);
+        return new PheroRetour(getPosition());
     }
 
     // Pour les fourmiA, la force spéciale est la force d'attraction à la fourmilière
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
-        tempsRetour++;
         return calculAttractionFourmiliere(fourmiliere);
     }
 

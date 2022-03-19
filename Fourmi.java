@@ -30,7 +30,7 @@ public abstract class Fourmi {
     protected static final double ANGLE_ROTATION = 0.5;
 
     // Grandeurs liées à l'affichage
-    private static final boolean AFFICHAGE_DIRECTION = true; // Doit-on visualiser la direction de la fourmi
+    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
     private static final double VITESSE_ANIMATION = 0.05;
     private int compteur; // Compteur de tour
 
@@ -82,7 +82,10 @@ public abstract class Fourmi {
             direction.tourner(sensRotation*ANGLE_ROTATION);
             errance = getDirection();
         } else {
-            sensRotation = 0;
+            if (sensRotation != 0) {
+                errance.tourner(sensRotation*(3*ANGLE_ROTATION));
+                sensRotation = 0;
+            }
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
             if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
