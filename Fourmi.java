@@ -82,10 +82,7 @@ public abstract class Fourmi {
             direction.tourner(sensRotation*ANGLE_ROTATION);
             errance = getDirection();
         } else {
-            if (sensRotation != 0) {
-                errance.tourner(sensRotation*(3*ANGLE_ROTATION));
-                sensRotation = 0;
-            }
+            sensRotation = 0;
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
             if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
