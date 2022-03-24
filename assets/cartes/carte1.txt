@@ -1,4 +1,5 @@
-aaaa
-bbbb
-test
-cccc
+// DEBUT OBSTACLE
+2,2
+4,5
+3,5
+// FIN OBSTACLE

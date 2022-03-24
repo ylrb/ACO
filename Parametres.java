@@ -114,13 +114,7 @@ public class Parametres extends JPanel implements ActionListener{
             switch(k){
 
                 case 0: 
-                    try {
-                        List<String> content = Files.readAllLines(Paths.get("assets/cartes/carte1.txt"));
-                        System.out.println(content);
-                    }
-                    catch (Exception b) {
-                        throw new RuntimeException("bug");
-                    }
+                    LecteurMap test = new LecteurMap("assets/cartes/carte1.txt");
                     break;
         
                 case 1:

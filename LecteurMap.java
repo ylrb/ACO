@@ -1,21 +1,17 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
-import java.io.FileReader;
+import java.util.List;
+import java.nio.file.*;
 
 public class LecteurMap {
+    private static final String DEBUT_OBSTACLE = "// DEBUT OBSTACLE";
+    private static final String FIN_OBSTACLE = "// FIN OBSTACLE";
     public LecteurMap(String chemin){
         try {
-        Scanner scan = new Scanner(new FileReader(chemin));
-        StringBuilder sb = new StringBuilder();
-        while (scan.hasNextLine()) {
-            sb.append(scan.next());
-            System.out.println(scan.next());
+            List<String> fichier = Files.readAllLines(Paths.get(chemin));
+            int ligneDebutObstacle = fichier.lastIndexOf(DEBUT_OBSTACLE);
+            int ligneFinObstacle = fichier.lastIndexOf(FIN_OBSTACLE);
         }
-        scan.close();
-        } catch (FileNotFoundException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
+        catch (Exception exc) {
+            throw new RuntimeException("La carte n'a pas pu être lue!");
         }
     }
 }
