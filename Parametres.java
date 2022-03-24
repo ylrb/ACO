@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import javax.swing.event.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
+import java.nio.file.*;
 
 public class Parametres extends JPanel implements ActionListener{
 	private final Color FOND_PARAM = new Color(214,214,214);
@@ -11,6 +13,8 @@ public class Parametres extends JPanel implements ActionListener{
 	private int dt = 0;
     private int nombreFourmis = 50;
     private boolean afficherPheromones = true;
+    private String[] listMap = { "Map 1", "Map 2", "Map 3", "Map 4", "Map 5" };
+    private JComboBox selectMap;
 
 	public int getDt(){
 		return dt;
@@ -82,6 +86,13 @@ public class Parametres extends JPanel implements ActionListener{
         cocherPheromones.addActionListener(this);
         cocherPheromones.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(cocherPheromones);
+        add(Box.createVerticalStrut(20));
+
+        selectMap = new JComboBox(listMap);
+        selectMap.setSelectedIndex(0);
+        selectMap.addActionListener(this);
+        add(selectMap);
+
         add(Box.createVerticalGlue());
 
 	}
@@ -95,6 +106,35 @@ public class Parametres extends JPanel implements ActionListener{
             } else{
                 afficherPheromones = false;
             }
+        }
+
+        if(e.getSource() == selectMap){
+            int k = selectMap.getSelectedIndex();
+
+            switch(k){
+
+                case 0: 
+                    try {
+                        List<String> content = Files.readAllLines(Paths.get("assets/cartes/carte1.txt"));
+                        System.out.println(content);
+                    }
+                    catch (Exception b) {
+                        throw new RuntimeException("bug");
+                    }
+                    break;
+        
+                case 1:
+                    System.out.println("Hello");
+                    break;
+            
+                case 2:
+                    System.out.println("Buenos dias");
+                    break;
+                default:
+                    System.out.println("Choix incorrect");
+                    break;
+            }
+
         }
     }
 }
