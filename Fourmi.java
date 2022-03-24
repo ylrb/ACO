@@ -14,20 +14,21 @@ public abstract class Fourmi {
     // Autres
     protected int sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
+    protected static final double DISTANCE_COINS = 10;
 
     // Tous les coefficients des forces (leur poids)
-    protected static final double COEFF_ERRANCE = 0.1;
+    protected static final double COEFF_ERRANCE = 0.05;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_FOURMILIERE_NOURRITURE = 10;
     
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
-    protected static final double PORTEE_VUE = 60; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double PORTEE_VUE_MUR = 100; // Distance à laquelle les fourmis considère les murs devant elles
-    protected static final double ANGLE_VUE = 45; // Angle de vision des fourmis (en degrés)
+    protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
+    protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
+    protected static final double ANGLE_VUE = 60; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
-    protected static final double ANGLE_ROTATION = 0.4;
+    protected static final double ANGLE_ROTATION = 0.5;
 
     // Grandeurs liées à l'affichage
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
@@ -74,25 +75,28 @@ public abstract class Fourmi {
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement  
     protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
         LinkedList<Segment> mursProches = mursSecants(obstacles);
-        if (mursProches.size()>0) {
+        if (mursProches.size() > 0) {
             if (sensRotation == 0) {
                 angleRotationMur(segmentLePlusProche(mursProches));
             }
             direction.tourner(sensRotation*ANGLE_ROTATION);
-            errance = getDirection();
         } else {
-            sensRotation = 0;
+            if (sensRotation != 0) {
+                errance = getDirection();
+                errance.tourner(sensRotation);
+                sensRotation = 0;
+            }
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
             if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
                 direction.unitaire();
             } else if (pheromonesEnVue(pheromones)) {
+                esquiveCoins(obstacles);
                 direction = direction.somme(calculAttractionPheromones(pheromones, obstacles, false), 1, COEFF_ATTRACTION_PHEROMONES);
                 direction.unitaire();
-            } else {
-                direction = direction.somme(errance, 1, COEFF_ERRANCE);
-                direction.unitaire();
             }
+            direction = direction.somme(errance, 1, COEFF_ERRANCE);
+            direction.unitaire();
         } 
     }
 
@@ -194,6 +198,24 @@ public abstract class Fourmi {
             }
         }
         return !rep;
+    }
+
+    // Les fourmis ne collent pas aux murs en esquivant les coins
+    public void esquiveCoins(LinkedList<Obstacle> obstacles) {
+        for (Obstacle o : obstacles) {
+            for (Segment s : o.getMurs()) {
+                if (position.distance(s.pointA) < DISTANCE_COINS) {
+                    Vecteur dir = position.soustrait(s.pointA);
+                    dir.unitaire();
+                    position = position.somme(dir,1,1);
+                }
+                if (position.distance(s.pointB) < DISTANCE_COINS) {
+                    Vecteur dir = position.soustrait(s.pointB);
+                    dir.unitaire();
+                    position = position.somme(dir,1,1);
+                }
+            }
+        }
     }
 
     // Dessine une fourmi à la position de la fourmi
