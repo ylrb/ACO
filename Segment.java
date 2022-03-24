@@ -22,12 +22,12 @@ public class Segment {
         } else { 
             // On détermine les coefficients des deux droites et on calcule les coordonnées du point d'intersection de ces 2 droites
             double X, Y;
-            if (s2.pointB.x-s2.pointA.x == 0) { // Si le segment du mur est vertical
+            if (Math.abs(s2.pointB.x-s2.pointA.x) < 0.01) { // Si le segment du mur est vertical
                 double A1 = coeffs()[0];
                 double B1 = coeffs()[1];
                 X = s2.pointB.x;
                 Y = A1*X + B1;
-            } else if (pointB.x-pointA.x == 0) { // Si le segment de la fourmi est vertical
+            } else if (Math.abs(pointB.x-pointA.x) < 0.01) { // Si le segment de la fourmi est vertical
                 double A2 = s2.coeffs()[0];
                 double B2 = s2.coeffs()[1];
                 X = pointB.x;

@@ -111,7 +111,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Initialisation de la fourmilière, des fourmis et de la nourriture
     private void initialiserTerrain(int nombreFourmis) {
-        fourmiliere = new Fourmiliere(300.0, 300.0, TAILLE_FOURMILIERE);
+        fourmiliere = new Fourmiliere(300, 200, TAILLE_FOURMILIERE);
         nourritures.add(new Nourriture(600, 200, TAILLE_NOURRITURE));
         for (int i = 0; i < nombreFourmis; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
@@ -130,8 +130,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         obstacles.add(new Obstacle(bordureSud));
         obstacles.add(new Obstacle(bordureOuest));
 
-        Vecteur[] obstacle1 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(500,500), new Vecteur(400,500)};
+        Vecteur[] obstacle1 = {new Vecteur(400,120), new Vecteur(500,120), new Vecteur(500,500), new Vecteur(400,500)};
         obstacles.add(new Obstacle(obstacle1));
+
+        Vecteur[] obstacle2 = {new Vecteur(200,0), new Vecteur(200,300), new Vecteur(800,300), new Vecteur(800,400), new Vecteur(200,400)};
+        obstacles.add(new Obstacle(obstacle2));
+
+        Vecteur[] obstacle3 = {new Vecteur(800,0), new Vecteur(800,400)};
+        obstacles.add(new Obstacle(obstacle3));
     }
 
     // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des rotations d'éléments)
