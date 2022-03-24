@@ -11,7 +11,7 @@ public class Parametres extends JPanel implements ActionListener{
 	private JCheckBox cocherPheromones;
 	// Paramètres par défaut de la Carte
 	private int dt = 0;
-    private int nombreFourmis = 50;
+    private int nombreFourmis = 100;
     private boolean afficherPheromones = true;
     private String[] listMap = { "Map 1", "Map 2", "Map 3", "Map 4", "Map 5" };
     private JComboBox selectMap;

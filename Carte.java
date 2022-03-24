@@ -18,9 +18,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
 
     // Images et tailles
-    private BufferedImage imageFourmiliere, imageNourriture, imageFond;
-    private BufferedImage[] imagesFourmiA = new BufferedImage[4];
-    private BufferedImage[] imagesFourmiB = new BufferedImage[4];
+    private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
     protected static final int TAILLE_FOURMI = 20;
     protected static final int TAILLE_FOURMILIERE = 40;
     protected static final int TAILLE_NOURRITURE = 30;
@@ -63,25 +61,15 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void importerImages() {
         try {
             // On importe les images
-            imagesFourmiA[0] = ImageIO.read(new File("assets/FourmiA2.png")); 
-            imagesFourmiA[1] = ImageIO.read(new File("assets/FourmiA3.png")); 
-            imagesFourmiA[2] = ImageIO.read(new File("assets/FourmiA2.png")); 
-            imagesFourmiA[3] = ImageIO.read(new File("assets/FourmiA1.png"));
-
-            imagesFourmiB[0] = ImageIO.read(new File("assets/FourmiB2.png")); 
-            imagesFourmiB[1] = ImageIO.read(new File("assets/FourmiB3.png")); 
-            imagesFourmiB[2] = ImageIO.read(new File("assets/FourmiB2.png")); 
-            imagesFourmiB[3] = ImageIO.read(new File("assets/FourmiB1.png"));
-
+            imageFourmiA = ImageIO.read(new File("assets/FourmiA.png")); 
+            imageFourmiB = ImageIO.read(new File("assets/FourmiB.png")); 
             imageFourmiliere = ImageIO.read(new File("assets/Fourmiliere.png")); 
             imageNourriture = ImageIO.read(new File("assets/Nourriture.png")); 
             imageFond = ImageIO.read(new File("assets/Fond.png")); 
 
             // On leur donne la taille désirée
-            for (int i = 0; i < 4; i++) {
-                imagesFourmiA[i] = redimensionner(imagesFourmiA[i], TAILLE_FOURMI);
-                imagesFourmiB[i] = redimensionner(imagesFourmiB[i], TAILLE_FOURMI);
-            }
+            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
+            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
             imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
             imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
             imageFond = redimensionner(imageFond, 1025);
@@ -166,9 +154,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         fourmiliere.dessine(g, imageFourmiliere);
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
-                f.dessine(g,imagesFourmiA);
+                f.dessine(g,imageFourmiA);
             } else {
-                f.dessine(g,imagesFourmiB);
+                f.dessine(g,imageFourmiB);
             }
         }
     }
@@ -297,17 +285,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // On change le type de ces fourmis
         for (Integer i : indices) {
             fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
+            
             Vecteur pos = fourmis.get(i).getPosition();
-            LinkedList<Segment> murs = new LinkedList<Segment>();
-            for (Obstacle o : obstacles) {
-                murs.addAll(o.getMurs());
-            }
-            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, murs, true);
-            if ((dir.x == 0)&(dir.y == 0)) { // S'il n'y a aucune phéromone autour de la fourmi
-                dir = new Vecteur(Math.random(),Math.random());
-                dir.unitaire();
-            }
-            fourmis.remove((int)i); 
+            Vecteur dir = fourmis.get(i).getDirection();
+            dir.inverser();
+            fourmis.remove((int)i);
             fourmis.add(new FourmiA(pos,dir));
         }
         indices.clear();

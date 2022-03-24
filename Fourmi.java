@@ -24,7 +24,7 @@ public abstract class Fourmi {
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 50; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
     protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
-    protected static final double ANGLE_VUE = 60; // Angle de vision des fourmis (en degrés)
+    protected static final double ANGLE_VUE = 50; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
     protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
     protected static final double ANGLE_ROTATION = 0.5;
@@ -238,8 +238,8 @@ public abstract class Fourmi {
     }
 
     // Dessine une fourmi à la position de la fourmi
-    public void dessine(Graphics2D g, BufferedImage[] imagesFourmi) {
-        double rayon = imagesFourmi[0].getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
+    public void dessine(Graphics2D g, BufferedImage imageFourmi) {
+        double rayon = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
 
         // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
         double angle =direction.angle(new Vecteur(0,100))+Math.PI;
@@ -249,7 +249,7 @@ public abstract class Fourmi {
 
         // On fait tourner la carte de l'angle désiré, on peint la fourmi, puis on le retourne dans l'autre sens
         g.rotate(angle, (int)position.x, (int)position.y);
-        g.drawImage(imagesFourmi[(int)(VITESSE_ANIMATION*compteur)%4], (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.drawImage(imageFourmi, (int)(position.x-rayon), (int)(position.y-rayon), null);
         g.rotate(-angle, (int)position.x, (int)position.y);
 
         // On peut choisir d'afficher le vecteur direction de la fourmi également
