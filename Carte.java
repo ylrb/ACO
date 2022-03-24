@@ -298,7 +298,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Integer i : indices) {
             fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
             Vecteur pos = fourmis.get(i).getPosition();
-            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, obstacles, true);
+            LinkedList<Segment> murs = new LinkedList<Segment>();
+            for (Obstacle o : obstacles) {
+                murs.addAll(o.getMurs());
+            }
+            Vecteur dir = fourmis.get(i).calculAttractionPheromones(pheromonesRetour, murs, true);
             if ((dir.x == 0)&(dir.y == 0)) { // S'il n'y a aucune phéromone autour de la fourmi
                 dir = new Vecteur(Math.random(),Math.random());
                 dir.unitaire();

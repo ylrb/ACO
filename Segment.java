@@ -90,4 +90,11 @@ public class Segment {
         return (((ymin<=Y)&&(Y<=ymax))&&((xmin<=X)&&(X<=xmax)));
     }
 
+    // Rotation autour du pointA
+    public void tourner(double angle) {
+        Vecteur dir = pointA.soustrait(pointB);
+        dir.tourner(angle);
+        pointB = pointA.somme(dir);
+    }
+
 }  
