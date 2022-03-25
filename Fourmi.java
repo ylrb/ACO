@@ -11,12 +11,12 @@ public abstract class Fourmi {
     protected Vecteur errance;
 
     // Autres
-    protected int sensRotation; // 0 si pas de rotation, sinon -1 ou 1
+    protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
     protected static final double DISTANCE_COINS = 15;
 
     // Tous les coefficients des forces (leur poids)
-    protected static final double COEFF_ERRANCE = 0.05;
+    protected static final double COEFF_ERRANCE = 0.1;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_FOURMILIERE_NOURRITURE = 10;
     
@@ -31,8 +31,6 @@ public abstract class Fourmi {
 
     // Grandeurs liées à l'affichage
     private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
-    private static final double VITESSE_ANIMATION = 0.05;
-    private int compteur; // Compteur de tour
 
     public Fourmi(double x, double y) {
         position = new Vecteur(x,y);
@@ -87,6 +85,7 @@ public abstract class Fourmi {
                 angleRotationMur(segmentLePlusProche(mursProches));
             }
             direction.tourner(sensRotation*ANGLE_ROTATION);
+            direction = direction.somme(errance, 1, COEFF_ERRANCE);
         } else {
             if (sensRotation != 0) {
                 errance = getDirection();
@@ -96,15 +95,13 @@ public abstract class Fourmi {
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
             if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
-                direction.unitaire();
             } else if (pheromones.size() > 0) {
                 esquiveCoins(obstacles);
                 direction = direction.somme(calculAttractionPheromones(pheromones, murs, false), 1, COEFF_ATTRACTION_PHEROMONES);
-                direction.unitaire();
             }
             direction = direction.somme(errance, 1, COEFF_ERRANCE);
-            direction.unitaire();
-        } 
+        }
+        direction.unitaire();
     }
         
     // Renvoie une LinkedList contenant les nourritures suffisamment proches de la fourmi pour qu'elle puisse les voir
@@ -124,7 +121,6 @@ public abstract class Fourmi {
     // Renvoie une LinkedList contenant les murs dans le champ de vision de la fourmi
     protected LinkedList<Segment> obstaclesEnVue(LinkedList<Obstacle> obstacles) { 
         LinkedList<Segment> rep = new LinkedList<Segment>();
-        Vecteur distance = new Vecteur();
         
         Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y); // Extrémité de la vision de la fourmi
         Segment segmentVue = new Segment(getPosition(),p2); // Segment de la vue de la fourmi
