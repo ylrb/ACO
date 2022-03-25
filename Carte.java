@@ -36,6 +36,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
 
+    // Getters
+    public Timer getTimer() {
+        return timer;
+    }
+
 
 
     /*
@@ -377,11 +382,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < taille; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-    }
-
-    // Arrête les calculs d'une ancienne instance
-    public void stop(){
-        timer.stop();
     }
 
 }

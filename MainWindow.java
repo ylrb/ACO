@@ -59,7 +59,7 @@ public class MainWindow extends JFrame implements ActionListener{
         }
         if (e.getSource() == valider) {
             conteneur.remove(carte);
-            carte.stop();
+            carte.getTimer().stop();
             carte = new Carte(param.getDt(), param.getNbFourmis(), param.getAffichagePhero());
             conteneur.add(carte, BorderLayout.EAST);
             carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));

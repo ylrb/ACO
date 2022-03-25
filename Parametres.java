@@ -14,7 +14,7 @@ public class Parametres extends JPanel implements ActionListener{
     private int nombreFourmis = 100;
     private boolean afficherPheromones = true;
     private String[] listMap = { "Map 1", "Map 2", "Map 3", "Map 4", "Map 5" };
-    private JComboBox selectMap;
+    private JComboBox<String> selectMap = new JComboBox<String>(listMap);
 
 	public int getDt(){
 		return dt;
@@ -88,7 +88,6 @@ public class Parametres extends JPanel implements ActionListener{
         add(cocherPheromones);
         add(Box.createVerticalStrut(20));
 
-        selectMap = new JComboBox(listMap);
         selectMap.setSelectedIndex(0);
         selectMap.addActionListener(this);
         add(selectMap);
@@ -118,14 +117,12 @@ public class Parametres extends JPanel implements ActionListener{
                     break;
         
                 case 1:
-                    System.out.println("Hello");
                     break;
             
                 case 2:
-                    System.out.println("Buenos dias");
                     break;
+                    
                 default:
-                    System.out.println("Choix incorrect");
                     break;
             }
 
