@@ -14,6 +14,7 @@ public abstract class Fourmi {
     protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
     protected static final double DISTANCE_COINS = 15;
+    protected boolean bonheur = true;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
