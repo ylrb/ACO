@@ -22,21 +22,18 @@ public class LecteurCarte {
             LinkedList<Vecteur> points = new LinkedList<Vecteur>();
             for(int i = ligneDebutObstacle+1; i<ligneFinObstacle; i++){
                 String ligne = fichier.get(i); // on itère sur chaque ligne du fichier texte
-                if (ligne == SEPARATION_OBSTACLES){
-                    points = new LinkedList<Vecteur>();
-                    if(i != ligneDebutObstacle+1){
-                        obstacles.add(new Obstacle(points));
-                    }
+                if (ligne.startsWith(SEPARATION_OBSTACLES) && (i != ligneDebutObstacle+1)){
+                    obstacles.add(new Obstacle(points)); // on crée un nouvel obstacle qu'on ajoute dans la liste
+                    points = new LinkedList<Vecteur>();  // on vide la liste des points
                 }
-                else if (ligne != "") {
+                else if (ligne != "" && (i != ligneDebutObstacle+1)) {
                     String[] partiesLigne = ligne.split(",");
                     int x = Integer.parseInt(partiesLigne[0]);
                     int y = Integer.parseInt(partiesLigne[1]);
                     points.add(new Vecteur(x,y));
                 }
             }
-            obstacles.add(new Obstacle(points));
-
+            obstacles.add(new Obstacle(points)); // On ajoute les derniers points dans la liste des obstacles
         }
         catch (Exception exc) {
             throw new RuntimeException("La carte n'a pas pu être lue!");
