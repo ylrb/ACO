@@ -117,6 +117,7 @@ public class Parametres extends JPanel implements ActionListener{
                     break;
         
                 case 1:
+                    LecteurMap Laby = new LecteurMap("assets/cartes/labyrinthe.txt");
                     break;
             
                 case 2:
