@@ -111,18 +111,14 @@ public class Parametres extends JPanel implements ActionListener{
             int k = selectMap.getSelectedIndex();
 
             switch(k){
-
                 case 0: 
-                    LecteurMap test = new LecteurMap("assets/cartes/carte1.txt");
+                    LecteurCarte test = new LecteurCarte("assets/cartes/carte1.txt");
                     break;
-        
                 case 1:
-                    LecteurMap Laby = new LecteurMap("assets/cartes/labyrinthe.txt");
+                    LecteurCarte Laby = new LecteurCarte("assets/cartes/labyrinthe.txt");
                     break;
-            
                 case 2:
                     break;
-                    
                 default:
                     break;
             }

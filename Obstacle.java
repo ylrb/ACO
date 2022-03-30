@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Obstacle {
     private Color couleur;
@@ -8,6 +9,13 @@ public class Obstacle {
     public Obstacle (Vecteur[] points) {
         for (int i = 0; i < points.length; i++) {
             murs.add(new Segment(points[i],points[(i+1)%points.length]));
+        }
+        couleur = new Color(140,70,20);
+    }
+
+    public Obstacle (LinkedList<Vecteur> points) {
+        for (int i = 0; i < points.size(); i++) {
+            murs.add(new Segment(points.get(i),points.get((i+1)%points.size())));
         }
         couleur = new Color(140,70,20);
     }
@@ -28,5 +36,4 @@ public class Obstacle {
         }
         g.fillPolygon(X, Y, X.length);   
     }
-
 }
