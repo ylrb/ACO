@@ -31,6 +31,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
+    private static final double PORTEE_VUE_INITIALE = 60; // Portée de vue des fourmis qui sortent de la fourmilière
 
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
@@ -255,49 +256,63 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void changementFourmis() {
     
         // On stocke les indices de toutes les fourmis à changer
-        LinkedList<Integer> indices = new LinkedList<Integer>();
+        LinkedList<Fourmi> fourmisSup = new LinkedList<Fourmi>();
         
         // On parcout la LinkedList de fourmis à la recherche d'une fourmiA qui a trouvé de la nourriture
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiA.class) {
                 for (Nourriture n : nourritures) {
                     if (f.getPosition().distance(n.getPosition()) < 1.5*n.getRayon()) {
-                        indices.add(fourmis.indexOf(f));
+                        fourmisSup.add(f);
                     }
                 }
             }
         }
 
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
-        for (Integer i : indices) {
-            Vecteur pos = fourmis.get(i).getPosition();
-            Vecteur dir = fourmis.get(i).getDirection(); // Il faut conserver la direction initiale de la fourmi
+        for (Fourmi f : fourmisSup) {
+            Vecteur pos = f.getPosition();
+            Vecteur dir = f.getDirection(); // Il faut conserver la direction initiale de la fourmi
             dir.inverser(); // Puis il faut l'inverser pour que la fourmi reparte en arrière
-            fourmis.remove((int)i);
+            fourmis.remove(f);
             fourmis.add(new FourmiB(pos,dir));
         }
-        indices.clear();
+        fourmisSup.clear();
 
         // On reparcourt la LinkedList de fourmis à la recherche d'une fourmiB qui a atteint la fourmilière
         for (Fourmi f : fourmis) {
             if (f.getClass() == FourmiB.class) {
                 if (f.getPosition().distance(fourmiliere.getPosition()) < 1.0) {
-                    indices.add(fourmis.indexOf(f));
+                    fourmisSup.add(f);
                 }
             }
         }
 
-        // On change le type de ces fourmis
-        for (Integer i : indices) {
-            fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
-            
-            Vecteur pos = fourmis.get(i).getPosition();
-            Vecteur dir = fourmis.get(i).getDirection();
-            dir.inverser();
-            fourmis.remove((int)i);
-            fourmis.add(new FourmiA(pos,dir));
+        // On stocke dans des LinkedList les phéromones autour de la fourmilière à cet instant (utile pour après)
+        LinkedList<Pheromone> pheromones = new LinkedList<Pheromone>();
+        double distance;
+            for (Pheromone p : pheromonesAller) {
+            distance = fourmiliere.getPosition().distance(p.position);
+            if ((distance < PORTEE_VUE_INITIALE)&&(distance > fourmiliere.getRayon())) {
+                pheromones.add(p);
+            }
         }
-        indices.clear();
+        
+        LinkedList<Segment> murs = new LinkedList<Segment>();
+        // On change le type de ces fourmis
+        for (Fourmi fS : fourmisSup) {
+            fourmiliere.depot(); // La fourmi dépose la nourriture dans la fourmilière
+            fourmis.remove(fS); // On supprime l'ancienne fourmi
+            
+            // On crée la nouvelle FourmiA à la position de la fourmilière
+            FourmiA f = new FourmiA(fourmiliere.getPosition());
+            fourmis.add(f);
+
+            // On détermine la direction initiale en fonction des phéromones et des murs
+            f.setDirection(f.calculAttractionPheromones(pheromones, murs));
+            
+        }
+        fourmisSup.clear();
         
         /* 
          * Il n'est pas possible de faire les deux tris en parallèle.

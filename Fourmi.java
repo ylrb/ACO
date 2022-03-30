@@ -13,7 +13,7 @@ public abstract class Fourmi {
     // Autres
     protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
-    protected static final double DISTANCE_COINS = 15;
+    protected static final double DISTANCE_COINS = 20;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
@@ -48,18 +48,31 @@ public abstract class Fourmi {
         return new Vecteur(position.x,position.y);
     }
 
-    public void setPosition(Vecteur nvPosition){
-        position = nvPosition;
+    public void setPosition(Vecteur nouvellePosition){
+        position = nouvellePosition;
     }
 
     public Vecteur getDirection() {
         return new Vecteur(direction.x,direction.y);
     }
 
+    public void setDirection(Vecteur nouvelleDirection) {
+        direction = nouvelleDirection;
+        direction.unitaire();
+    }
+
     // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
-    public void avancer(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles) {
+    public void avancer(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheros, LinkedList<Obstacle> obstacles) {
+        
+        // On ne considère que les éléments qui sont dans le champ de vision de la fourmi (portion de cercle dans sa direction)
+        LinkedList<Pheromone> pheromones = pheromonesEnVue(pheros);
+        LinkedList<Segment> murs = obstaclesEnVue(obstacles);
+            
+        // Calcul des forces
         calculErrance();
-        calculNouvelleDirection(nourritures, fourmiliere, pheromones, obstacles);
+        calculNouvelleDirection(nourritures, fourmiliere, pheromones, obstacles, murs);
+
+        // Mise à jour de la position
         position.x += 2*direction.x;
         position.y += 2*direction.y;
     }
@@ -70,11 +83,7 @@ public abstract class Fourmi {
     }
 
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement  
-    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheros, LinkedList<Obstacle> obstacles) {
-        
-        // On ne considère que les éléments qui sont dans le champ de vision de la fourmi (portion de cercle dans sa direction)
-        LinkedList<Pheromone> pheromones = pheromonesEnVue(pheros);
-        LinkedList<Segment> murs = obstaclesEnVue(obstacles);
+    protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles, LinkedList<Segment> murs) {
         
         // On stocke les murs dans la direction de la fourmi
         LinkedList<Segment> mursProches = mursSecants(murs);
@@ -97,7 +106,7 @@ public abstract class Fourmi {
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
             } else if (pheromones.size() > 0) {
                 esquiveCoins(obstacles);
-                direction = direction.somme(calculAttractionPheromones(pheromones, murs, false), 1, COEFF_ATTRACTION_PHEROMONES);
+                direction = direction.somme(calculAttractionPheromones(pheromones, murs), 1, COEFF_ATTRACTION_PHEROMONES);
             }
             direction = direction.somme(errance, 1, COEFF_ERRANCE);
         }
@@ -190,10 +199,10 @@ public abstract class Fourmi {
     protected abstract Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures);
 
     // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
-    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, LinkedList<Segment> murs, boolean initial) {
+    protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, LinkedList<Segment> murs) {
         Vecteur rep = new Vecteur();
         for (Pheromone p : pheromones) {
-            if ((vueDirecte(p, murs))||(initial)) {
+            if ((vueDirecte(p, murs))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
                 rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
             }
