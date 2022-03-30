@@ -4,7 +4,7 @@ import java.util.List;
 import javax.swing.event.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
-import java.nio.file.*;
+import java.util.LinkedList;
 
 public class Parametres extends JPanel implements ActionListener{
 	private final Color FOND_PARAM = new Color(214,214,214);
@@ -13,8 +13,9 @@ public class Parametres extends JPanel implements ActionListener{
 	private int dt = 0;
     private int nombreFourmis = 100;
     private boolean afficherPheromones = true;
-    private String[] listMap = { "Map 1", "Map 2", "Map 3", "Map 4", "Map 5" };
+    private String[] listMap = { "Carte par défaut", "Labyrinthe bugé", "Map 3", "Map 4", "Map 5" };
     private JComboBox<String> selectMap = new JComboBox<String>(listMap);
+    private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
 
 	public int getDt(){
 		return dt;
@@ -32,7 +33,12 @@ public class Parametres extends JPanel implements ActionListener{
 		return FOND_PARAM;
 	}
 
+    public LinkedList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
 	public Parametres(){
+
 		// Initialisation du JPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
@@ -109,20 +115,21 @@ public class Parametres extends JPanel implements ActionListener{
 
         if(e.getSource() == selectMap){
             int k = selectMap.getSelectedIndex();
-
+            LecteurCarte newObstacles = new LecteurCarte();
             switch(k){
                 case 0: 
-                    LecteurCarte test = new LecteurCarte("assets/cartes/carte1.txt");
+                    newObstacles = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
                 case 1:
-                    LecteurCarte Laby = new LecteurCarte("assets/cartes/labyrinthe.txt");
+                    newObstacles = new LecteurCarte("assets/cartes/labyrinthe.txt");
                     break;
                 case 2:
                     break;
                 default:
+                    newObstacles = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
             }
-
+            obstacles = newObstacles.getObstacles();
         }
     }
 }

@@ -37,24 +37,26 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
 
-    // Getters
+    // Accesseurs
     public Timer getTimer() {
         return timer;
     }
-
+    public void setObstacles(LinkedList<Obstacle> o){
+        obstacles = o;
+    }
 
 
     /*
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
     */
 
-    public Carte(int dt, int nombreFourmis, boolean phero) {
+    public Carte(int dt, int nombreFourmis, boolean phero, LinkedList<Obstacle> obs) {
         affichagePheromones = phero;
         this.addMouseListener(this);
 
         importerImages();
         initialiserTerrain(nombreFourmis);
-        genererObstacles();
+        setObstacles(obs);
 
         timer = new Timer(dt, this);
         timer.start();
@@ -112,7 +114,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
-    // Générations des murs
+    // Générations des murs A EFFACER ?
     private void genererObstacles() {
         // Créations des murs extérieurs qui sont en fait 4 obstacles collés
         Vecteur[] bordureNord = {new Vecteur(0,0), new Vecteur(80,80), new Vecteur(200,40), new Vecteur(350,30), new Vecteur(500,40), new Vecteur(650,55), new Vecteur(810,50), new Vecteur(945,80), new Vecteur(1030,0)};
