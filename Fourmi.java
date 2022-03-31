@@ -14,6 +14,7 @@ public abstract class Fourmi {
     protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
     protected static final double DISTANCE_COINS = 20;
+    int temps = 0;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
@@ -213,7 +214,7 @@ public abstract class Fourmi {
 
     // On vérifie qu'il n'y ait pas de mur entre la fourmi et les phéromones
     public boolean vueDirecte(Pheromone p, LinkedList<Segment> murs) {
-        Segment chemin = new Segment(getPosition(), p.position);
+        Segment chemin = new Segment(getPosition(), p.getPosition());
         boolean rep = true;
         for (Segment s : murs) {
             if (chemin.secante(s) != null) {
@@ -240,6 +241,18 @@ public abstract class Fourmi {
                 }
             }
         }
+    }
+
+    // Dépôt d'une phéromone correspondant au type de la fourmi
+    public Pheromone deposerPheromone() {
+        temps++;
+        boolean type;
+        if (this instanceof FourmiA) {
+            type = false;
+        } else {
+            type = true;
+        }
+        return new Pheromone(getPosition(), temps, type);
     }
 
     // Dessine une fourmi à la position de la fourmi

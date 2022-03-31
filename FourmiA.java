@@ -14,10 +14,6 @@ public class FourmiA extends Fourmi {
         super(pos.x,pos.y,dir);
     }
 
-    public PheroAller deposerPheromoneAller() {
-        return new PheroAller(getPosition());
-    }
-
     // Pour les fourmiA, la force spéciale est la force d'attraction à la nourriture
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
         return calculAttractionNourriture(nourritures);
