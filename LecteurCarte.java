@@ -44,7 +44,6 @@ public class LecteurCarte {
             LinkedList<Vecteur> points = new LinkedList<Vecteur>();
             for(int i = ligneDebutObstacle; i<=ligneFinObstacle; i++){
                 String ligne = fichier.get(i); // on itère sur chaque ligne du fichier texte
-                System.out.println(ligne);
                 if (ligne.startsWith(SEPARATION_OBSTACLES) && (i != ligneDebutObstacle)){
                     obstacles.add(new Obstacle(points)); // on crée un nouvel obstacle qu'on ajoute dans la liste
                     points = new LinkedList<Vecteur>();  // on vide la liste des points
