@@ -54,9 +54,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
     */
 
-    public Carte(int dt, int nombreFourmis, boolean phero, LinkedList<Obstacle> obs) {
+    public Carte(int dt, int nombreFourmis, boolean phero, LinkedList<Obstacle> obs, LinkedList<Nourriture> nour, Fourmiliere fourm) {
         affichagePheromones = phero;
         this.addMouseListener(this);
+        fourmiliere = fourm;
+        nourritures = nour;
 
         importerImages();
         initialiserTerrain(nombreFourmis);
@@ -111,8 +113,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Initialisation de la fourmilière, des fourmis et de la nourriture
     private void initialiserTerrain(int nombreFourmis) {
-        fourmiliere = new Fourmiliere(300, 200, TAILLE_FOURMILIERE);
-        nourritures.add(new Nourriture(600, 200, TAILLE_NOURRITURE));
         for (int i = 0; i < nombreFourmis; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
