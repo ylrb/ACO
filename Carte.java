@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import java.io.IOException;
 import java.io.File;
 
@@ -69,11 +73,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void importerImages() {
         try {
             // On importe les images
-            imageFourmiA = ImageIO.read(new File("assets/FourmiA.png")); 
-            imageFourmiB = ImageIO.read(new File("assets/FourmiB.png")); 
-            imageFourmiliere = ImageIO.read(new File("assets/Fourmiliere.png")); 
-            imageNourriture = ImageIO.read(new File("assets/Nourriture.png")); 
-            imageFond = ImageIO.read(new File("assets/Fond.png")); 
+            imageFourmiA = ImageIO.read(new File("assets/images/FourmiA.png")); 
+            imageFourmiB = ImageIO.read(new File("assets/images/FourmiB.png")); 
+            imageFourmiliere = ImageIO.read(new File("assets/images/Fourmiliere.png")); 
+            imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png")); 
+            imageFond = ImageIO.read(new File("assets/images/Fond.png")); 
 
             // On leur donne la taille désirée
             imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
@@ -274,6 +278,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
         }
 
+        // On fait un bruitage si une fourmi mange de la nourriture
+        if (fourmisSup.size() > 0) {
+            jouerSon("crunch.wav", compteur);
+        }
+
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
         for (Fourmi f : fourmisSup) {
             Vecteur pos = f.getPosition();
@@ -403,5 +412,21 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
     }
+
+    public static synchronized void jouerSon(final String url, int dt) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Clip son = AudioSystem.getClip();
+                    AudioInputStream flux = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("assets/sons/"+url));
+                    son.open(flux);
+                    son.start(); 
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+    }
+
+    
 
 }
