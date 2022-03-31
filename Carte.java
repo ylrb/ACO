@@ -270,7 +270,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             dir.inverser(); // Puis il faut l'inverser pour que la fourmi reparte en arrière
             fourmis.remove(f);
             fourmis.add(new FourmiB(pos,dir));
-            jouerSon("crunch6");
+            jouerSon("bop");
         }
         fourmisSup.clear();
 
@@ -302,6 +302,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             // On crée la nouvelle FourmiA à la position de la fourmilière
             FourmiA f = new FourmiA(fourmiliere.getPosition());
             fourmis.add(f);
+            jouerSon("tik");
 
             // On détermine la direction initiale en fonction des phéromones et des murs
             f.setDirection(f.calculAttractionPheromones(pheromones, murs));
@@ -388,7 +389,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void jouerSon(String s) {
         try {
-            File wavFile = new File(".\\assets\\sons\\crunch6.wav");     // sorti : C:\Users\lamaq\Desktop\ACO
+            File wavFile = new File("assets/sons/"+s+".wav");     // sorti : C:\Users\lamaq\Desktop\ACO
             Clip clip1 = AudioSystem.getClip();
             clip1.open(AudioSystem.getAudioInputStream(wavFile));
             clip1.start();
