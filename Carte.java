@@ -282,7 +282,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // On stocke dans des LinkedList les phéromones autour de la fourmilière à cet instant (utile pour après)
         LinkedList<Pheromone> pheromones = new LinkedList<Pheromone>();
         double distance;
-            for (Pheromone p : pheromonesAller) {
+            for (Pheromone p : pheromonesRetour) {
             distance = fourmiliere.getPosition().distance(p.getPosition());
             if ((distance < PORTEE_VUE_INITIALE)&&(distance > fourmiliere.getRayon())) {
                 pheromones.add(p);
@@ -371,6 +371,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        System.out.println(e.getX()+" "+e.getY());
     }
 
     public void mouseEntered(MouseEvent e) {
