@@ -189,29 +189,29 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Les phéromones disparaissent si leur taux est trop faible
     private void updatePheromones() {
-        int tauxTropBasAller = 0;
-        int tauxTropBasRetour = 0;
+        LinkedList<Pheromone> pheromonesAllerSup = new LinkedList<Pheromone>();
+        LinkedList<Pheromone> pheromonesRetourSup = new LinkedList<Pheromone>();
 
-        // On fait s'estomper les phéromones et on compte le nombre de phéromones qui ont un indice trop faible
+        // On fait s'estomper les phéromones et on stocke les phéromones avec un taux trop bas
         for (Pheromone p : pheromonesAller) {
             if (p.getTaux()<=5) {
-                tauxTropBasAller++;
+                pheromonesAllerSup.add(p);
             }
             p.estompe();
         }
         for (Pheromone p : pheromonesRetour) {
             if (p.getTaux()<=5) {
-                tauxTropBasRetour++;
+                pheromonesRetourSup.add(p);
             }
             p.estompe();
         }
 
-        // Les phéromones qui ont un taux trop faible sont supprimées : on supprime les "tauxTropBas" premiers éléments des LinkedLists
-        for (int i = 0; i < tauxTropBasAller; i++) {
-            pheromonesAller.remove(0);
+        // Les phéromones qui ont un taux trop faible sont supprimées
+        for (Pheromone p : pheromonesAllerSup) {
+            pheromonesAller.remove(p);
         }
-        for (int i = 0; i < tauxTropBasRetour; i++) {
-            pheromonesRetour.remove(0);
+        for (Pheromone p : pheromonesRetourSup) {
+            pheromonesRetour.remove(p);
         }
     }
 
@@ -224,11 +224,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void ajoutPheromones() {
         if (compteur>COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
-                boolean assezLoin = true; // Si la phéromone à plcaer est assez loin des autres phéromones existantes
+                boolean assezLoin = true; // Si la phéromone à placer est assez loin des autres phéromones existantes
                 if (f.getClass() == FourmiA.class) {
                     FourmiA fA = (FourmiA) f;
                     for (Pheromone p : pheromonesAller) {
                         if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                            //p.rafraichir();
                             assezLoin = false;
                             break;
                         }
@@ -240,12 +241,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                     FourmiB fB = (FourmiB) f;
                     for (Pheromone p : pheromonesRetour) {
                         if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                            //p.rafraichir(fB.temps);
                             assezLoin = false;
                             break;
                         }
                     }
                     if (assezLoin) {
-                        pheromonesRetour.add(fB.deposerPheromoneRetour());
+                        PheroRetour p = fB.deposerPheromoneRetour();
+                        if (p.getTaux() > 5) {
+                            pheromonesRetour.add(p);
+                        }
                     }
                 }
             }
