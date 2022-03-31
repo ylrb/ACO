@@ -104,6 +104,8 @@ public class Parametres extends JPanel implements ActionListener{
         add(cocherPheromones);
         add(Box.createVerticalStrut(20));
 
+        selectMap.setMaximumSize(selectMap.getPreferredSize());
+        selectMap.setAlignmentX(Component.LEFT_ALIGNMENT);
         selectMap.setSelectedIndex(0);
         selectMap.addActionListener(this);
         add(selectMap);
