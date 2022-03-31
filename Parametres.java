@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import javax.swing.event.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
@@ -11,7 +10,7 @@ public class Parametres extends JPanel implements ActionListener{
 	private JCheckBox cocherPheromones;
 	// Paramètres par défaut de la carte
 	private int dt = 0;
-    private int nombreFourmis = 100;
+    private int nombreFourmis = 50;
     private boolean afficherPheromones = true;
     private String[] listMap = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Map 5" };
     private JComboBox<String> selectMap = new JComboBox<String>(listMap);
@@ -104,6 +103,8 @@ public class Parametres extends JPanel implements ActionListener{
         add(cocherPheromones);
         add(Box.createVerticalStrut(20));
 
+        selectMap.setMaximumSize(selectMap.getPreferredSize());
+        selectMap.setAlignmentX(Component.LEFT_ALIGNMENT);
         selectMap.setSelectedIndex(0);
         selectMap.addActionListener(this);
         add(selectMap);

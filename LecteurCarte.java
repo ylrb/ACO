@@ -1,8 +1,6 @@
-import javax.swing.plaf.synth.SynthSeparatorUI;
 import java.nio.file.*;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.ArrayList;
 
 public class LecteurCarte {
     private List<String> fichier;
