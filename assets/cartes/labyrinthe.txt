@@ -1,4 +1,7 @@
+*
 * Carte contenant un labyrinthe
+*
+
 // FOURMILIERE //
 64,70,40
 // NOURRITURE //
