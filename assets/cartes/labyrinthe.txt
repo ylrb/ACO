@@ -1,8 +1,10 @@
+* Carte contenant un labyrinthe
 // FOURMILIERE
 64,70,40
 // NOURRITURE
 960,630,40
-// DEBUT OBSTACLE murExt
+// DEBUT OBSTACLE
+// NOUVEL OBSTACLE murExt
 0,0
 1024,0
 1024,700
