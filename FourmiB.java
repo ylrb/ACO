@@ -2,6 +2,8 @@ import java.util.LinkedList;
 
 public class FourmiB extends Fourmi {
 
+    int temps = 0;
+
     public FourmiB(double x, double y) {
         super(x,y);
     }
@@ -15,7 +17,8 @@ public class FourmiB extends Fourmi {
     }
 
     public PheroRetour deposerPheromoneRetour() {
-        return new PheroRetour(getPosition());
+        temps++;
+        return new PheroRetour(getPosition(), temps);
     }
 
     // Pour les fourmiA, la force spéciale est la force d'attraction à la fourmilière
