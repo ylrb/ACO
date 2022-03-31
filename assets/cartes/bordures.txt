@@ -2,12 +2,12 @@
 * Carte par défaut, contient des bordures
 *
 
-// FOURMILIERE
+// FOURMILIERE //
 300,200,30
-// NOURRITURE
+// NOURRITURE //
 600,200,40
 
-// DEBUT OBSTACLE
+// DEBUT OBSTACLE //
 // NOUVEL OBSTACLE : bordure nord
 0,0
 80,80
@@ -51,4 +51,4 @@
 500,200
 500,800
 400,800
-// FIN OBSTACLE
+// FIN OBSTACLE //

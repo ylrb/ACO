@@ -43,6 +43,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
     public void setObstacles(LinkedList<Obstacle> o){
         obstacles = o;
+        // Ajouts des bordures invisibles
+        /*LecteurCarte borduresInvisibles = new LecteurCarte("assets/cartes/borduresInvisibles.txt");
+        for(Obstacle obs : borduresInvisibles.getObstacles()){
+            obstacles.add(obs);
+        }*/
     }
 
 
@@ -112,28 +117,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (int i = 0; i < nombreFourmis; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
-    }
-
-    // Générations des murs A EFFACER ?
-    private void genererObstacles() {
-        // Créations des murs extérieurs qui sont en fait 4 obstacles collés
-        Vecteur[] bordureNord = {new Vecteur(0,0), new Vecteur(80,80), new Vecteur(200,40), new Vecteur(350,30), new Vecteur(500,40), new Vecteur(650,55), new Vecteur(810,50), new Vecteur(945,80), new Vecteur(1030,0)};
-        Vecteur[] bordureEst = {new Vecteur(1030,0), new Vecteur(945,80), new Vecteur(975,180), new Vecteur(970,300), new Vecteur(955,400), new Vecteur(975,520), new Vecteur(945,600), new Vecteur(1030, 700)};
-        Vecteur[] bordureSud = {new Vecteur(945,600), new Vecteur(810,640), new Vecteur(650,660), new Vecteur(500,660), new Vecteur(350,630), new Vecteur(200,640), new Vecteur(80,600), new Vecteur(0, 700), new Vecteur(1030, 700)};
-        Vecteur[] bordureOuest = {new Vecteur(80,600), new Vecteur(55,520), new Vecteur(70,400), new Vecteur(65,300), new Vecteur(50,180), new Vecteur(80,80), new Vecteur(0,0), new Vecteur(0, 700)};
-        obstacles.add(new Obstacle(bordureNord));
-        obstacles.add(new Obstacle(bordureEst));
-        obstacles.add(new Obstacle(bordureSud));
-        obstacles.add(new Obstacle(bordureOuest));
-
-        Vecteur[] obstacle1 = {new Vecteur(400,200), new Vecteur(500,200), new Vecteur(500,800), new Vecteur(400,800)};
-        obstacles.add(new Obstacle(obstacle1));
-
-        // Vecteur[] obstacle2 = {new Vecteur(200,0), new Vecteur(200,300), new Vecteur(800,300), new Vecteur(800,400), new Vecteur(200,400)};
-        // obstacles.add(new Obstacle(obstacle2));
-
-        // Vecteur[] obstacle3 = {new Vecteur(800,0), new Vecteur(800,400)};
-        // obstacles.add(new Obstacle(obstacle3));
     }
 
     // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des rotations d'éléments)
