@@ -29,6 +29,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         // Création des boutons permettant l'interaction entre les objets Carte/Parametres
         JPanel boutons = new JPanel();
+        boutons.setBackground(Color.red);
         boutons.setLayout(new FlowLayout(FlowLayout.CENTER));
         boutons.setBackground(param.getFond());
         boutons.setMaximumSize(new Dimension(getWidth(), 20));
