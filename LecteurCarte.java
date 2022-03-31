@@ -9,11 +9,11 @@ public class LecteurCarte {
     private LinkedList<Obstacle> obstacles;
     private Fourmiliere fourmiliere;
     private LinkedList<Nourriture> nourriture;
-    private static final String DEBUT_OBSTACLES = "// DEBUT OBSTACLE";
-    private static final String FIN_OBSTACLES = "// FIN OBSTACLE";
+    private static final String DEBUT_OBSTACLES = "// DEBUT OBSTACLE //";
+    private static final String FIN_OBSTACLES = "// FIN OBSTACLE //";
     private static final String SEPARATION_OBSTACLES = "// NOUVEL OBSTACLE";
-    private static final String FOURMILIERE = "// FOURMILIERE";
-    private static final String NOURRITURE = "// NOURRITURE";
+    private static final String FOURMILIERE = "// FOURMILIERE //";
+    private static final String NOURRITURE = "// NOURRITURE //";
 
     public LinkedList<Obstacle> getObstacles(){
         return obstacles;
@@ -37,8 +37,8 @@ public class LecteurCarte {
             fichier = Files.readAllLines(Paths.get(chemin));
             int ligneDebutObstacle = fichier.indexOf(DEBUT_OBSTACLES)+1;
             int ligneFinObstacle = fichier.indexOf(FIN_OBSTACLES)-1;
-            int ligneFourmiliere = fichier.indexOf(FOURMILIERE)+1;
-            int ligneNourriture = fichier.indexOf(NOURRITURE)+1;
+            int ligneFourmiliere = fichier.indexOf(FOURMILIERE)+1; // Retourne -1 si il n'y a pas de fourmiliere
+            int ligneNourriture = fichier.indexOf(NOURRITURE)+1; // idem
 
             // Boucle pour définir les obstacles de la carte
             LinkedList<Vecteur> points = new LinkedList<Vecteur>();
@@ -58,19 +58,23 @@ public class LecteurCarte {
             obstacles.add(new Obstacle(points)); // On ajoute les derniers points dans la liste des obstacles
             
             // Fourmiliere
-            int[] tabFourmiliere = parties(ligneFourmiliere);
-            int xFourmiliere = tabFourmiliere[0];
-            int yFourmiliere = tabFourmiliere[1];
-            int tailleFourmiliere = tabFourmiliere[2];
-            fourmiliere = new Fourmiliere(xFourmiliere, yFourmiliere, tailleFourmiliere);
+            if (ligneFourmiliere != 0){
+                int[] tabFourmiliere = parties(ligneFourmiliere);
+                int xFourmiliere = tabFourmiliere[0];
+                int yFourmiliere = tabFourmiliere[1];
+                int tailleFourmiliere = tabFourmiliere[2];
+                fourmiliere = new Fourmiliere(xFourmiliere, yFourmiliere, tailleFourmiliere);
+            }
 
             // Nourriture
-            int[] tabNourriture = parties(ligneNourriture);
-            int xNourriture = tabNourriture[0];
-            int yNourriture = tabNourriture[1];
-            int tailleNourriture = tabNourriture[2];
-            nourriture = new LinkedList<Nourriture>();
-            nourriture.add(new Nourriture(xNourriture, yFourmiliere, tailleNourriture));
+            if (ligneNourriture != 0){
+                int[] tabNourriture = parties(ligneNourriture);
+                int xNourriture = tabNourriture[0];
+                int yNourriture = tabNourriture[1];
+                int tailleNourriture = tabNourriture[2];
+                nourriture = new LinkedList<Nourriture>();
+                nourriture.add(new Nourriture(xNourriture, yNourriture, tailleNourriture));
+            }
         }
         catch (Exception exc) {
             System.out.println(exc);

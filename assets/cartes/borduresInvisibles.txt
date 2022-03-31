@@ -1,0 +1,15 @@
+a
+* Bordures invisibles autour de la carte
+*
+// DEBUT OBSTACLE //
+0,0
+1024,0
+1024,698
+1023,698
+1023,1
+1,1
+1,697
+1024,697
+1024,698
+0,698
+// FIN OBSTACLE //
