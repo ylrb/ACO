@@ -37,7 +37,7 @@ public class LecteurCarte {
             fichier = Files.readAllLines(Paths.get(chemin));
             int ligneDebutObstacle = fichier.indexOf(DEBUT_OBSTACLES)+1;
             int ligneFinObstacle = fichier.indexOf(FIN_OBSTACLES)-1;
-            int ligneFourmiliere = fichier.indexOf(FOURMILIERE)+1; // Retourne -1 si il n'y a pas de fourmiliere
+            int ligneFourmiliere = fichier.indexOf(FOURMILIERE)+1; // Retourne 0 si il n'y a pas de fourmiliere
             int ligneNourriture = fichier.indexOf(NOURRITURE)+1; // idem
 
             // Boucle pour définir les obstacles de la carte
