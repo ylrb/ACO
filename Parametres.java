@@ -16,6 +16,8 @@ public class Parametres extends JPanel implements ActionListener{
     private String[] listMap = { "Carte par défaut", "Labyrinthe bugé", "Map 3", "Map 4", "Map 5" };
     private JComboBox<String> selectMap = new JComboBox<String>(listMap);
     private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
+    private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
+    private LinkedList<Nourriture> nourritures = (new LecteurCarte("assets/cartes/bordures.txt")).getNourriture();
 
 	public int getDt(){
 		return dt;
@@ -35,6 +37,14 @@ public class Parametres extends JPanel implements ActionListener{
 
     public LinkedList<Obstacle> getObstacles() {
         return obstacles;
+    }
+    
+    public LinkedList<Nourriture> getNourriture(){
+        return nourritures;
+    }
+
+    public Fourmiliere getFourmiliere(){
+        return fourmiliere;
     }
 
 	public Parametres(){
@@ -115,21 +125,23 @@ public class Parametres extends JPanel implements ActionListener{
 
         if(e.getSource() == selectMap){
             int k = selectMap.getSelectedIndex();
-            LecteurCarte newObstacles = new LecteurCarte();
+            LecteurCarte newCarte = new LecteurCarte();
             switch(k){
                 case 0: 
-                    newObstacles = new LecteurCarte("assets/cartes/bordures.txt");
+                    newCarte = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
                 case 1:
-                    newObstacles = new LecteurCarte("assets/cartes/labyrinthe.txt");
+                    newCarte = new LecteurCarte("assets/cartes/labyrinthe.txt");
                     break;
                 case 2:
                     break;
                 default:
-                    newObstacles = new LecteurCarte("assets/cartes/bordures.txt");
+                    newCarte = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
             }
-            obstacles = newObstacles.getObstacles();
+            obstacles = newCarte.getObstacles();
+            nourritures = newCarte.getNourriture();
+            fourmiliere = newCarte.getFourmiliere();
         }
     }
 }
