@@ -229,7 +229,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                     FourmiA fA = (FourmiA) f;
                     for (Pheromone p : pheromonesAller) {
                         if (f.position.distance(p.position) < DISTANCE_PROCHE) {
-                            //p.rafraichir();
                             assezLoin = false;
                             break;
                         }
@@ -241,7 +240,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                     FourmiB fB = (FourmiB) f;
                     for (Pheromone p : pheromonesRetour) {
                         if (f.position.distance(p.position) < DISTANCE_PROCHE) {
-                            //p.rafraichir(fB.temps);
                             assezLoin = false;
                             break;
                         }

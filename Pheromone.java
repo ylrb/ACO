@@ -37,20 +37,4 @@ public class Pheromone {
         g.setColor(couleur);
         g.drawLine((int)position.x,(int)position.y,(int)position.x+1,(int)position.y);
     }
-
-    public void rafraichir() {
-        taux += 100;
-        if(taux >= 300) {
-            taux = 300;
-        }
-    }
-
-    public void rafraichir(int t) {
-        if (t <= 100) {
-            taux += (100-t);
-        }
-        if(taux >= 100) {
-            taux = 100;
-        }
-    }
 }
