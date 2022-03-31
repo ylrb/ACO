@@ -9,11 +9,11 @@ import java.util.LinkedList;
 public class Parametres extends JPanel implements ActionListener{
 	private final Color FOND_PARAM = new Color(214,214,214);
 	private JCheckBox cocherPheromones;
-	// Paramètres par défaut de la Carte
+	// Paramètres par défaut de la carte
 	private int dt = 0;
     private int nombreFourmis = 100;
     private boolean afficherPheromones = true;
-    private String[] listMap = { "Carte par défaut", "Labyrinthe bugé", "Map 3", "Map 4", "Map 5" };
+    private String[] listMap = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Map 5" };
     private JComboBox<String> selectMap = new JComboBox<String>(listMap);
     private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
     private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
@@ -134,6 +134,7 @@ public class Parametres extends JPanel implements ActionListener{
                     newCarte = new LecteurCarte("assets/cartes/labyrinthe.txt");
                     break;
                 case 2:
+                    newCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
                 default:
                     newCarte = new LecteurCarte("assets/cartes/bordures.txt");
