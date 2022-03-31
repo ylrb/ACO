@@ -1,10 +1,23 @@
 import java.awt.*;
 
 public class Pheromone {
-    protected Vecteur position;
-    protected Color couleur;
-    protected double taux = 100.0;
-    protected static final double REDUCTION = 0.2; // Vitesse de disparition des phéromones
+    private Vecteur position;
+    private final boolean type; // Si la phéromone est une phéromone aller (type = 0) ou retour (type = 1)
+    private Color couleur;
+    private double taux = 100.0;
+    private static final double REDUCTION = 0.2; // Vitesse de disparition des phéromone
+    private static final double AFFAIBLISSEMENT = 2.0; // Vitesse de réduction du taux initial
+
+    public Pheromone(Vecteur pos, int compteur, boolean t) {
+        position = pos;
+        type = t;
+        if (type) {
+            couleur = Color.YELLOW;
+        } else {
+            couleur = Color.CYAN;
+        }
+        taux = 100 - compteur*AFFAIBLISSEMENT;
+    }
     
     public Vecteur getPosition() {
         return new Vecteur(position.x,position.y);

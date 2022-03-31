@@ -4,10 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import java.io.IOException;
 import java.io.File;
 
@@ -165,7 +161,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
         fourmiliere.dessine(g, imageFourmiliere);
         for (Fourmi f : fourmis) {
-            if (f.getClass() == FourmiA.class) {
+            if (f instanceof FourmiA) {
                 f.dessine(g,imageFourmiA);
             } else {
                 f.dessine(g,imageFourmiB);
@@ -226,30 +222,33 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
      * Donc pour réduire ce lag, on place une phéromone seulement si elle est assez loin des phéromones déjà existantes.
     */
     private void ajoutPheromones() {
-        if (compteur>COMPTEUR_MAX) {
+        if (compteur > COMPTEUR_MAX) {
             for (Fourmi f : fourmis) {
                 boolean assezLoin = true; // Si la phéromone à placer est assez loin des autres phéromones existantes
-                if (f.getClass() == FourmiA.class) {
+                if (f instanceof FourmiA) {
                     FourmiA fA = (FourmiA) f;
                     for (Pheromone p : pheromonesAller) {
-                        if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                        if (f.position.distance(p.getPosition()) < DISTANCE_PROCHE) {
                             assezLoin = false;
                             break;
                         }
                     }
                     if (assezLoin) {
-                        pheromonesAller.add(fA.deposerPheromoneAller());
+                        Pheromone p = fA.deposerPheromone();
+                        if (p.getTaux() > 5) {
+                            pheromonesAller.add(p);
+                        }
                     }
                 } else {
                     FourmiB fB = (FourmiB) f;
                     for (Pheromone p : pheromonesRetour) {
-                        if (f.position.distance(p.position) < DISTANCE_PROCHE) {
+                        if (f.position.distance(p.getPosition()) < DISTANCE_PROCHE) {
                             assezLoin = false;
                             break;
                         }
                     }
                     if (assezLoin) {
-                        PheroRetour p = fB.deposerPheromoneRetour();
+                        Pheromone p = fB.deposerPheromone();
                         if (p.getTaux() > 5) {
                             pheromonesRetour.add(p);
                         }
@@ -269,18 +268,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         
         // On parcout la LinkedList de fourmis à la recherche d'une fourmiA qui a trouvé de la nourriture
         for (Fourmi f : fourmis) {
-            if (f.getClass() == FourmiA.class) {
+            if (f instanceof FourmiA) {
                 for (Nourriture n : nourritures) {
                     if (f.getPosition().distance(n.getPosition()) < 1.5*n.getRayon()) {
                         fourmisSup.add(f);
                     }
                 }
             }
-        }
-
-        // On fait un bruitage si une fourmi mange de la nourriture
-        if (fourmisSup.size() > 0) {
-            jouerSon("crunch.wav", compteur);
         }
 
         // On change le type de ces fourmis (on ne peut pas le faire à l'intérieur du for each donc on a recours aux indices)
@@ -295,7 +289,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // On reparcourt la LinkedList de fourmis à la recherche d'une fourmiB qui a atteint la fourmilière
         for (Fourmi f : fourmis) {
-            if (f.getClass() == FourmiB.class) {
+            if (f instanceof FourmiB) {
                 if (f.getPosition().distance(fourmiliere.getPosition()) < 1.0) {
                     fourmisSup.add(f);
                 }
@@ -306,7 +300,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         LinkedList<Pheromone> pheromones = new LinkedList<Pheromone>();
         double distance;
             for (Pheromone p : pheromonesAller) {
-            distance = fourmiliere.getPosition().distance(p.position);
+            distance = fourmiliere.getPosition().distance(p.getPosition());
             if ((distance < PORTEE_VUE_INITIALE)&&(distance > fourmiliere.getRayon())) {
                 pheromones.add(p);
             }
@@ -353,7 +347,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
 
             // Les fourmis avancent en fonction de leur environnement
-            if (f.getClass() == FourmiA.class) {
+            if (f instanceof FourmiA) {
                 f.avancer(nourritures, fourmiliere, pheromonesRetour, obstacles);
             } else {
                 f.avancer(nourritures, fourmiliere, pheromonesAller, obstacles);
@@ -412,21 +406,5 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
         }
     }
-
-    public static synchronized void jouerSon(final String url, int dt) {
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Clip son = AudioSystem.getClip();
-                    AudioInputStream flux = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("assets/sons/"+url));
-                    son.open(flux);
-                    son.start(); 
-                } catch (Exception e) {
-                }
-            }
-        }).start();
-    }
-
-    
 
 }
