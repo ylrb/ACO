@@ -1,3 +1,6 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.util.LinkedList;
 import java.awt.*;
@@ -267,6 +270,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             dir.inverser(); // Puis il faut l'inverser pour que la fourmi reparte en arrière
             fourmis.remove(f);
             fourmis.add(new FourmiB(pos,dir));
+            jouerSon("crunch6");
         }
         fourmisSup.clear();
 
@@ -379,6 +383,17 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         fourmis.clear();
         for (int i = 0; i < taille; i++) {
             fourmis.add(new FourmiA(fourmiliere.getPosition()));
+        }
+    }
+
+    public void jouerSon(String s) {
+        try {
+            File wavFile = new File(".\\assets\\sons\\crunch6.wav");     // sorti : C:\Users\lamaq\Desktop\ACO
+            Clip clip1 = AudioSystem.getClip();
+            clip1.open(AudioSystem.getAudioInputStream(wavFile));
+            clip1.start();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
