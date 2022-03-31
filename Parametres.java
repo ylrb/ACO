@@ -134,6 +134,7 @@ public class Parametres extends JPanel implements ActionListener{
                     newCarte = new LecteurCarte("assets/cartes/labyrinthe.txt");
                     break;
                 case 2:
+                    newCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
                 default:
                     newCarte = new LecteurCarte("assets/cartes/bordures.txt");
