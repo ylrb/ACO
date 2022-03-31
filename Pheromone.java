@@ -14,26 +14,13 @@ public class Pheromone {
         return taux;
     }
 
-
-    /*
-    public Pheromone (double coeffiecient) {
-
-    }
-    */
-
     // Les phéromones s'estompent à chaque itération
     public void estompe() {
         taux -= REDUCTION;
     }
 
     public void dessine(Graphics2D g) {
-        int alpha;
-        if (taux >= 100) {
-            alpha = 255;
-        } else {
-            alpha = (int)(2.5*taux);
-        }
-        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),alpha); // On rend plus transparentes les phéromones selon leur teux
+        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
         g.setColor(couleur);
         g.drawLine((int)position.x,(int)position.y,(int)position.x+1,(int)position.y);
     }
