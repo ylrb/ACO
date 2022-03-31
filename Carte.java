@@ -304,15 +304,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             
         }
         fourmisSup.clear();
-        
-        /* 
-         * Il n'est pas possible de faire les deux tris en parallèle.
-         * Imaginons que nous soyons dans le cas où une fourmi 1 arrive à la fourmilière en même qu'une fourmi 2 trouve de la nourriture.
-         * Il faudrait alors supprimer la fourmi 1, d'incide i, puis ensuite la fourmi 2, d'incide j.
-         * Or, supprimer la fourmi i décale vers la gauche tous les éléments de la liste.
-         * Ainsi, si elle se trouvait après la fourmi 1 dans la LinkedList, la fourmi 2 se trouverait alors à l'indice j-1.
-         * Ce serait donc la fourmi après elle qui serait supprimée à sa place.
-        */
     }
 
     // Déplacement des fourmis selon leur type et gestion des murs
