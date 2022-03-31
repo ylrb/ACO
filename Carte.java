@@ -388,7 +388,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void jouerSon(String s) {
         try {
-            File wavFile = new File(".\\assets\\sons\\crunch6.wav");     // sorti : C:\Users\lamaq\Desktop\ACO
+            File wavFile = new File("assets/sons/crunch6.wav");
             Clip clip1 = AudioSystem.getClip();
             clip1.open(AudioSystem.getAudioInputStream(wavFile));
             clip1.start();
