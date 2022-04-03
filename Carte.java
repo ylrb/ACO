@@ -19,6 +19,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private LinkedList<Nourriture> nourritures = new LinkedList<Nourriture>();
     private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
     private Fourmiliere fourmiliere;
+    int nombreFourmis; // Nombre indiqué par l'utilisateur
+    int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
 
     // Images et tailles
     private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
@@ -35,6 +37,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
     private static final double PORTEE_VUE_INITIALE = 60; // Portée de vue des fourmis qui sortent de la fourmilière
+    private static final int VITESSE_DEPLOIEMENT = 5; // Vitesse à laquelle les fourmis sortent de la fourmilère à l'initalisation
 
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
@@ -58,14 +61,15 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     ** CONSTRUCTEUR ET MÉTHODES LIÉES
     */
 
-    public Carte(int dt, int nombreFourmis, boolean phero, LinkedList<Obstacle> obs, LinkedList<Nourriture> nour, Fourmiliere fourm) {
+    public Carte(int dt, int nbFourmis, boolean phero, LinkedList<Obstacle> obs, LinkedList<Nourriture> nour, Fourmiliere fourm) {
         affichagePheromones = phero;
         this.addMouseListener(this);
+        nombreFourmis = nbFourmis;
+        compteurFourmis = 0;
         fourmiliere = fourm;
         nourritures = nour;
 
         importerImages();
-        initialiserTerrain(nombreFourmis);
         setObstacles(obs);
 
         timer = new Timer(dt, this);
@@ -115,13 +119,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         return nouvelleImage;
     }
 
-    // Initialisation de la fourmilière, des fourmis et de la nourriture
-    private void initialiserTerrain(int nombreFourmis) {
-        for (int i = 0; i < nombreFourmis; i++) {
-            fourmis.add(new FourmiA(fourmiliere.getPosition()));
-        }
-    }
-
     // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des rotations d'éléments)
     public void paint (Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
@@ -164,12 +161,23 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==timer) {
 
+            ajoutInitialFourmis(); // Rajoute des fourmis dans la liste jusqu'à atteindre le nombre indiqué
             updatePheromones(); // Mise à jour des phéromones actuelles
             ajoutPheromones(); // On ajoute les nouvelles phéromones
             changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
             deplacementFourmis(); // Déplacement des fourmis selon leur type et gestion des murs
 
             repaint();
+        }
+    }
+
+    // Méthode qui permet d'ajouter une fourmi toutes les 'VITESSE_DEPLOIEMENT' boucle (pour que toutes les fourmis ne partent pas en même temps de la fourmilière)
+    private void ajoutInitialFourmis() {
+        if (compteurFourmis < VITESSE_DEPLOIEMENT*nombreFourmis) {
+            compteurFourmis++;
+            if (compteurFourmis%VITESSE_DEPLOIEMENT == 0) {
+                fourmis.add(new FourmiA(fourmiliere.getPosition()));
+            }
         }
     }
 
