@@ -63,14 +63,14 @@ public class LecteurCarte {
             // Initialisation de la fourmilière
             if (ligneFourmiliere != 0) {
                 int[] coordonnéesFourmiliere = coordonnées(ligneFourmiliere);
-                fourmiliere = new Fourmiliere(coordonnéesFourmiliere[0], coordonnéesFourmiliere[1], Carte.TAILLE_FOURMILIERE);
+                fourmiliere = new Fourmiliere(coordonnéesFourmiliere[0], coordonnéesFourmiliere[1], Parametres.TAILLE_FOURMILIERE);
             }
 
             // Initialisation de la nourriture
             if (ligneNourriture != 0) {
                 int[] coordonnéesNourriture = coordonnées(ligneNourriture);
                 nourriture = new LinkedList<Nourriture>();
-                nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1], Carte.TAILLE_NOURRITURE));
+                nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1], Parametres.TAILLE_NOURRITURE));
             }
         } catch (Exception e) {
             System.out.println(e);

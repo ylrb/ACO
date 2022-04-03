@@ -74,7 +74,6 @@ public abstract class Fourmi {
         position.y += 2 * direction.y;
     }
 
-
     // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
     protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles, LinkedList<Segment> murs) {
 

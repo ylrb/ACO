@@ -1,8 +1,8 @@
 * Carte contenant l'experience du double pont
 // FOURMILIERE //
-300,130,40
+300,130
 // NOURRITURE //
-730,130,40
+730,130
 // DEBUT OBSTACLE //
 // NOUVEL OBSTACLE obsBas
 0,350

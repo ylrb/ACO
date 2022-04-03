@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.io.File;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
@@ -21,28 +18,18 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     int nombreFourmis; // Nombre indiqué par l'utilisateur
     int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
 
-    // Images et tailles
-    private BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
-    protected static final int TAILLE_FOURMI = 20;
-    protected static final int TAILLE_FOURMILIERE = 40;
-    protected static final int TAILLE_NOURRITURE = 30;
-
     // Variables du timer par défaut
     private Timer timer;
 
     // Réglages
-    private static boolean affichagePheromones; // Doit-on visualiser les phéromones ou non
-    private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les
-                                     // phéromones
+    private static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
+    private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
-    private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle
-                                                     // phéromone par rapport à une ancienne
+    private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
     private static final double PORTEE_VUE_INITIALE = 60; // Portée de vue des fourmis qui sortent de la fourmilière
-    private static final int DELAI_DEPLOIEMENT = 10; // Vitesse à laquelle les fourmis sortent de la fourmilère à
-                                                     // l'initalisation
+    private static final int DELAI_DEPLOIEMENT = 10; // Vitesse à laquelle les fourmis sortent de la fourmilère à l'initalisation
 
-    // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de
-    // la nourriture
+    // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
 
@@ -60,79 +47,38 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    public static void setAffichagePheromones(boolean parametre) {
+        affichagePheromones = parametre;
+    }
+
+
+
     /*
      ** CONSTRUCTEUR ET MÉTHODES LIÉES
      */
 
-    public Carte(int dt, int nbFourmis, boolean phero, LinkedList<Obstacle> obs, LinkedList<Nourriture> nour,
-            Fourmiliere fourm) {
-        affichagePheromones = phero;
+    public Carte(LinkedList<Obstacle> obs, LinkedList<Nourriture> nour, Fourmiliere fourm) {
         this.addMouseListener(this);
-        nombreFourmis = nbFourmis;
+        nombreFourmis = Parametres.getNombreFourmis();
         compteurFourmis = 0;
         fourmiliere = fourm;
         nourritures = nour;
-
-        importerImages();
         setObstacles(obs);
 
-        timer = new Timer(dt, this);
+        timer = new Timer(Parametres.getDt(), this);
         timer.start();
 
         setVisible(true);
         repaint();
     }
 
-    // Importation et redimensionnement des images qu'on importe en tant que
-    // BufferedImage
-    private void importerImages() {
-        try {
-            // On importe les images
-            imageFourmiA = ImageIO.read(new File("assets/images/FourmiA.png"));
-            imageFourmiB = ImageIO.read(new File("assets/images/FourmiB.png"));
-            imageFourmiliere = ImageIO.read(new File("assets/images/Fourmiliere.png"));
-            imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png"));
-            imageFond = ImageIO.read(new File("assets/images/Fond.png"));
-
-            // On leur donne la taille désirée
-            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
-            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
-            imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
-            imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
-            imageFond = redimensionner(imageFond, 1025);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Impossible de lire les fichiers images.");
-        }
-    }
-
-    // Redimensionne l'image de fourmi à la taille désirée
-    private static BufferedImage redimensionner(BufferedImage img, int largeurVoulue) {
-        int largeur = img.getWidth();
-        int hauteur = img.getHeight();
-        int hauteurVoulue = (largeurVoulue * hauteur) / largeur; // Simple produit en croix
-
-        // On crée une nouvelle image vide la taille désirée
-        BufferedImage nouvelleImage = new BufferedImage(largeurVoulue, hauteurVoulue, img.getType());
-        Graphics2D g = nouvelleImage.createGraphics();
-
-        // On place l'image dans cette nouvelle image de manière à ce qu'elle la
-        // remplisse, par interpolation
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(img, 0, 0, largeurVoulue, hauteurVoulue, 0, 0, largeur, hauteur, null);
-        g.dispose();
-
-        return nouvelleImage;
-    }
-
-    // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des
-    // rotations d'éléments)
+    // Méthode paint modifiée (on utilise les graphics2D pour pouvoir faire des rotations d'éléments)
     public void paint(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
         Toolkit.getDefaultToolkit().sync();
 
         g.setColor(new Color(120, 100, 80));
-        g.drawImage(imageFond, 0, 0, null); // Taille de l'image : 1024x698
+        g.drawImage(Parametres.imageFond, 0, 0, null); // Taille de l'image : 1024x698
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
         for (Obstacle o : obstacles) {
@@ -147,17 +93,19 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
         }
         for (Nourriture n : nourritures) {
-            n.dessine(g, imageNourriture);
+            n.dessine(g, Parametres.imageNourriture);
         }
-        fourmiliere.dessine(g, imageFourmiliere);
+        fourmiliere.dessine(g, Parametres.imageFourmiliere);
         for (Fourmi f : fourmis) {
             if (f instanceof FourmiA) {
-                f.dessine(g, imageFourmiA);
+                f.dessine(g, Parametres.imageFourmiA);
             } else {
-                f.dessine(g, imageFourmiB);
+                f.dessine(g, Parametres.imageFourmiB);
             }
         }
     }
+
+
 
     /*
      * MÉTHODES DÉCRIVANT LE COMPORTEMENT DES FOURMIS
@@ -165,14 +113,11 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-
             ajoutInitialFourmis(); // Rajoute des fourmis dans la liste jusqu'à atteindre le nombre indiqué
             updatePheromones(); // Mise à jour des phéromones actuelles
             ajoutPheromones(); // On ajoute les nouvelles phéromones
-            changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la
-                                 // fourmilière/nourriture
+            changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
             deplacementFourmis(); // Déplacement des fourmis selon leur type et gestion des murs
-
             repaint();
         }
     }
@@ -218,7 +163,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             pheromonesRetour.remove(p);
         }
     }
-
     
     /*
      * On rajoute des phéromones toutes les COMPTEUR_MAX itérations de la boucle.
@@ -341,6 +285,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
         }
     }
+
+
 
     /*
      ** MÉTHODES PERMETTANT L'INTERACTION DE L'UTILISATEUR AVEC LA CARTE
