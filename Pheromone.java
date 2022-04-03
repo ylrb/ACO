@@ -16,12 +16,12 @@ public class Pheromone {
         } else {
             couleur = Color.CYAN;
         }
-        taux = 100 - compteur*AFFAIBLISSEMENT;
+        taux = 100 - compteur * AFFAIBLISSEMENT;
     }
-    
+
     public Vecteur getPosition() {
-        return new Vecteur(position.x,position.y);
-    }  
+        return new Vecteur(position.x, position.y);
+    }
 
     public double getTaux() {
         return taux;
@@ -33,8 +33,8 @@ public class Pheromone {
     }
 
     public void dessine(Graphics2D g) {
-        couleur = new Color(couleur.getRed(),couleur.getGreen(),couleur.getBlue(),(int)(2.5*taux)); // On rend plus transparentes les phéromones selon leur teux
+        couleur = new Color(couleur.getRed(), couleur.getGreen(), couleur.getBlue(), (int) (2.5 * taux)); // On rend plus transparentes les phéromones selon leur taux
         g.setColor(couleur);
-        g.drawLine((int)position.x,(int)position.y,(int)position.x+1,(int)position.y);
+        g.drawLine((int) position.x, (int) position.y, (int) position.x + 1, (int) position.y);
     }
 }

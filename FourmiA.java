@@ -1,17 +1,17 @@
 import java.util.LinkedList;
 
 public class FourmiA extends Fourmi {
-    
+
     public FourmiA(double x, double y) {
-        super(x,y);
+        super(x, y);
     }
 
     public FourmiA(Vecteur pos) {
-        this(pos.x,pos.y);
+        this(pos.x, pos.y);
     }
 
     public FourmiA(Vecteur pos, Vecteur dir) {
-        super(pos.x,pos.y,dir);
+        super(pos.x, pos.y, dir);
     }
 
     // Pour les fourmiA, la force spéciale est la force d'attraction à la nourriture

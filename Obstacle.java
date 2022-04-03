@@ -6,13 +6,13 @@ public class Obstacle {
     private Color couleur;
     private ArrayList<Segment> murs = new ArrayList<Segment>();
 
-    public Obstacle (LinkedList<Vecteur> points) {
+    public Obstacle(LinkedList<Vecteur> points) {
         for (int i = 0; i < points.size(); i++) {
-            murs.add(new Segment(points.get(i),points.get((i+1)%points.size())));
+            murs.add(new Segment(points.get(i), points.get((i + 1) % points.size())));
         }
-        couleur = new Color(140,70,20);
+        couleur = new Color(140, 70, 20);
     }
-    
+
     public ArrayList<Segment> getMurs() {
         return murs;
     }
@@ -22,8 +22,8 @@ public class Obstacle {
         int[] Y = new int[murs.size()];
         int i = 0;
         for (Segment m : murs) {
-            X[i] = (int)m.pointA.x;
-            Y[i] = (int)m.pointA.y;
+            X[i] = (int) m.pointA.x;
+            Y[i] = (int) m.pointA.y;
             i++;
         }
         g.setColor(couleur);
