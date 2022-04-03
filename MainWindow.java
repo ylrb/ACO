@@ -24,7 +24,7 @@ public class MainWindow extends JFrame implements ActionListener{
         param.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
 
         // Création du premier objet Carte
-        carte = new Carte(param.getDt(), param.getNbFourmis(), param.getAffichagePhero(), param.getObstacles(), param.getNourriture(), param.getFourmiliere());
+        carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
         // Création des boutons permettant l'interaction entre les objets Carte/Parametres
@@ -47,7 +47,6 @@ public class MainWindow extends JFrame implements ActionListener{
         conteneur.add(param, BorderLayout.WEST);
         conteneur.add(carte, BorderLayout.EAST);
 
-        // Fin
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         repaint();
@@ -61,7 +60,7 @@ public class MainWindow extends JFrame implements ActionListener{
         if (e.getSource() == valider) {
             conteneur.remove(carte);
             carte.getTimer().stop();
-            carte = new Carte(param.getDt(), param.getNbFourmis(), param.getAffichagePhero(), param.getObstacles(), param.getNourriture(), param.getFourmiliere());
+            carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
             conteneur.add(carte, BorderLayout.EAST);
             carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
             conteneur.revalidate();

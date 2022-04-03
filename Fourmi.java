@@ -10,9 +10,9 @@ public abstract class Fourmi {
     protected Vecteur direction;
     protected Vecteur errance;
 
-    // Autres
+    // Variables pour le comportement des fourmis
     protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
-    protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>();
+    protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>(); // Murs devant la fourmi
     protected static final double DISTANCE_COINS = 20;
     int temps = 0;
 
@@ -20,41 +20,37 @@ public abstract class Fourmi {
     protected static final double COEFF_ERRANCE = 0.1;
     protected static final double COEFF_ATTRACTION_PHEROMONES = 1;
     protected static final double COEFF_ATTRACTION_FOURMILIERE_NOURRITURE = 10;
-    
+
     // Grandeurs définies
     protected static final double AMPLITUDE_ERRANCE = 5; // Amplitude max de la variation du vecteur errance
     protected static final double PORTEE_VUE = 60; // Distance à laquelle les fourmis peuvent voir les nourritures, pheromones, la fourmilière etc..
-    protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
+    protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles 
     protected static final double ANGLE_VUE = 50; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
-    protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
     protected static final double ANGLE_ROTATION = 0.5;
 
-    // Grandeurs liées à l'affichage
-    private static final boolean AFFICHAGE_DIRECTION = false; // Doit-on visualiser la direction de la fourmi
-
     public Fourmi(double x, double y) {
-        position = new Vecteur(x,y);
-        direction = new Vecteur(2*Math.random()-1,2*Math.random()-1);
+        position = new Vecteur(x, y);
+        direction = new Vecteur(2 * Math.random() - 1, 2 * Math.random() - 1);
         direction.unitaire();
         errance = direction;
     }
 
     public Fourmi(double x, double y, Vecteur dir) {
-        this(x,y);
+        this(x, y);
         direction = dir;
     }
 
     public Vecteur getPosition() {
-        return new Vecteur(position.x,position.y);
+        return new Vecteur(position.x, position.y);
     }
 
-    public void setPosition(Vecteur nouvellePosition){
+    public void setPosition(Vecteur nouvellePosition) {
         position = nouvellePosition;
     }
 
     public Vecteur getDirection() {
-        return new Vecteur(direction.x,direction.y);
+        return new Vecteur(direction.x, direction.y);
     }
 
     public void setDirection(Vecteur nouvelleDirection) {
@@ -64,28 +60,23 @@ public abstract class Fourmi {
 
     // Fait avancer la fourmi dans la nouvelle direction qui est déterminée selon son environnement
     public void avancer(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheros, LinkedList<Obstacle> obstacles) {
-        
+
         // On ne considère que les éléments qui sont dans le champ de vision de la fourmi (portion de cercle dans sa direction)
         LinkedList<Pheromone> pheromones = pheromonesEnVue(pheros);
         LinkedList<Segment> murs = obstaclesEnVue(obstacles);
-            
+
         // Calcul des forces
-        calculErrance();
+        errance.tourner((2 * Math.random() - 1) * (Math.PI / 180) * AMPLITUDE_ERRANCE); // Calcul de l'errance
         calculNouvelleDirection(nourritures, fourmiliere, pheromones, obstacles, murs);
 
         // Mise à jour de la position
-        position.x += 2*direction.x;
-        position.y += 2*direction.y;
+        position.x += 2 * direction.x;
+        position.y += 2 * direction.y;
     }
 
-    // Calcule la nouvelle orientation du vecteur errance
-    private void calculErrance() { 
-        errance.tourner((2*Math.random()-1)*(Math.PI/180)*AMPLITUDE_ERRANCE); // Amplitude en degré convertie en radians, comprise dans un intervalle défini
-    }
-
-    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement  
+    // Détermine la nouvelle direction de la fourmi en fonction des éléments de son environnement
     protected void calculNouvelleDirection(LinkedList<Nourriture> nourritures, Fourmiliere fourmiliere, LinkedList<Pheromone> pheromones, LinkedList<Obstacle> obstacles, LinkedList<Segment> murs) {
-        
+
         // On stocke les murs dans la direction de la fourmi
         LinkedList<Segment> mursProches = mursSecants(murs);
 
@@ -94,7 +85,7 @@ public abstract class Fourmi {
             if (sensRotation == 0) {
                 angleRotationMur(segmentLePlusProche(mursProches));
             }
-            direction.tourner(sensRotation*ANGLE_ROTATION);
+            direction.tourner(sensRotation * ANGLE_ROTATION);
             direction = direction.somme(errance, 1, COEFF_ERRANCE);
         } else {
             if (sensRotation != 0) {
@@ -103,7 +94,7 @@ public abstract class Fourmi {
                 sensRotation = 0;
             }
             Vecteur forceAttractionSpeciale = calculForceSpeciale(fourmiliere, nourritures);
-            if ((forceAttractionSpeciale.x!=0)&&(forceAttractionSpeciale.y!=0)) {           
+            if ((forceAttractionSpeciale.x != 0) && (forceAttractionSpeciale.y != 0)) {
                 direction = direction.somme(forceAttractionSpeciale, 1, COEFF_ATTRACTION_FOURMILIERE_NOURRITURE);
             } else if (pheromones.size() > 0) {
                 esquiveCoins(obstacles);
@@ -113,14 +104,14 @@ public abstract class Fourmi {
         }
         direction.unitaire();
     }
-        
+
     // Renvoie une LinkedList contenant les nourritures suffisamment proches de la fourmi pour qu'elle puisse les voir
-    protected LinkedList<Pheromone> pheromonesEnVue(LinkedList<Pheromone> pheromones) { 
+    protected LinkedList<Pheromone> pheromonesEnVue(LinkedList<Pheromone> pheromones) {
         LinkedList<Pheromone> rep = new LinkedList<Pheromone>();
         Vecteur distance = new Vecteur();
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
-            if ((position.distance(p.getPosition()) < PORTEE_VUE)&&(direction.angle(distance) < Math.toRadians(ANGLE_VUE))) {
+            if ((position.distance(p.getPosition()) < PORTEE_VUE) && (direction.angle(distance) < Math.toRadians(ANGLE_VUE))) {
                 // Ajoute p à rep si la phéromone se trouve dans le champ de visions de la fourmi
                 rep.add(p);
             }
@@ -129,21 +120,21 @@ public abstract class Fourmi {
     }
 
     // Renvoie une LinkedList contenant les murs dans le champ de vision de la fourmi
-    protected LinkedList<Segment> obstaclesEnVue(LinkedList<Obstacle> obstacles) { 
+    protected LinkedList<Segment> obstaclesEnVue(LinkedList<Obstacle> obstacles) {
         LinkedList<Segment> rep = new LinkedList<Segment>();
-        
-        Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y); // Extrémité de la vision de la fourmi
-        Segment segmentVue = new Segment(getPosition(),p2); // Segment de la vue de la fourmi
-        Segment segmentVueDroite = new Segment(getPosition(),p2); // Segment de l'extrémité droite de la vision de la fourmi
+
+        Vecteur p2 = new Vecteur(getPosition().x + PORTEE_VUE_MUR * direction.x, getPosition().y + PORTEE_VUE_MUR * direction.y); // Extrémité de la vision de la fourmi
+        Segment segmentVue = new Segment(getPosition(), p2); // Segment de la vue de la fourmi
+        Segment segmentVueDroite = new Segment(getPosition(), p2); // Segment de l'extrémité droite de la vision de la fourmi
         segmentVueDroite.tourner(ANGLE_VUE);
-        Segment segmentVueGauche = new Segment(getPosition(),p2); // Segment de l'extrémité gauche de la vision de la fourmi
+        Segment segmentVueGauche = new Segment(getPosition(), p2); // Segment de l'extrémité gauche de la vision de la fourmi
         segmentVueDroite.tourner(-ANGLE_VUE);
-        
+
         for (Obstacle o : obstacles) {
             for (Segment s : o.getMurs()) {
                 if (segmentVue.secante(s) != null) {
                     rep.add(s);
-                } else if ((segmentVueDroite.secante(s) != null)||(segmentVueGauche.secante(s) != null)) {
+                } else if ((segmentVueDroite.secante(s) != null) || (segmentVueGauche.secante(s) != null)) {
                     rep.add(s);
                 }
             }
@@ -153,8 +144,8 @@ public abstract class Fourmi {
 
     // On détermine dans quels murs va la fourmi
     public LinkedList<Segment> mursSecants(LinkedList<Segment> segments) {
-        Vecteur p2 = new Vecteur(getPosition().x+PORTEE_VUE_MUR*direction.x,getPosition().y+PORTEE_VUE_MUR*direction.y); // Extrémité de la vision de la fourmi
-        Segment segmentVue = new Segment(getPosition(),p2); // Segment de la vue de la fourmi
+        Vecteur p2 = new Vecteur(getPosition().x + PORTEE_VUE_MUR * direction.x, getPosition().y + PORTEE_VUE_MUR * direction.y); // Extrémité de la vision de la fourmi
+        Segment segmentVue = new Segment(getPosition(), p2); // Segment de la vue de la fourmi
         LinkedList<Segment> murs = new LinkedList<Segment>();
         Vecteur pointSecant = new Vecteur();
         contactMurs.clear();
@@ -173,7 +164,7 @@ public abstract class Fourmi {
         int min = 0; // Indice du point le plus proche de la fourmi
         int i = 0;
         double distanceMin = 2000; // Distance minimale à la fourmi
-        for (Vecteur v : contactMurs) { 
+        for (Vecteur v : contactMurs) {
             if (position.distance(v) < distanceMin) {
                 distanceMin = position.distance(v);
                 min = i;
@@ -189,7 +180,7 @@ public abstract class Fourmi {
         Vecteur mur = s.pointA.soustrait(s.pointB);
         double angle1 = mur.angle(direction);
         double angle2 = mur.angle(direction2);
-        if (Math.abs(angle1-Math.PI/2) < Math.abs(angle2-Math.PI/2)) {
+        if (Math.abs(angle1 - Math.PI / 2) < Math.abs(angle2 - Math.PI / 2)) {
             sensRotation = 1; // 1 : il faut tourner dans le sens indirect
         } else {
             sensRotation = -1; // -1 : il faut tourner dans le sens direct
@@ -205,7 +196,7 @@ public abstract class Fourmi {
         for (Pheromone p : pheromones) {
             if ((vueDirecte(p, murs))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
-                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
+                rep = rep.somme(p.getPosition().soustrait(getPosition()), 1, p.getTaux() / 100);
             }
         }
         rep.unitaire();
@@ -232,12 +223,12 @@ public abstract class Fourmi {
                 if (position.distance(s.pointA) < DISTANCE_COINS) {
                     Vecteur dir = position.soustrait(s.pointA);
                     dir.unitaire();
-                    position = position.somme(dir,1,1);
+                    position = position.somme(dir, 1, 1);
                 }
                 if (position.distance(s.pointB) < DISTANCE_COINS) {
                     Vecteur dir = position.soustrait(s.pointB);
                     dir.unitaire();
-                    position = position.somme(dir,1,1);
+                    position = position.somme(dir, 1, 1);
                 }
             }
         }
@@ -257,25 +248,17 @@ public abstract class Fourmi {
 
     // Dessine une fourmi à la position de la fourmi
     public void dessine(Graphics2D g, BufferedImage imageFourmi) {
-        double rayon = imageFourmi.getWidth()/2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
+        double rayon = imageFourmi.getWidth() / 2; // Le rayon de la fourmi est égal à la moitié de la hauteur de son image
 
         // On doit distinguer les cas où l'angle est compris dans [0;pi] ou [-pi;0]
-        double angle =direction.angle(new Vecteur(0,100))+Math.PI;
-        if (direction.x>=0) {
-            angle = -angle+2*Math.PI;
+        double angle = direction.angle(new Vecteur(0, 100)) + Math.PI;
+        if (direction.x >= 0) {
+            angle = -angle + 2 * Math.PI;
         }
 
         // On fait tourner la carte de l'angle désiré, on peint la fourmi, puis on le retourne dans l'autre sens
-        g.rotate(angle, (int)position.x, (int)position.y);
-        g.drawImage(imageFourmi, (int)(position.x-rayon), (int)(position.y-rayon), null);
-        g.rotate(-angle, (int)position.x, (int)position.y);
-
-        // On peut choisir d'afficher le vecteur direction de la fourmi également
-        if (AFFICHAGE_DIRECTION) {
-            g.setColor(Color.BLUE);
-            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*direction.x),(int)(position.y+50*direction.y));
-            g.setColor(Color.GREEN);
-            g.drawLine((int)position.x, (int)position.y,(int)(position.x+50*errance.x),(int)(position.y+50*errance.y));
-        }
+        g.rotate(angle, (int) position.x, (int) position.y);
+        g.drawImage(imageFourmi, (int) (position.x - rayon), (int) (position.y - rayon), null);
+        g.rotate(-angle, (int) position.x, (int) position.y);
     }
 }

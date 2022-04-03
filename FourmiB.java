@@ -3,18 +3,18 @@ import java.util.LinkedList;
 public class FourmiB extends Fourmi {
 
     public FourmiB(double x, double y) {
-        super(x,y);
+        super(x, y);
     }
 
     public FourmiB(Vecteur pos) {
-        this(pos.x,pos.y);
+        this(pos.x, pos.y);
     }
 
     public FourmiB(Vecteur pos, Vecteur dir) {
-        super(pos.x,pos.y,dir);
+        super(pos.x, pos.y, dir);
     }
 
-    // Pour les fourmiA, la force spéciale est la force d'attraction à la fourmilière
+    // Pour les fourmiB, la force spéciale est la force d'attraction à la fourmilière
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
         return calculAttractionFourmiliere(fourmiliere);
     }
