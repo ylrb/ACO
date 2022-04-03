@@ -5,8 +5,8 @@ public class Pheromone {
     private final boolean type; // Si la phéromone est une phéromone aller (type = 0) ou retour (type = 1)
     private Color couleur;
     private double taux = 100.0;
-    private static final double REDUCTION = 0.03; // Vitesse de disparition des phéromone
-    private static final double AFFAIBLISSEMENT = 2.0; // Vitesse de réduction du taux initial
+    private static final double REDUCTION = 0.08; // Vitesse de disparition des phéromone
+    private static final double AFFAIBLISSEMENT = 3.5; // Vitesse de réduction du taux initial
 
     public Pheromone(Vecteur pos, int compteur, boolean t) {
         position = pos;

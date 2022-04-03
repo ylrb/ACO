@@ -27,7 +27,6 @@ public abstract class Fourmi {
     protected static final double PORTEE_VUE_MUR = 70; // Distance à laquelle les fourmis considère les murs devant elles
     protected static final double ANGLE_VUE = 50; // Angle de vision des fourmis (en degrés)
     protected static final double ANGLE_MIN_MUR = 40; // Angle critique dans le cas des murs (cf. calcul de la force de répulsion) (en degrés)
-    protected static final double PONDERATION_TAUX = 10; // Plus cette valeur est grande, moins la pondération des attractions aux phéromones par rapport aux taux est importante
     protected static final double ANGLE_ROTATION = 0.5;
 
     // Grandeurs liées à l'affichage
@@ -205,7 +204,7 @@ public abstract class Fourmi {
         for (Pheromone p : pheromones) {
             if ((vueDirecte(p, murs))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
-                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100+PONDERATION_TAUX);
+                rep = rep.somme(p.getPosition().soustrait(getPosition()),1,p.getTaux()/100);
             }
         }
         rep.unitaire();

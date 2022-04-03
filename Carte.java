@@ -1,4 +1,3 @@
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -37,7 +36,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
     private static final double PORTEE_VUE_INITIALE = 60; // Portée de vue des fourmis qui sortent de la fourmilière
-    private static final int VITESSE_DEPLOIEMENT = 5; // Vitesse à laquelle les fourmis sortent de la fourmilère à l'initalisation
+    private static final int DELAI_DEPLOIEMENT = 10; // Vitesse à laquelle les fourmis sortent de la fourmilère à l'initalisation
 
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
@@ -173,9 +172,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Méthode qui permet d'ajouter une fourmi toutes les 'VITESSE_DEPLOIEMENT' boucle (pour que toutes les fourmis ne partent pas en même temps de la fourmilière)
     private void ajoutInitialFourmis() {
-        if (compteurFourmis < VITESSE_DEPLOIEMENT*nombreFourmis) {
+        if (compteurFourmis < DELAI_DEPLOIEMENT*nombreFourmis) {
             compteurFourmis++;
-            if (compteurFourmis%VITESSE_DEPLOIEMENT == 0) {
+            if (compteurFourmis%DELAI_DEPLOIEMENT == 0) {
                 fourmis.add(new FourmiA(fourmiliere.getPosition()));
             }
         }
@@ -375,7 +374,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        System.out.println(e.getX()+" "+e.getY());
+        System.out.println(e.getX()+","+e.getY());
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -388,11 +387,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public void reinitialiser(){
         pheromonesAller.clear();
         pheromonesRetour.clear();
-        int taille = fourmis.size();
         fourmis.clear();
-        for (int i = 0; i < taille; i++) {
-            fourmis.add(new FourmiA(fourmiliere.getPosition()));
-        }
+        compteurFourmis = 0;
     }
 
     public void jouerSon(String s) {
