@@ -8,26 +8,26 @@ public class Nourriture {
 
     public Nourriture(Vecteur pos, int taille) {
         position = pos;
-        rayon = taille/2;
+        rayon = taille / 2;
     }
 
     public Nourriture(double x, double y, int taille) {
-        this(new Vecteur(x,y), taille);
+        this(new Vecteur(x, y), taille);
     }
 
-    public void setPosition(Vecteur nouvellePosition){
+    public void setPosition(Vecteur nouvellePosition) {
         position = nouvellePosition;
     }
-    
+
     public Vecteur getPosition() {
-        return new Vecteur(position.x,position.y);
-    }  
+        return new Vecteur(position.x, position.y);
+    }
 
     public int getRayon() {
         return rayon;
     }
 
     public void dessine(Graphics2D g, BufferedImage imageNourriture) {
-        g.drawImage(imageNourriture, (int)(position.x-rayon), (int)(position.y-rayon), null);
+        g.drawImage(imageNourriture, (int) (position.x - rayon), (int) (position.y - rayon), null);
     }
 }
