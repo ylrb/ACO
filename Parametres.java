@@ -78,7 +78,7 @@ public class Parametres extends JPanel implements ActionListener{
                 dt = (int)((JSpinner)e.getSource()).getValue();
             }
         });
-        champDt.setMaximumSize( new Dimension(100,30) );
+        champDt.setMaximumSize(new Dimension(100,30) );
         champDt.setAlignmentX(Component.LEFT_ALIGNMENT);
 		champs.add(champDt);
 		champs.add(Box.createVerticalStrut(20));
