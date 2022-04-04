@@ -49,7 +49,11 @@ public class LecteurCarte {
             for (int i = ligneDebutObstacle; i <= ligneFinObstacle; i++) {
                 String ligne = fichier.get(i); // On itère sur chaque ligne du fichier texte
                 if (ligne.startsWith(SEPARATION_OBSTACLES) && (i != ligneDebutObstacle)) {
-                    obstacles.add(new Obstacle(points)); // On crée un nouvel obstacle qu'on ajoute dans la liste
+                    Obstacle nouvelObstacle = new Obstacle(points); // On crée un nouvel obstacle qu'on ajoute dans la liste
+                    if (fichier.get(fichier.indexOf(ligne)-points.size()-1).contains("vide")) {
+                        nouvelObstacle.setVide(true);
+                    }
+                    obstacles.add(nouvelObstacle); 
                     points = new LinkedList<Vecteur>(); // On vide la liste des points
                 } else if (ligne != "" && (i != ligneDebutObstacle)) {
                     String[] partiesLigne = ligne.split(",");

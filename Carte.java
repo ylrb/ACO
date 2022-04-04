@@ -44,6 +44,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // Ajouts des bordures invisibles
         LecteurCarte borduresInvisibles = new LecteurCarte("assets/cartes/borduresInvisibles.txt");
         for (Obstacle o : borduresInvisibles.getObstacles()) {
+            o.setVide(false);
             obstacles.add(o);
         }
     }
