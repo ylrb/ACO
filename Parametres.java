@@ -11,7 +11,7 @@ import java.io.*;
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
     private final Color FOND_PARAM = new Color(214, 214, 214);
-    private JCheckBox cocherPheromones;
+    private JCheckBox cocherPheromones, cocherSon;
 
     // Paramètres par défaut de la nouvelle carte
     private static int dt = 0;
@@ -59,13 +59,21 @@ public class Parametres extends JPanel implements ActionListener {
 
         // Initialisation du JPanel
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
+        setBorder(new EmptyBorder(new Insets(20, 20, 20, 0)));
         setBackground(FOND_PARAM);
-        this.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel titrePanel = new JPanel();
+        titrePanel.setLayout(new BoxLayout(titrePanel, BoxLayout.Y_AXIS));
+        titrePanel.add(Box.createHorizontalGlue());
+        titrePanel.setBackground(FOND_PARAM);
+        titrePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(titrePanel);
 
         JLabel titre = new JLabel("ANT COLONY OPTIMIZATION");
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(titre);
+        titre.setAlignmentX(Component.LEFT_ALIGNMENT);
+        titre.setBorder(new EmptyBorder(new Insets(0, 8, 0, 0)));
+        titre.setForeground(Color.BLACK);
+        titrePanel.add(titre);
         add(Box.createVerticalStrut(20));
 
         // Créations des champs permettant de modifier les paramètres de la carte
@@ -76,9 +84,10 @@ public class Parametres extends JPanel implements ActionListener {
         champs.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(champs);
 
-        JLabel texteChampDt = new JLabel("Période de rafraichissement");
+        JLabel texteChampDt = new JLabel("<HTML><U>Période de rafraîchissement</U></HTML>");
         texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampDt);
+        champs.add(Box.createVerticalStrut(5));
         JSpinner champDt = new JSpinner(new SpinnerNumberModel(dt, 0, 100, 1));
         champDt.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -88,11 +97,12 @@ public class Parametres extends JPanel implements ActionListener {
         champDt.setMaximumSize(new Dimension(100, 30));
         champDt.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(champDt);
-        champs.add(Box.createVerticalStrut(20));
+        champs.add(Box.createVerticalStrut(10));
 
-        JLabel texteChampNbFourmis = new JLabel("Nombre de fourmis");
+        JLabel texteChampNbFourmis = new JLabel("<HTML><U>Nombre de fourmis</U></HTML>");
         texteChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampNbFourmis);
+        champs.add(Box.createVerticalStrut(5));
         JSpinner champNombreFourmis = new JSpinner(new SpinnerNumberModel(nombreFourmis, 0, 100, 5));
         champNombreFourmis.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -102,19 +112,49 @@ public class Parametres extends JPanel implements ActionListener {
         champNombreFourmis.setMaximumSize(new Dimension(100, 30));
         champNombreFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(champNombreFourmis);
+
         add(Box.createVerticalStrut(20));
+
+        // Cases à cocher
+        JPanel cocher = new JPanel();
+        cocher.setLayout(new BoxLayout(cocher, BoxLayout.PAGE_AXIS));
+        cocher.add(Box.createHorizontalGlue());
+        cocher.setBackground(FOND_PARAM);
+        cocher.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(cocher);
+
+        JLabel texteCocher = new JLabel("<HTML><U>Options</U></HTML>");
+        texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cocher.add(texteCocher);
+        cocher.add(Box.createVerticalStrut(5));
 
         cocherPheromones = new JCheckBox("Affichage des phéromones", true);
         cocherPheromones.addActionListener(this);
-        cocherPheromones.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(cocherPheromones);
-        add(Box.createVerticalStrut(20));
+        cocherPheromones.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cocher.add(cocherPheromones);
+        cocherPheromones.setBackground(FOND_PARAM);
 
-        selectionCartes.setMaximumSize(selectionCartes.getPreferredSize());
+        cocherSon = new JCheckBox("Bruitages", true);
+        cocherSon.addActionListener(this);
+        cocherSon.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cocherSon.setSize(200, 20);
+        cocher.add(cocherSon);
+        cocher.add(Box.createVerticalStrut(20));
+        cocherSon.setBackground(FOND_PARAM);
+
+        // Sélecteur de cartes
+        JPanel selecteurCartes = new JPanel();
+        selecteurCartes.setLayout(new BoxLayout(selecteurCartes, BoxLayout.PAGE_AXIS));
+        selecteurCartes.add(Box.createHorizontalGlue());
+        selecteurCartes.setBackground(FOND_PARAM);
+        selecteurCartes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(selecteurCartes);
+
+        selectionCartes.setMaximumSize(new Dimension(215,25));
         selectionCartes.setAlignmentX(Component.LEFT_ALIGNMENT);
         selectionCartes.setSelectedIndex(0);
         selectionCartes.addActionListener(this);
-        add(selectionCartes);
+        selecteurCartes.add(selectionCartes);
 
         add(Box.createVerticalGlue());
     }
@@ -124,9 +164,17 @@ public class Parametres extends JPanel implements ActionListener {
         if (e.getSource() == cocherPheromones) {
             JCheckBox c = (JCheckBox) e.getSource();
             if (c.isSelected()) {
-                Carte.setAffichagePheromones(true);
+                Carte.affichagePheromones = true;
             } else {
-                Carte.setAffichagePheromones(false);
+                Carte.affichagePheromones = false;
+            }
+        }
+        if (e.getSource() == cocherSon) {
+            JCheckBox c = (JCheckBox) e.getSource();
+            if (c.isSelected()) {
+                Carte.bruitages = true;
+            } else {
+                Carte.bruitages = false;
             }
         }
         if (e.getSource() == selectionCartes) {
