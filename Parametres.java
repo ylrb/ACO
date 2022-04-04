@@ -10,7 +10,7 @@ import java.io.*;
 
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
-    private final Color FOND_PARAM = new Color(214, 214, 214);
+    public static final Color FOND_PARAM = new Color(214, 214, 214);
     private JCheckBox cocherPheromones, cocherSon;
 
     // Paramètres par défaut de la nouvelle carte
@@ -66,14 +66,18 @@ public class Parametres extends JPanel implements ActionListener {
         titrePanel.setLayout(new BoxLayout(titrePanel, BoxLayout.Y_AXIS));
         titrePanel.add(Box.createHorizontalGlue());
         titrePanel.setBackground(FOND_PARAM);
+        titrePanel.setBorder(new EmptyBorder(new Insets(0, 0, 0, 20)));
         titrePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(titrePanel);
 
-        JLabel titre = new JLabel("ANT COLONY OPTIMIZATION");
-        titre.setAlignmentX(Component.LEFT_ALIGNMENT);
-        titre.setBorder(new EmptyBorder(new Insets(0, 8, 0, 0)));
-        titre.setForeground(Color.BLACK);
-        titrePanel.add(titre);
+        JLabel titre1 = new JLabel("ANT COLONY");
+        JLabel titre2 = new JLabel("OPTIMIZATION");
+        titre1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titre2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titre1.setFont(new Font(getFont().getFontName(), Font.BOLD, 18));
+        titre2.setFont(new Font(getFont().getFontName(), Font.BOLD, 18));
+        titrePanel.add(titre1);
+        titrePanel.add(titre2);
         add(Box.createVerticalStrut(20));
 
         // Créations des champs permettant de modifier les paramètres de la carte

@@ -16,6 +16,7 @@ public class MainWindow extends JFrame implements ActionListener{
         this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setTitle("Ant Colony Optimization");
         insets = getInsets();
         conteneur = (JPanel)this.getContentPane();
 
@@ -37,10 +38,12 @@ public class MainWindow extends JFrame implements ActionListener{
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
+        reinitialiser.setBackground(new Color(234, 234, 234));
 		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
+        valider.setBackground(new Color(234, 234, 234));
         boutons.add(valider);
 
         // Ajouts des JPanel
