@@ -22,7 +22,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Timer timer;
 
     // Réglages
-    private static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
+    public static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
+    public static boolean bruitages = true; // Si les bruitages sont activés
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne
@@ -45,10 +46,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         for (Obstacle obs : borduresInvisibles.getObstacles()) {
             obstacles.add(obs);
         }
-    }
-
-    public static void setAffichagePheromones(boolean parametre) {
-        affichagePheromones = parametre;
     }
 
 
@@ -338,13 +335,15 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Permet de jouer un son
     public void jouerSon(String s) {
-        try {
-            File fichier = new File("assets/sons/" + s + ".wav");
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(fichier));
-            clip.start();
-        } catch (Exception e) {
-            System.out.println(e);
+        if (bruitages) {
+            try {
+                File fichier = new File("assets/sons/" + s + ".wav");
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(fichier));
+                clip.start();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
 
