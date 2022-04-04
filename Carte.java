@@ -14,6 +14,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private LinkedList<Pheromone> pheromonesRetour = new LinkedList<Pheromone>();
     private LinkedList<Nourriture> nourritures = new LinkedList<Nourriture>();
     private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
+    private LinkedList<Segment> murs = new LinkedList<Segment>();
     private Fourmiliere fourmiliere;
     int nombreFourmis; // Nombre indiqué par l'utilisateur
     int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
@@ -38,13 +39,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     public Timer getTimer() {
         return timer;
     }
-
-    public void setObstacles(LinkedList<Obstacle> o) {
-        obstacles = o;
+    public void setObstacles(LinkedList<Obstacle> obs) {
+        obstacles = obs;
         // Ajouts des bordures invisibles
         LecteurCarte borduresInvisibles = new LecteurCarte("assets/cartes/borduresInvisibles.txt");
-        for (Obstacle obs : borduresInvisibles.getObstacles()) {
-            obstacles.add(obs);
+        for (Obstacle o : borduresInvisibles.getObstacles()) {
+            obstacles.add(o);
         }
     }
 
@@ -61,6 +61,13 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         fourmiliere = fourm;
         nourritures = nour;
         setObstacles(obs);
+
+        // On remplit l'ArrayList murs
+        for (Obstacle o : obstacles) {
+            for (Segment s : o.getMurs()) {
+                murs.add(s);
+            }
+        }
 
         timer = new Timer(Parametres.getDt(), this);
         timer.start();
@@ -265,7 +272,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             fourmis.add(f);
             jouerSon("tik");
 
-            // On détermine la direction initiale en fonction des phéromones et des murs
+            // On détermine la direction initiale en fonction des phéromones
             f.setDirection(f.calculAttractionPheromones(pheromones, murs));
 
         }
@@ -276,9 +283,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private void deplacementFourmis() {
         for (Fourmi f : fourmis) {
             if (f instanceof FourmiA) {
-                f.avancer(nourritures, fourmiliere, pheromonesRetour, obstacles);
+                f.avancer(nourritures, fourmiliere, pheromonesRetour, murs);
             } else {
-                f.avancer(nourritures, fourmiliere, pheromonesAller, obstacles);
+                f.avancer(nourritures, fourmiliere, pheromonesAller, murs);
             }
         }
     }
