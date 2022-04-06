@@ -24,6 +24,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Réglages
     public static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
+    private boolean afficherFourmis = true; // Doit-on laisser les fourmis jouer ou non
     public static boolean bruitages = true; // Si les bruitages sont activés
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
@@ -118,11 +119,18 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-            ajoutInitialFourmis(); // Rajoute des fourmis dans la liste jusqu'à atteindre le nombre indiqué
-            updatePheromones(); // Mise à jour des phéromones actuelles
-            ajoutPheromones(); // On ajoute les nouvelles phéromones
-            changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
-            deplacementFourmis(); // Déplacement des fourmis selon leur type et gestion des murs
+            if (Parametres.modeEditeur){
+                afficherFourmis = false;
+            } else {
+                afficherFourmis = true;
+            }
+            if (afficherFourmis){
+                ajoutInitialFourmis(); // Rajoute des fourmis dans la liste jusqu'à atteindre le nombre indiqué
+                updatePheromones(); // Mise à jour des phéromones actuelles
+                ajoutPheromones(); // On ajoute les nouvelles phéromones
+                changementFourmis(); // Changement des fourmis en type A ou B si elles ont atteint la fourmilière/nourriture
+                deplacementFourmis(); // Déplacement des fourmis selon leur type et gestion des murs
+            }
             repaint();
         }
     }

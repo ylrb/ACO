@@ -32,7 +32,7 @@ public class Parametres extends JPanel implements ActionListener {
     static final int TAILLE_NOURRITURE = 30;
 
     private JButton editer;
-    private boolean modeEditeur = false;
+    public static boolean modeEditeur = false;
 
     public static int getDt() {
         return dt;
@@ -217,11 +217,15 @@ public class Parametres extends JPanel implements ActionListener {
             if (!modeEditeur){
                 modeEditeur = true;
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                LecteurCarte nouvelleCarte = new LecteurCarte();
+                obstacles = nouvelleCarte.getObstacles();
+                nourritures = nouvelleCarte.getNourriture();
+                fourmiliere = nouvelleCarte.getFourmiliere();
+                MainWindow.modifierCarte();
             }
             else{
                 modeEditeur = false;
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
-
             }
         }
     }

@@ -30,8 +30,9 @@ public class LecteurCarte {
 
     public LecteurCarte() {
         obstacles = new LinkedList<Obstacle>();
-        fourmiliere = new Fourmiliere(0, 0, 0);
+        fourmiliere = new Fourmiliere(300, 300, Parametres.TAILLE_FOURMILIERE);
         nourriture = new LinkedList<Nourriture>();
+        nourriture.add(new Nourriture(400, 300, Parametres.TAILLE_NOURRITURE));
     }
 
     public LecteurCarte(String chemin) {
