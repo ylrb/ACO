@@ -5,7 +5,8 @@ import java.awt.event.*;
 public class MainWindow extends JFrame implements ActionListener{
     private final int LARGEUR = 1280;
     private final int HAUTEUR = 720;
-    private JButton reinitialiser, valider;
+    private JButton reinitialiser, valider, editer;
+    private Color fondBouton = new Color(234, 234, 234);
     private JPanel conteneur;
     private Insets insets;
     private Parametres param;
@@ -38,12 +39,12 @@ public class MainWindow extends JFrame implements ActionListener{
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-        reinitialiser.setBackground(new Color(234, 234, 234));
+        reinitialiser.setBackground(fondBouton);
 		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
-        valider.setBackground(new Color(234, 234, 234));
+        valider.setBackground(fondBouton);
         boutons.add(valider);
 
         // Ajouts des JPanel

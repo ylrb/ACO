@@ -82,9 +82,9 @@ public class LecteurCarte {
     }
 
     // Méthode qui récupère les coordonnées d'une ligne, séparées par des virgules
-    private int[] coordonnées(int index) {
+    private int[] coordonnées(int ligne) {
         int[] rep = new int[3];
-        String[] texte = fichier.get(index).split(",");
+        String[] texte = fichier.get(ligne).split(",");
         for (int i = 0; i < texte.length; i++) {
             rep[i] = Integer.parseInt(texte[i]);
         }
