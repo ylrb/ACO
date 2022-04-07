@@ -24,8 +24,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Réglages
     public static boolean affichagePheromones = true; // Doit-on visualiser les phéromones ou non
-    private boolean afficherFourmis = true; // Doit-on laisser les fourmis jouer ou non
-    public static boolean bruitages = true; // Si les bruitages sont activés
+    public static boolean afficherFourmis = true; // Si on affiche les fourmis pour le mode éditeur
+    public static boolean bruitages = false; // Si les bruitages sont activés
     private static int compteur = 0; // Compteur qui indique le nombre de boucles effectuées pour pouvoir espacer les phéromones
     private static final int COMPTEUR_MAX = 20; // Espacement des phéromones
     private static final double DISTANCE_PROCHE = 5; // Distance minimale à laquelle on peut placer une nouvelle phéromone par rapport à une ancienne

@@ -92,7 +92,7 @@ public class Parametres extends JPanel implements ActionListener {
         champs.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(champs);
 
-        JLabel texteChampDt = new JLabel("<HTML><U>Période de rafraîchissement</U></HTML>");
+        JLabel texteChampDt = new JLabel("Période de rafraîchissement");
         texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampDt);
         champs.add(Box.createVerticalStrut(5));
@@ -107,7 +107,7 @@ public class Parametres extends JPanel implements ActionListener {
         champs.add(champDt);
         champs.add(Box.createVerticalStrut(10));
 
-        JLabel texteChampNbFourmis = new JLabel("<HTML><U>Nombre de fourmis</U></HTML>");
+        JLabel texteChampNbFourmis = new JLabel("Nombre de fourmis");
         texteChampNbFourmis.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampNbFourmis);
         champs.add(Box.createVerticalStrut(5));
@@ -131,7 +131,7 @@ public class Parametres extends JPanel implements ActionListener {
         cocher.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(cocher);
 
-        JLabel texteCocher = new JLabel("<HTML><U>Options</U></HTML>");
+        JLabel texteCocher = new JLabel("Options");
         texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
         cocher.add(texteCocher);
         cocher.add(Box.createVerticalStrut(5));
@@ -142,7 +142,7 @@ public class Parametres extends JPanel implements ActionListener {
         cocher.add(cocherPheromones);
         cocherPheromones.setBackground(FOND_PARAM);
 
-        cocherSon = new JCheckBox("Bruitages", true);
+        cocherSon = new JCheckBox("Bruitages", false);
         cocherSon.addActionListener(this);
         cocherSon.setAlignmentX(Component.LEFT_ALIGNMENT);
         cocherSon.setSize(200, 20);
