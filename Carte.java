@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.awt.geom.*;
 
 public class Carte extends JPanel implements ActionListener, MouseListener {
 
@@ -35,6 +36,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     // Attributs permettant de savoir si l'utilisateur déplace une fourmilière ou de la nourriture
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
+
+    // Attribut pour le mode éditeur
+    private boolean obstacleEnCours = false;
+    private LinkedList<Vecteur> points = new LinkedList<Vecteur>();
 
     // Accesseurs
     public Timer getTimer() {
@@ -108,6 +113,12 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             } else {
                 f.dessine(g, Parametres.imageFourmiB);
             }
+        }
+
+        // mode éditeur
+        g.setColor(new Color(0, 0, 0, 100));
+        for(Vecteur v : points){
+            g.fill(new Ellipse2D.Double(v.x-5, v.y-5, 10, 10));
         }
     }
 
@@ -330,9 +341,32 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             deplaceNourriture = null;
         }
     }
-
     public void mouseClicked(MouseEvent e) {
-        System.out.println(e.getX() + "," + e.getY());
+        int x = e.getX();
+        int y = e.getY();
+        Vecteur positionClic = new Vecteur(x,y);
+        if (Parametres.modeEditeur){
+            // Création d'un ensemble de points pour former un obstacle
+            if (obstacleEnCours){
+                if(points.get(0).distance(positionClic) < 10){ // Clique sur le premier point de départ
+                    Obstacle nouvelObstacle = new Obstacle(points);
+                    points.clear();
+                    obstacles.add(nouvelObstacle);
+                    for(Segment s : nouvelObstacle.getMurs()){
+                        murs.add(s);
+                    }
+                    obstacleEnCours = false;
+                }
+                else{
+                    points.add(positionClic);
+                }
+            }
+            // Initialisation de l'ensemble de points qui va former un obstacle
+            else {
+                obstacleEnCours = true;
+                points.add(positionClic);
+            }
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
