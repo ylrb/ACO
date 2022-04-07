@@ -37,9 +37,10 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private static boolean deplaceFourmiliere = false;
     private static Nourriture deplaceNourriture;
 
-    // Attribut pour le mode éditeur
+    // Attributs du mode éditeur
     private boolean obstacleEnCours = false;
     private LinkedList<Vecteur> points = new LinkedList<Vecteur>();
+    private final int RAYON_POINT = 5;
 
     // Accesseurs
     public Timer getTimer() {
@@ -68,8 +69,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         fourmiliere = fourm;
         nourritures = nour;
         setObstacles(obs);
-        GenerateurObstacle generateur = new GenerateurObstacle(15, 150);
-        obstacles.add(generateur.generer(new Vecteur(700,130)));
 
         // On remplit l'ArrayList murs
         for (Obstacle o : obstacles) {
@@ -117,10 +116,15 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             }
         }
 
-        // mode éditeur
-        g.setColor(new Color(0, 0, 0, 100));
+        // Mode éditeur
         for(Vecteur v : points){
-            g.fill(new Ellipse2D.Double(v.x-5, v.y-5, 10, 10));
+            if (v == points.get(0)){
+                g.setColor(new Color(0, 0, 0, 150));
+            }
+            else{
+                g.setColor(new Color(0, 0, 0, 70));
+            }
+            g.fill(new Ellipse2D.Double(v.x-RAYON_POINT, v.y-RAYON_POINT, 2*RAYON_POINT, 2*RAYON_POINT));
         }
     }
 
