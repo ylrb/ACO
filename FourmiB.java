@@ -15,8 +15,12 @@ public class FourmiB extends Fourmi {
     }
 
     // Pour les fourmiB, la force spéciale est la force d'attraction à la fourmilière
-    protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures) {
-        return calculAttractionFourmiliere(fourmiliere);
+    protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures, LinkedList<Segment> murs) {
+        Vecteur rep = new Vecteur();
+        if (vueDirecte(fourmiliere.getPosition(), murs)) {
+            rep = calculAttractionFourmiliere(fourmiliere);
+        }
+        return rep;
     }
 
     // Calcul de l'attraction d'une fourmiB à la fourmiliere dans son champ de vision

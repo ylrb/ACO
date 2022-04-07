@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class Obstacle {
     private Color couleur;
+    private boolean vide;
     private ArrayList<Segment> murs = new ArrayList<Segment>();
 
     public Obstacle(LinkedList<Vecteur> points) {
@@ -17,6 +18,10 @@ public class Obstacle {
         return murs;
     }
 
+    public void setVide(boolean v) {
+        vide = v;
+    }
+
     public void dessine(Graphics2D g) {
         int[] X = new int[murs.size()];
         int[] Y = new int[murs.size()];
@@ -27,6 +32,10 @@ public class Obstacle {
             i++;
         }
         g.setColor(couleur);
-        g.fillPolygon(X, Y, X.length);
+        if (!vide) {
+            g.fillPolygon(X, Y, X.length);
+        } else {
+            g.drawPolygon(X, Y, X.length);
+        }
     }
 }

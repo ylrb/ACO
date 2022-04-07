@@ -3,19 +3,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame implements ActionListener{
-    private final int LARGEUR = 1280;
-    private final int HAUTEUR = 720;
-    private JButton reinitialiser, valider;
-    private JPanel conteneur;
-    private Insets insets;
-    private Parametres param;
-    private Carte carte;
+    private static final int LARGEUR = 1280;
+    private static final int HAUTEUR = 720;
+    private JButton reinitialiser, valider, editer;
+    private Color fondBouton = new Color(234, 234, 234);
+    private static JPanel conteneur;
+    private static Insets insets;
+    private static Parametres param;
+    public static Carte carte;
 
     public MainWindow() {
         // Création de l'interface graphique
         this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setTitle("Ant Colony Optimization");
         insets = getInsets();
         conteneur = (JPanel)this.getContentPane();
 
@@ -37,10 +39,12 @@ public class MainWindow extends JFrame implements ActionListener{
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
+        reinitialiser.setBackground(fondBouton);
 		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
+        valider.setBackground(fondBouton);
         boutons.add(valider);
 
         // Ajouts des JPanel
@@ -58,15 +62,18 @@ public class MainWindow extends JFrame implements ActionListener{
             carte.reinitialiser();
         }
         if (e.getSource() == valider) {
-            conteneur.remove(carte);
-            carte.getTimer().stop();
-            carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-            conteneur.add(carte, BorderLayout.EAST);
-            carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
-            conteneur.revalidate();
-            conteneur.repaint();
+            modifierCarte();
         }
     }
 
+    public static void modifierCarte(){
+        conteneur.remove(carte);
+        carte.getTimer().stop();
+        carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
+        conteneur.add(carte, BorderLayout.EAST);
+        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
+        conteneur.revalidate();
+        conteneur.repaint();
+    }
 
 }
