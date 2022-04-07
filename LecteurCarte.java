@@ -30,8 +30,9 @@ public class LecteurCarte {
 
     public LecteurCarte() {
         obstacles = new LinkedList<Obstacle>();
-        fourmiliere = new Fourmiliere(0, 0, 0);
+        fourmiliere = new Fourmiliere(300, 300, Parametres.TAILLE_FOURMILIERE);
         nourriture = new LinkedList<Nourriture>();
+        nourriture.add(new Nourriture(400, 300, Parametres.TAILLE_NOURRITURE));
     }
 
     public LecteurCarte(String chemin) {
@@ -82,9 +83,9 @@ public class LecteurCarte {
     }
 
     // Méthode qui récupère les coordonnées d'une ligne, séparées par des virgules
-    private int[] coordonnées(int index) {
+    private int[] coordonnées(int ligne) {
         int[] rep = new int[3];
-        String[] texte = fichier.get(index).split(",");
+        String[] texte = fichier.get(ligne).split(",");
         for (int i = 0; i < texte.length; i++) {
             rep[i] = Integer.parseInt(texte[i]);
         }

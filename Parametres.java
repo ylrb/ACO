@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.awt.image.BufferedImage;
@@ -29,6 +30,9 @@ public class Parametres extends JPanel implements ActionListener {
     static final int TAILLE_FOURMI = 20;
     static final int TAILLE_FOURMILIERE = 40;
     static final int TAILLE_NOURRITURE = 30;
+
+    private JButton editer;
+    public static boolean modeEditeur = false;
 
     public static int getDt() {
         return dt;
@@ -158,6 +162,13 @@ public class Parametres extends JPanel implements ActionListener {
         selectionCartes.setAlignmentX(Component.LEFT_ALIGNMENT);
         selectionCartes.setSelectedIndex(0);
         selectionCartes.addActionListener(this);
+
+        editer = new JButton("Mode éditeur");
+        editer.setMaximumSize(new Dimension(215,25));
+        editer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        editer.addActionListener(this);
+        editer.setBackground(new Color (234, 234, 234));
+        selecteurCartes.add(editer);
         selecteurCartes.add(selectionCartes);
 
         add(Box.createVerticalGlue());
@@ -200,6 +211,22 @@ public class Parametres extends JPanel implements ActionListener {
             obstacles = nouvelleCarte.getObstacles();
             nourritures = nouvelleCarte.getNourriture();
             fourmiliere = nouvelleCarte.getFourmiliere();
+        }
+
+        if (e.getSource() == editer){
+            if (!modeEditeur){
+                modeEditeur = true;
+                JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                LecteurCarte nouvelleCarte = new LecteurCarte();
+                obstacles = nouvelleCarte.getObstacles();
+                nourritures = nouvelleCarte.getNourriture();
+                fourmiliere = nouvelleCarte.getFourmiliere();
+                MainWindow.modifierCarte();
+            }
+            else{
+                modeEditeur = false;
+                JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
