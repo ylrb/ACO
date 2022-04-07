@@ -168,8 +168,9 @@ public class Parametres extends JPanel implements ActionListener {
         editer.setAlignmentX(Component.LEFT_ALIGNMENT);
         editer.addActionListener(this);
         editer.setBackground(new Color (234, 234, 234));
-        selecteurCartes.add(editer);
         selecteurCartes.add(selectionCartes);
+        selecteurCartes.add(Box.createVerticalStrut(10));
+        selecteurCartes.add(editer);
 
         add(Box.createVerticalGlue());
     }
