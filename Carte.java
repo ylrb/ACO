@@ -347,6 +347,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         pheromonesRetour.clear();
         fourmis.clear();
         compteurFourmis = 0;
+        fourmiliere.resetNourriture();
     }
 
     // Permet de jouer un son

@@ -44,4 +44,6 @@ public class Fourmiliere {
         g.drawString(nombre, (int) position.x - longueur, (int) position.y - 30);
     }
 
+    public void resetNourriture () {nourriture = 0; }      // Remet à 0 le compteur de nourriture.
+
 }
