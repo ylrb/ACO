@@ -11,7 +11,7 @@ public class Obstacle {
         for (int i = 0; i < points.size(); i++) {
             murs.add(new Segment(points.get(i), points.get((i + 1) % points.size())));
         }
-        couleur = new Color(140, 70, 20);
+        couleur = new Color(100,97,92);
     }
 
     public ArrayList<Segment> getMurs() {
