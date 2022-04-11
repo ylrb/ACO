@@ -253,7 +253,7 @@ public abstract class Fourmi extends Element {
     // Détermine si la fourmi est en collision dans un obstacle (TRUE) en regardant si le nombre d'intersections avec tous les murs est pair (collision) ou impair (pas de collision)
     public boolean estDansObstacle(LinkedList<Obstacle> listeObstacle) {
         int nombreIntersection = 0;
-        Segment positionFourmi = new Segment(new Vecteur(), this.position);
+        Segment positionFourmi = new Segment(new Vecteur(0,0), this.position);
         for (Obstacle o : listeObstacle) {
             for ( Segment s : o.getMurs()) {
                 if (positionFourmi.secante(s) != null) {
