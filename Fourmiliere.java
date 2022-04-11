@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Fourmiliere {
+public class Fourmiliere extends Element {
 
-    private Vecteur position;
     private int nourriture;
     private int rayon;
 
@@ -12,16 +11,13 @@ public class Fourmiliere {
         rayon = taille / 2;
     }
 
-    public Vecteur getPosition() {
-        return new Vecteur(position.x, position.y);
-    }
-
-    public void setPosition(Vecteur newPos) {
-        position = newPos;
-    }
-
     public double getRayon() {
         return rayon;
+    }
+
+    // Remet à 0 le compteur de nourriture.
+    public void resetNourriture() {
+        nourriture = 0;
     }
     
     public void depot() {
@@ -43,7 +39,5 @@ public class Fourmiliere {
         String nombre = Integer.toString(nourriture);
         g.drawString(nombre, (int) position.x - longueur, (int) position.y - 30);
     }
-
-    public void resetNourriture () {nourriture = 0; }      // Remet à 0 le compteur de nourriture.
 
 }

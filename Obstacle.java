@@ -1,20 +1,19 @@
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.image.*;
 import java.util.LinkedList;
 
-public class Obstacle {
-    private Color couleur;
+public class Obstacle extends Element {
     private boolean vide;
-    private ArrayList<Segment> murs = new ArrayList<Segment>();
+    private LinkedList<Segment> murs = new LinkedList<Segment>();
+    private static final Color COULEUR = new Color(100,97,92);
 
     public Obstacle(LinkedList<Vecteur> points) {
         for (int i = 0; i < points.size(); i++) {
             murs.add(new Segment(points.get(i), points.get((i + 1) % points.size())));
         }
-        couleur = new Color(100,97,92);
     }
 
-    public ArrayList<Segment> getMurs() {
+    public LinkedList<Segment> getMurs() {
         return murs;
     }
 
@@ -22,7 +21,7 @@ public class Obstacle {
         vide = v;
     }
 
-    public void dessine(Graphics2D g) {
+    public void dessine(Graphics2D g, BufferedImage b) {
         int[] X = new int[murs.size()];
         int[] Y = new int[murs.size()];
         int i = 0;
@@ -31,7 +30,7 @@ public class Obstacle {
             Y[i] = (int) m.pointA.y;
             i++;
         }
-        g.setColor(couleur);
+        g.setColor(COULEUR);
         if (!vide) {
             g.fillPolygon(X, Y, X.length);
         } else {

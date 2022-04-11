@@ -1,6 +1,6 @@
 public class Segment {
-    Vecteur pointA;
-    Vecteur pointB;
+    public Vecteur pointA;
+    public Vecteur pointB;
 
     public Segment(Vecteur v1, Vecteur v2) {
         pointA = v1;
@@ -50,7 +50,7 @@ public class Segment {
     }
 
     // Permet de déterminer le coefficient directeur et l'ordonnée à l'origine de la droite
-    public double[] coeffs() {
+    private double[] coeffs() {
         Vecteur directeur = new Vecteur(pointB.x - pointA.x, pointB.y - pointA.y);
 
         double rep[] = new double[2];
@@ -63,7 +63,7 @@ public class Segment {
     }
 
     // La méthode renvoie true si le point (X,Y) appartient au segment
-    public boolean appartientSegment(double X, double Y) {
+    private boolean appartientSegment(double X, double Y) {
         // On détermine les intervalles auxquels le point doit appartenir
         double xmin;
         double xmax;

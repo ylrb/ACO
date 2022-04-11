@@ -17,8 +17,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
     private LinkedList<Segment> murs = new LinkedList<Segment>();
     private Fourmiliere fourmiliere;
-    int nombreFourmis; // Nombre indiqué par l'utilisateur
-    int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
+    private int nombreFourmis; // Nombre indiqué par l'utilisateur
+    private int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
 
     // Variables du timer par défaut
     private Timer timer;
@@ -70,6 +70,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         nourritures = nour;
         setObstacles(obs);
 
+        // GenerateurObstacle generateur = new GenerateurObstacle(50, 100);
+        // obstacles.add(generateur.generer(new Vecteur(250,500)));
+
         // On remplit l'ArrayList murs
         for (Obstacle o : obstacles) {
             for (Segment s : o.getMurs()) {
@@ -90,29 +93,29 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         Toolkit.getDefaultToolkit().sync();
 
         g.setColor(new Color(120, 100, 80));
-        g.drawImage(Parametres.imageFond, 0, 0, null); // Taille de l'image : 1024x698
+        g.drawImage(MainWindow.imageFond, 0, 0, null); // Taille de l'image : 1024x698
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
         for (Obstacle o : obstacles) {
-            o.dessine(g);
+            o.dessine(g,null);
         }
         if (affichagePheromones) {
             for (Pheromone p : pheromonesAller) {
-                p.dessine(g);
+                p.dessine(g,null);
             }
             for (Pheromone p : pheromonesRetour) {
-                p.dessine(g);
+                p.dessine(g,null);
             }
         }
         for (Nourriture n : nourritures) {
-            n.dessine(g, Parametres.imageNourriture);
+            n.dessine(g, MainWindow.imageNourriture);
         }
-        fourmiliere.dessine(g, Parametres.imageFourmiliere);
+        fourmiliere.dessine(g, MainWindow.imageFourmiliere);
         for (Fourmi f : fourmis) {
             if (f instanceof FourmiA) {
-                f.dessine(g, Parametres.imageFourmiA);
+                f.dessine(g, MainWindow.imageFourmiA);
             } else {
-                f.dessine(g, Parametres.imageFourmiB);
+                f.dessine(g, MainWindow.imageFourmiB);
             }
         }
 

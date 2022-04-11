@@ -1,18 +1,29 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 public class MainWindow extends JFrame implements ActionListener{
     private static final int LARGEUR = 1280;
     private static final int HAUTEUR = 720;
-    private JButton reinitialiser, valider, editer;
-    private Color fondBouton = new Color(234, 234, 234);
+    private static final Color FONDBOUTON = new Color(234, 234, 234);
+    private JButton reinitialiser, valider;
     private static JPanel conteneur;
     private static Insets insets;
     private static Parametres param;
     public static Carte carte;
+    
+    // images et tailles
+    public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
+    public static final int TAILLE_FOURMI = 20;
+    public static final int TAILLE_FOURMILIERE = 40;
+    public static final int TAILLE_NOURRITURE = 30;
 
     public MainWindow() {
+        importerImages();
+
         // Création de l'interface graphique
         this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
@@ -39,12 +50,12 @@ public class MainWindow extends JFrame implements ActionListener{
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-        reinitialiser.setBackground(fondBouton);
+        reinitialiser.setBackground(FONDBOUTON);
 		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
-        valider.setBackground(fondBouton);
+        valider.setBackground(FONDBOUTON);
         boutons.add(valider);
 
         // Ajouts des JPanel
@@ -74,6 +85,46 @@ public class MainWindow extends JFrame implements ActionListener{
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
         conteneur.revalidate();
         conteneur.repaint();
+    }
+
+    // Importation et redimensionnement des images qu'on importe en tant que BufferedImage
+    private void importerImages() {
+        try {
+            // On importe les images
+            imageFourmiA = ImageIO.read(new File("assets/images/FourmiA.png"));
+            imageFourmiB = ImageIO.read(new File("assets/images/FourmiB.png"));
+            imageFourmiliere = ImageIO.read(new File("assets/images/Fourmiliere.png"));
+            imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png"));
+            imageFond = ImageIO.read(new File("assets/images/Fond.png"));
+
+            // On leur donne la taille désirée
+            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
+            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
+            imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
+            imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
+            imageFond = redimensionner(imageFond, 1025);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Impossible de lire les fichiers images.");
+        }
+    }
+
+    // Redimensionne l'image de fourmi à la taille désirée
+    private static BufferedImage redimensionner(BufferedImage img, int largeurVoulue) {
+        int largeur = img.getWidth();
+        int hauteur = img.getHeight();
+        int hauteurVoulue = (largeurVoulue * hauteur) / largeur; // Simple produit en croix
+
+        // On crée une nouvelle image vide la taille désirée
+        BufferedImage nouvelleImage = new BufferedImage(largeurVoulue, hauteurVoulue, img.getType());
+        Graphics2D g = nouvelleImage.createGraphics();
+ 
+        // On place l'image dans cette nouvelle image de manière à ce qu'elle la remplisse, par interpolation
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(img, 0, 0, largeurVoulue, hauteurVoulue, 0, 0, largeur, hauteur, null);
+        g.dispose();
+
+        return nouvelleImage;
     }
 
 }

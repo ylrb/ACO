@@ -16,7 +16,7 @@ public class FourmiB extends Fourmi {
 
     // Pour les fourmiB, la force spéciale est la force d'attraction à la fourmilière
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures, LinkedList<Segment> murs) {
-        Vecteur rep = new Vecteur();
+        Vecteur rep = new Vecteur(0,0);
         if (vueDirecte(fourmiliere.getPosition(), murs)) {
             rep = calculAttractionFourmiliere(fourmiliere);
         }
@@ -25,7 +25,7 @@ public class FourmiB extends Fourmi {
 
     // Calcul de l'attraction d'une fourmiB à la fourmiliere dans son champ de vision
     private Vecteur calculAttractionFourmiliere(Fourmiliere fourmiliere) {
-        Vecteur rep = new Vecteur();
+        Vecteur rep = new Vecteur(0,0);
         if (position.distance(fourmiliere.getPosition()) < PORTEE_VUE) {
             rep = rep.somme(fourmiliere.getPosition().soustrait(new Vecteur(position.x, position.y)));
             rep.unitaire();

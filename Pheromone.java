@@ -1,7 +1,7 @@
 import java.awt.*;
+import java.awt.image.*;
 
-public class Pheromone {
-    private Vecteur position;
+public class Pheromone extends Element {
     private final boolean type; // Si la phéromone est une phéromone aller (type = 0) ou retour (type = 1)
     private Color couleur;
     private double taux = 100.0;
@@ -19,10 +19,6 @@ public class Pheromone {
         taux = 100 - compteur * AFFAIBLISSEMENT;
     }
 
-    public Vecteur getPosition() {
-        return new Vecteur(position.x, position.y);
-    }
-
     public double getTaux() {
         return taux;
     }
@@ -32,7 +28,7 @@ public class Pheromone {
         taux -= REDUCTION;
     }
 
-    public void dessine(Graphics2D g) {
+    public void dessine(Graphics2D g, BufferedImage b) {
         couleur = new Color(couleur.getRed(), couleur.getGreen(), couleur.getBlue(), (int) (2.5 * taux)); // On rend plus transparentes les phéromones selon leur taux
         g.setColor(couleur);
         g.drawLine((int) position.x, (int) position.y, (int) position.x + 1, (int) position.y);

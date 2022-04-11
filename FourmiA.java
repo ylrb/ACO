@@ -17,7 +17,7 @@ public class FourmiA extends Fourmi {
     // Pour les fourmiA, la force spéciale est la force d'attraction à la nourriture
     protected Vecteur calculForceSpeciale(Fourmiliere fourmiliere, LinkedList<Nourriture> nourritures, LinkedList<Segment> murs) {
         int compteur = 0;
-        Vecteur rep = new Vecteur();
+        Vecteur rep = new Vecteur(0,0);
         for (Nourriture n : nourritures) {
             if (vueDirecte(n.getPosition(), murs)) {
                 compteur++;
@@ -31,7 +31,7 @@ public class FourmiA extends Fourmi {
 
     // Calcul de l'attraction d'une fourmiA aux nourritures dans son champ de vision
     private Vecteur calculAttractionNourriture(LinkedList<Nourriture> nourritures) {
-        Vecteur rep = new Vecteur();
+        Vecteur rep = new Vecteur(0,0);
         for (Nourriture n : nourritures) {
             if (position.distance(n.getPosition()) < PORTEE_VUE) {
                 rep = rep.somme(n.getPosition().soustrait(getPosition()));

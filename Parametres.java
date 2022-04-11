@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.*;
@@ -6,8 +5,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.util.LinkedList;
-import java.awt.image.BufferedImage;
-import java.io.*;
 
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
@@ -24,12 +21,6 @@ public class Parametres extends JPanel implements ActionListener {
     private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
     private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
     private LinkedList<Nourriture> nourritures = (new LecteurCarte("assets/cartes/bordures.txt")).getNourriture();
-
-    // Images et tailles
-    static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
-    static final int TAILLE_FOURMI = 20;
-    static final int TAILLE_FOURMILIERE = 40;
-    static final int TAILLE_NOURRITURE = 30;
 
     private JButton editer;
     public static boolean modeEditeur = false;
@@ -59,8 +50,6 @@ public class Parametres extends JPanel implements ActionListener {
     }
 
     public Parametres() {
-        importerImages();
-
         // Initialisation du JPanel
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(new Insets(20, 20, 20, 0)));
@@ -229,45 +218,5 @@ public class Parametres extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
             }
         }
-    }
-
-    // Importation et redimensionnement des images qu'on importe en tant que BufferedImage
-    private void importerImages() {
-        try {
-            // On importe les images
-            imageFourmiA = ImageIO.read(new File("assets/images/FourmiA.png"));
-            imageFourmiB = ImageIO.read(new File("assets/images/FourmiB.png"));
-            imageFourmiliere = ImageIO.read(new File("assets/images/Fourmiliere.png"));
-            imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png"));
-            imageFond = ImageIO.read(new File("assets/images/Fond.png"));
-
-            // On leur donne la taille désirée
-            imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
-            imageFourmiB = redimensionner(imageFourmiB, TAILLE_FOURMI);
-            imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
-            imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
-            imageFond = redimensionner(imageFond, 1025);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Impossible de lire les fichiers images.");
-        }
-    }
-
-    // Redimensionne l'image de fourmi à la taille désirée
-    private static BufferedImage redimensionner(BufferedImage img, int largeurVoulue) {
-        int largeur = img.getWidth();
-        int hauteur = img.getHeight();
-        int hauteurVoulue = (largeurVoulue * hauteur) / largeur; // Simple produit en croix
-
-        // On crée une nouvelle image vide la taille désirée
-        BufferedImage nouvelleImage = new BufferedImage(largeurVoulue, hauteurVoulue, img.getType());
-        Graphics2D g = nouvelleImage.createGraphics();
- 
-        // On place l'image dans cette nouvelle image de manière à ce qu'elle la remplisse, par interpolation
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(img, 0, 0, largeurVoulue, hauteurVoulue, 0, 0, largeur, hauteur, null);
-        g.dispose();
-
-        return nouvelleImage;
     }
 }

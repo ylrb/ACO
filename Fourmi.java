@@ -3,10 +3,9 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public abstract class Fourmi {
+public abstract class Fourmi extends Element {
 
-    // Vecteurs propres à la fourmi
-    protected Vecteur position;
+    // Vecteurs propres à la fourmi (en plus de sa position)
     protected Vecteur direction;
     protected Vecteur errance;
 
@@ -14,7 +13,7 @@ public abstract class Fourmi {
     protected byte sensRotation; // 0 si pas de rotation, sinon -1 ou 1
     protected ArrayList<Vecteur> contactMurs = new ArrayList<Vecteur>(); // Murs devant la fourmi
     protected static final double DISTANCE_COINS = 20;
-    int temps = 0;
+    protected int tempsVie = 0;
 
     // Tous les coefficients des forces (leur poids)
     protected static final double COEFF_ERRANCE = 0.1;
@@ -41,13 +40,6 @@ public abstract class Fourmi {
         direction = dir;
     }
 
-    public Vecteur getPosition() {
-        return new Vecteur(position.x, position.y);
-    }
-
-    public void setPosition(Vecteur nouvellePosition) {
-        position = nouvellePosition;
-    }
 
     public Vecteur getDirection() {
         return new Vecteur(direction.x, direction.y);
@@ -108,7 +100,7 @@ public abstract class Fourmi {
     // Renvoie une LinkedList contenant les nourritures suffisamment proches de la fourmi pour qu'elle puisse les voir
     protected LinkedList<Pheromone> pheromonesEnVue(LinkedList<Pheromone> pheromones) {
         LinkedList<Pheromone> rep = new LinkedList<Pheromone>();
-        Vecteur distance = new Vecteur();
+        Vecteur distance = new Vecteur(0,0);
         for (Pheromone p : pheromones) {
             distance = p.getPosition().soustrait(getPosition());
             if ((position.distance(p.getPosition()) < PORTEE_VUE) && (direction.angle(distance) < Math.toRadians(ANGLE_VUE))) {
@@ -141,11 +133,11 @@ public abstract class Fourmi {
     }
 
     // On détermine dans quels murs va la fourmi
-    public LinkedList<Segment> mursSecants(LinkedList<Segment> segments) {
+    protected LinkedList<Segment> mursSecants(LinkedList<Segment> segments) {
         Vecteur p2 = new Vecteur(getPosition().x + PORTEE_VUE_MUR * direction.x, getPosition().y + PORTEE_VUE_MUR * direction.y); // Extrémité de la vision de la fourmi
         Segment segmentVue = new Segment(getPosition(), p2); // Segment de la vue de la fourmi
         LinkedList<Segment> murs = new LinkedList<Segment>();
-        Vecteur pointSecant = new Vecteur();
+        Vecteur pointSecant = new Vecteur(0,0);
         contactMurs.clear();
         for (Segment s : segments) {
             pointSecant = segmentVue.secante(s);
@@ -158,7 +150,7 @@ public abstract class Fourmi {
     }
 
     // On isole le segment de mur le plus proche de la fourmi
-    public Segment segmentLePlusProche(LinkedList<Segment> murs) {
+    protected Segment segmentLePlusProche(LinkedList<Segment> murs) {
         int min = 0; // Indice du point le plus proche de la fourmi
         int i = 0;
         double distanceMin = 2000; // Distance minimale à la fourmi
@@ -173,7 +165,7 @@ public abstract class Fourmi {
     }
 
     // On détermine le sens rotation de la fourmi en calculant l'augmentation d'angle par rapport à une direction hypothétique
-    public void angleRotationMur(Segment s) {
+    protected void angleRotationMur(Segment s) {
         Vecteur direction2 = direction.tourner2(0.01);
         Vecteur mur = s.pointA.soustrait(s.pointB);
         double angle1 = mur.angle(direction);
@@ -190,7 +182,7 @@ public abstract class Fourmi {
 
     // Calcule l'attraction d'une fourmi aux nourritures dans son champ de vision
     protected Vecteur calculAttractionPheromones(LinkedList<Pheromone> pheromones, LinkedList<Segment> murs) {
-        Vecteur rep = new Vecteur();
+        Vecteur rep = new Vecteur(0,0);
         for (Pheromone p : pheromones) {
             if ((vueDirecte(p.getPosition(), murs))) {
                 // Augmente rep si la phéromone se trouve dans le champ de vision de la fourmi
@@ -202,7 +194,7 @@ public abstract class Fourmi {
     }
 
     // On vérifie qu'il n'y ait pas de mur entre la fourmi et la position donnée
-    public boolean vueDirecte(Vecteur pos, LinkedList<Segment> murs) {
+    protected boolean vueDirecte(Vecteur pos, LinkedList<Segment> murs) {
         Segment chemin = new Segment(getPosition(), pos);
         boolean rep = true;
         for (Segment s : murs) {
@@ -215,7 +207,7 @@ public abstract class Fourmi {
     }
 
     // Les fourmis ne collent pas aux murs en esquivant les coins
-    public void esquiveCoins(LinkedList<Segment> murs) {
+    protected void esquiveCoins(LinkedList<Segment> murs) {
         for (Segment s : murs) {
             if (position.distance(s.pointA) < DISTANCE_COINS) {
                 Vecteur dir = position.soustrait(s.pointA);
@@ -231,15 +223,15 @@ public abstract class Fourmi {
     }
 
     // Dépôt d'une phéromone correspondant au type de la fourmi
-    public Pheromone deposerPheromone() {
-        temps++;
+    protected Pheromone deposerPheromone() {
+        tempsVie++;
         boolean type;
         if (this instanceof FourmiA) {
             type = false;
         } else {
             type = true;
         }
-        return new Pheromone(getPosition(), temps, type);
+        return new Pheromone(getPosition(), tempsVie, type);
     }
 
     // Dessine une fourmi à la position de la fourmi

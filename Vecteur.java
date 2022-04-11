@@ -11,17 +11,13 @@ public class Vecteur {
         this(vecteur.x, vecteur.y);
     }
 
-    public Vecteur() {
-        this(0, 0);
+    public double norme() {
+        return norme(x, y);
     }
-
+    
     private static double norme(double X, double Y) {
         double rep = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
         return rep;
-    }
-
-    public double norme() {
-        return norme(x, y);
     }
 
     // Rend le vecteur unitaire

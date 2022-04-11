@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Nourriture {
+public class Nourriture extends Element {
 
-    private Vecteur position;
     private int rayon;
 
     public Nourriture(Vecteur pos, int taille) {
@@ -13,14 +12,6 @@ public class Nourriture {
 
     public Nourriture(double x, double y, int taille) {
         this(new Vecteur(x, y), taille);
-    }
-
-    public void setPosition(Vecteur nouvellePosition) {
-        position = nouvellePosition;
-    }
-
-    public Vecteur getPosition() {
-        return new Vecteur(position.x, position.y);
     }
 
     public int getRayon() {
