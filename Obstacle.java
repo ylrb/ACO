@@ -5,7 +5,6 @@ import java.util.LinkedList;
 public class Obstacle extends Element {
     private boolean vide;
     private LinkedList<Segment> murs = new LinkedList<Segment>();
-    private static final Color COULEUR = new Color(100,97,92);
 
     public Obstacle(LinkedList<Vecteur> points) {
         for (int i = 0; i < points.size(); i++) {
@@ -30,7 +29,7 @@ public class Obstacle extends Element {
             Y[i] = (int) m.pointA.y;
             i++;
         }
-        g.setColor(COULEUR);
+        g.setColor(new Color(100,97,92));
         if (!vide) {
             g.fillPolygon(X, Y, X.length);
         } else {

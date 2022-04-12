@@ -40,7 +40,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     // Attributs du mode éditeur
     private boolean obstacleEnCours = false;
     private LinkedList<Vecteur> points = new LinkedList<Vecteur>();
-    private final int RAYON_POINT = 5;
 
     // Accesseurs
     public Timer getTimer() {
@@ -127,7 +126,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             else{
                 g.setColor(new Color(0, 0, 0, 70));
             }
-            g.fill(new Ellipse2D.Double(v.x-RAYON_POINT, v.y-RAYON_POINT, 2*RAYON_POINT, 2*RAYON_POINT));
+            g.fill(new Ellipse2D.Double(v.x-5, v.y-5, 2*5, 2*5));
         }
     }
 

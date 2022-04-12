@@ -10,11 +10,6 @@ public class LecteurCarte {
 
     // Attributs pour la lecture du fichier
     private List<String> fichier;
-    private static final String DEBUT_OBSTACLES = "// DEBUT OBSTACLE //";
-    private static final String FIN_OBSTACLES = "// FIN OBSTACLE //";
-    private static final String SEPARATION_OBSTACLES = "// NOUVEL OBSTACLE";
-    private static final String FOURMILIERE = "// FOURMILIERE //";
-    private static final String NOURRITURE = "// NOURRITURE //";
 
     public LinkedList<Obstacle> getObstacles() {
         return obstacles;
@@ -40,16 +35,16 @@ public class LecteurCarte {
         try {
             // Définition des variables pour la lecture
             fichier = Files.readAllLines(Paths.get(chemin));
-            int ligneDebutObstacle = fichier.indexOf(DEBUT_OBSTACLES) + 1;
-            int ligneFinObstacle = fichier.indexOf(FIN_OBSTACLES) - 1;
-            int ligneFourmiliere = fichier.indexOf(FOURMILIERE) + 1; // Retourne 0 si il n'y a pas de fourmiliere
-            int ligneNourriture = fichier.indexOf(NOURRITURE) + 1; // Idem
+            int ligneDebutObstacle = fichier.indexOf("// DEBUT OBSTACLE //") + 1;
+            int ligneFinObstacle = fichier.indexOf("// FIN OBSTACLE //") - 1;
+            int ligneFourmiliere = fichier.indexOf("// FOURMILIERE //") + 1; // Retourne 0 si il n'y a pas de fourmiliere
+            int ligneNourriture = fichier.indexOf("// NOURRITURE //") + 1; // Idem
 
             // Boucle pour définir les différents obstacles de la carte
             LinkedList<Vecteur> points = new LinkedList<Vecteur>();
             for (int i = ligneDebutObstacle; i <= ligneFinObstacle; i++) {
                 String ligne = fichier.get(i); // On itère sur chaque ligne du fichier texte
-                if (ligne.startsWith(SEPARATION_OBSTACLES) && (i != ligneDebutObstacle)) {
+                if (ligne.startsWith("// NOUVEL OBSTACLE") && (i != ligneDebutObstacle)) {
                     Obstacle nouvelObstacle = new Obstacle(points); // On crée un nouvel obstacle qu'on ajoute dans la liste
                     if (fichier.get(fichier.indexOf(ligne)-points.size()-1).contains("vide")) {
                         nouvelObstacle.setVide(true);

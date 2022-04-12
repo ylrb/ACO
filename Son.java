@@ -3,9 +3,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public class Sound {
+public class Son {
     private Clip myClip;
-    public Sound(String fileName) {
+    public Son(String fileName) {
         try {
             File file = new File("assets/sons/" + fileName + ".wav");
             if (file.exists()) {
