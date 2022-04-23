@@ -105,18 +105,15 @@ public class LecteurCarte {
         res.add("// NOURRITURE //");
         res.add((int)posNourriture.x + "," + (int)posNourriture.y);
         res.add("// DEBUT OBSTACLE //");
-        int nbObstacles = c.getObstacles().size();
-        for(Obstacle o : c.getObstacles()){
-            boolean bordureInvisible = (o == c.getObstacles().get(nbObstacles-1)) || (o == c.getObstacles().get(nbObstacles-2)) || (o == c.getObstacles().get(nbObstacles-3)) || (o == c.getObstacles().get(nbObstacles-4));
-            if (!bordureInvisible){
-                if (o.estVide()){
-                    res.add("// NOUVEL OBSTACLE (vide)");
-                } else {
-                    res.add("// NOUVEL OBSTACLE");
-                }
-                for (Segment mur : o.getMurs()){
-                    res.add((int)mur.pointA.x + "," + (int)mur.pointA.y);
-                }
+        for(int i = 4; i<c.getObstacles().size(); i++){ // Les quatres premiers obstacles sont toujours les bordures invisibles
+            Obstacle o = c.getObstacles().get(i);
+            if (o.estVide()){
+                res.add("// NOUVEL OBSTACLE (vide)");
+            } else {
+                res.add("// NOUVEL OBSTACLE");
+            }
+            for (Segment mur : o.getMurs()){
+                res.add((int)mur.pointA.x + "," + (int)mur.pointA.y);
             }
         }
         res.add("// FIN OBSTACLE //");

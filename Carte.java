@@ -46,11 +46,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         return timer;
     }
     public void setObstacles(LinkedList<Obstacle> obs) {
-        obstacles = obs;
-        // Ajouts des bordures invisibles
+        // Ajouts des bordures invisibles en PREMIER !
         LecteurCarte borduresInvisibles = new LecteurCarte("assets/cartes/borduresInvisibles.txt");
         for (Obstacle o : borduresInvisibles.getObstacles()) {
             o.setVide(false);
+            obstacles.add(o);
+        }
+        // Ajouts des obstacles
+        for (Obstacle o : obs){
             obstacles.add(o);
         }
     }
