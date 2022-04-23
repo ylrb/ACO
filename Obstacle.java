@@ -20,6 +20,10 @@ public class Obstacle extends Element {
         vide = v;
     }
 
+    public boolean estVide(){
+        return vide;
+    }
+
     public void dessine(Graphics2D g, BufferedImage b) {
         int[] X = new int[murs.size()];
         int[] Y = new int[murs.size()];

@@ -1,6 +1,11 @@
-import java.nio.file.*;
 import java.util.List;
 import java.util.LinkedList;
+import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.File;
 
 public class LecteurCarte {
     // Éléments du terrain que l'on souhaite initiliaser
@@ -34,7 +39,7 @@ public class LecteurCarte {
         this();
         try {
             // Définition des variables pour la lecture
-            fichier = Files.readAllLines(Paths.get(chemin));
+            fichier = Files.readAllLines(Paths.get(chemin), StandardCharsets.UTF_8);
             int ligneDebutObstacle = fichier.indexOf("// DEBUT OBSTACLE //") + 1;
             int ligneFinObstacle = fichier.indexOf("// FIN OBSTACLE //") - 1;
             int ligneFourmiliere = fichier.indexOf("// FOURMILIERE //") + 1; // Retourne 0 si il n'y a pas de fourmiliere
@@ -85,6 +90,56 @@ public class LecteurCarte {
             rep[i] = Integer.parseInt(texte[i]);
         }
         return rep;
+    }
+
+    // Méthode qui convertis une Carte en une liste 
+    private static List<String> carteVersListe(Carte c){
+        List<String> res = new LinkedList<String>();
+        Vecteur posFourmiliere = c.getFourmiliere().getPosition();
+        Vecteur posNourriture = c.getNourriture().get(0).getPosition();
+        res.add("*");
+        res.add("* Ceci est une carte exportée");
+        res.add("*");
+        res.add("// FOURMILIERE //");
+        res.add((int)posFourmiliere.x + "," + (int)posFourmiliere.y);
+        res.add("// NOURRITURE //");
+        res.add((int)posNourriture.x + "," + (int)posNourriture.y);
+        res.add("// DEBUT OBSTACLE //");
+        int nbObstacles = c.getObstacles().size();
+        for(Obstacle o : c.getObstacles()){
+            boolean bordureInvisible = (o == c.getObstacles().get(nbObstacles-1)) || (o == c.getObstacles().get(nbObstacles-2)) || (o == c.getObstacles().get(nbObstacles-3)) || (o == c.getObstacles().get(nbObstacles-4));
+            if (!bordureInvisible){
+                if (o.estVide()){
+                    res.add("// NOUVEL OBSTACLE (vide)");
+                } else {
+                    res.add("// NOUVEL OBSTACLE");
+                }
+                for (Segment mur : o.getMurs()){
+                    res.add((int)mur.pointA.x + "," + (int)mur.pointA.y);
+                }
+            }
+        }
+        res.add("// FIN OBSTACLE //");
+        return res;
+    }
+
+    public static void exporter(Carte c, File f){
+        List<String> lignes = carteVersListe(c);
+        try {
+            File nvFichier = f;
+            if (!nvFichier.exists()) {
+                nvFichier.createNewFile();
+            }
+            FileWriter fw = new FileWriter(nvFichier);
+            BufferedWriter out = new BufferedWriter(fw);
+            for (String ligne : lignes) {
+                out.write(ligne);
+                out.newLine();
+            }
+            out.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
 }

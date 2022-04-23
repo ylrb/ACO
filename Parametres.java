@@ -5,10 +5,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.util.LinkedList;
+import javax.swing.filechooser.*;
 
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
     public static final Color FOND_PARAM = new Color(214, 214, 214);
+    private static final Color FOND_BOUTON = new Color(234, 234, 234);
     private JCheckBox cocherPheromones, cocherSon;
 
     // Paramètres par défaut de la nouvelle carte
@@ -22,7 +24,7 @@ public class Parametres extends JPanel implements ActionListener {
     private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
     private LinkedList<Nourriture> nourritures = (new LecteurCarte("assets/cartes/bordures.txt")).getNourriture();
 
-    private JButton editer;
+    private JButton reinitialiser, valider, editer, importer, exporter;
     public static boolean modeEditeur = false;
 
     public static int getDt() {
@@ -157,15 +159,77 @@ public class Parametres extends JPanel implements ActionListener {
         editer.setAlignmentX(Component.LEFT_ALIGNMENT);
         editer.addActionListener(this);
         editer.setBackground(new Color (234, 234, 234));
+
+        importer = new JButton("Importer");
+        importer.setMaximumSize(new Dimension(215,25));
+        importer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        importer.addActionListener(this);
+        importer.setBackground(new Color (234, 234, 234));
+
+        exporter = new JButton("Exporter");
+        exporter.setMaximumSize(new Dimension(215,25));
+        exporter.setAlignmentX(Component.LEFT_ALIGNMENT);
+        exporter.addActionListener(this);
+        exporter.setBackground(new Color (234, 234, 234));
+
         selecteurCartes.add(selectionCartes);
         selecteurCartes.add(Box.createVerticalStrut(10));
         selecteurCartes.add(editer);
+        selecteurCartes.add(Box.createVerticalStrut(10));
+        selecteurCartes.add(importer);
+        selecteurCartes.add(Box.createVerticalStrut(10));
+        selecteurCartes.add(exporter);
 
         add(Box.createVerticalGlue());
+
+        // Boutons Valider/Réinitialiser
+        JPanel boutons = new JPanel();
+        boutons.setBackground(Color.red);
+        boutons.setLayout(new FlowLayout(FlowLayout.CENTER));
+        boutons.setBackground(FOND_PARAM);
+        boutons.setMaximumSize(new Dimension(215, 20));
+        this.add(boutons);
+
+        reinitialiser = new JButton("Réinitialiser");
+        reinitialiser.addActionListener(this);
+        reinitialiser.setBackground(FOND_BOUTON);
+		boutons.add(reinitialiser);
+
+        valider = new JButton("Valider");
+        valider.addActionListener(this);
+        valider.setBackground(FOND_BOUTON);
+        boutons.add(valider);
     }
 
     // Gestion des interactions avec l'utilisateurs
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == importer || e.getSource() == exporter){
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileFilter filtreTxt = new FileNameExtensionFilter("Fichier texte (*.txt)", "txt");
+            jfc.addChoosableFileFilter(filtreTxt);
+            int reponse;
+            if (e.getSource() == exporter){
+                reponse = jfc.showSaveDialog(null);
+            } else {
+                reponse = jfc.showOpenDialog(null);
+            }
+            if (reponse == JFileChooser.APPROVE_OPTION) {
+                if (filtreTxt.accept(jfc.getSelectedFile())){ // on vérifie qu'on a bien un fichier txt
+                    if (e.getSource() == exporter){
+                        LecteurCarte.exporter(MainWindow.carte, jfc.getSelectedFile());
+                    }
+                }else { // retourne une popup d'erreur si le fichier n'est pas en txt
+                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fichier texte (.txt) !", "Mauvais format", JOptionPane.ERROR_MESSAGE);
+                }
+		    }
+        }
+        if (e.getSource() == reinitialiser) {
+            MainWindow.carte.reinitialiser();
+        }
+        if (e.getSource() == valider) {
+            MainWindow.modifierCarte();
+        }
         if (e.getSource() == cocherPheromones) {
             JCheckBox c = (JCheckBox) e.getSource();
             if (c.isSelected()) {
@@ -212,10 +276,14 @@ public class Parametres extends JPanel implements ActionListener {
                 nourritures = nouvelleCarte.getNourriture();
                 fourmiliere = nouvelleCarte.getFourmiliere();
                 MainWindow.modifierCarte();
+                importer.setEnabled(false);
+                exporter.setEnabled(false);
             }
             else{
                 modeEditeur = false;
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                importer.setEnabled(true);
+                exporter.setEnabled(true);
             }
         }
     }

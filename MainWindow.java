@@ -5,11 +5,11 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class MainWindow extends JFrame implements ActionListener{
+public class MainWindow extends JFrame{
     private static final int LARGEUR = 1280;
     private static final int HAUTEUR = 720;
-    private static final Color FONDBOUTON = new Color(234, 234, 234);
-    private JButton reinitialiser, valider;
+    //private static final Color FONDBOUTON = new Color(234, 234, 234);
+    //private JButton reinitialiser, valider;
     private static JPanel conteneur;
     private static Insets insets;
     private static Parametres param;
@@ -23,7 +23,13 @@ public class MainWindow extends JFrame implements ActionListener{
 
     public MainWindow() {
         importerImages();
-
+        // La fenêtre utilise par défaut le style de l'OS de l'utilisateur
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception err){
+            System.out.println(err);
+        }
         // Création de l'interface graphique
         this.setSize(LARGEUR, HAUTEUR);
         this.setLocationRelativeTo(null);
@@ -40,24 +46,6 @@ public class MainWindow extends JFrame implements ActionListener{
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
         carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
 
-        // Création des boutons permettant l'interaction entre les objets Carte/Parametres
-        JPanel boutons = new JPanel();
-        boutons.setBackground(Color.red);
-        boutons.setLayout(new FlowLayout(FlowLayout.CENTER));
-        boutons.setBackground(param.getFond());
-        boutons.setMaximumSize(new Dimension(getWidth(), 20));
-        param.add(boutons);
-
-        reinitialiser = new JButton("Réinitialiser");
-        reinitialiser.addActionListener(this);
-        reinitialiser.setBackground(FONDBOUTON);
-		boutons.add(reinitialiser);
-
-        valider = new JButton("Valider");
-        valider.addActionListener(this);
-        valider.setBackground(FONDBOUTON);
-        boutons.add(valider);
-
         // Ajouts des JPanel
         conteneur.add(param, BorderLayout.WEST);
         conteneur.add(carte, BorderLayout.EAST);
@@ -65,16 +53,6 @@ public class MainWindow extends JFrame implements ActionListener{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         repaint();
-    }
-
-    // Gestions des interactions avec l'utilisateur
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == reinitialiser) {
-            carte.reinitialiser();
-        }
-        if (e.getSource() == valider) {
-            modifierCarte();
-        }
     }
 
     public static void modifierCarte(){

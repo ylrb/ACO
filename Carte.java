@@ -54,6 +54,17 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
             obstacles.add(o);
         }
     }
+    public LinkedList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public Fourmiliere getFourmiliere() {
+        return fourmiliere;
+    }
+
+    public LinkedList<Nourriture> getNourriture() {
+        return nourritures;
+    }
 
 
 
