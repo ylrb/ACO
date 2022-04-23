@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.util.LinkedList;
 import javax.swing.filechooser.*;
+import java.io.File;
 
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
@@ -215,9 +216,16 @@ public class Parametres extends JPanel implements ActionListener {
                 reponse = jfc.showOpenDialog(null);
             }
             if (reponse == JFileChooser.APPROVE_OPTION) {
-                if (filtreTxt.accept(jfc.getSelectedFile())){ // on vérifie qu'on a bien un fichier txt
+                File fichier = jfc.getSelectedFile();
+                if (filtreTxt.accept(fichier)){ // on vérifie qu'on a bien un fichier txt
                     if (e.getSource() == exporter){
-                        LecteurCarte.exporter(MainWindow.carte, jfc.getSelectedFile());
+                        LecteurCarte.exporter(MainWindow.carte, fichier);
+                    }else {
+                        LecteurCarte nouvelleCarte = new LecteurCarte(fichier.toString());
+                        obstacles = nouvelleCarte.getObstacles();
+                        nourritures = nouvelleCarte.getNourriture();
+                        fourmiliere = nouvelleCarte.getFourmiliere();
+                        MainWindow.modifierCarte();
                     }
                 }else { // retourne une popup d'erreur si le fichier n'est pas en txt
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fichier texte (.txt) !", "Mauvais format", JOptionPane.ERROR_MESSAGE);
@@ -276,14 +284,10 @@ public class Parametres extends JPanel implements ActionListener {
                 nourritures = nouvelleCarte.getNourriture();
                 fourmiliere = nouvelleCarte.getFourmiliere();
                 MainWindow.modifierCarte();
-                importer.setEnabled(false);
-                exporter.setEnabled(false);
             }
             else{
                 modeEditeur = false;
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
-                importer.setEnabled(true);
-                exporter.setEnabled(true);
             }
         }
     }
