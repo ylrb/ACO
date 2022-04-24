@@ -135,7 +135,9 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         // Mode éditeur
         for(Vecteur v : points){
             if (v == points.get(0)){
-                g.setColor(new Color(0, 0, 0, 150));
+                g.setColor(new Color(0,0,0,70));
+                g.fill(new Ellipse2D.Double(v.x-8, v.y-8, 2*8, 2*8));
+                g.setColor(new Color(0, 0, 0, 100));
             }
             else{
                 g.setColor(new Color(0, 0, 0, 70));

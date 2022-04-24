@@ -194,7 +194,7 @@ public class Parametres extends JPanel implements ActionListener {
             } else {
                 reponse = jfc.showOpenDialog(null);
             }
-            if (reponse == JFileChooser.APPROVE_OPTION) {
+            if (reponse == JFileChooser.APPROVE_OPTION) { // On capte si l'utilisateur a validé un fichier
                 File fichier = jfc.getSelectedFile();
                 if (filtreTxt.accept(fichier)){ // on vérifie qu'on a bien un fichier txt
                     if (e.getSource() == exporter){
@@ -269,6 +269,10 @@ public class Parametres extends JPanel implements ActionListener {
                 modeEditeur = false;
                 editer.setText("Entrer en mode éditeur");
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                // On enregistre les éléments de la carte modifiée (important pr bouton valider)
+                obstacles = MainWindow.carte.getObstacles();
+                nourritures = MainWindow.carte.getNourriture();
+                fourmiliere = MainWindow.carte.getFourmiliere();
             }
         }
     }
