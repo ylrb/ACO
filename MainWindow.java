@@ -8,8 +8,6 @@ import java.io.*;
 public class MainWindow extends JFrame{
     private static final int LARGEUR = 1280;
     private static final int HAUTEUR = 720;
-    //private static final Color FONDBOUTON = new Color(234, 234, 234);
-    //private JButton reinitialiser, valider;
     private static JPanel conteneur;
     private static Insets insets;
     private static Parametres param;
@@ -40,11 +38,11 @@ public class MainWindow extends JFrame{
 
         // Création du JPanel Parametres
         param = new Parametres();
-        param.setPreferredSize(new Dimension((int)(0.2*LARGEUR), HAUTEUR-insets.top));
+        param.setPreferredSize(new Dimension((int)(0.2*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
 
         // Création du premier objet Carte
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
+        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
 
         // Ajouts des JPanel
         conteneur.add(param, BorderLayout.WEST);
@@ -60,7 +58,7 @@ public class MainWindow extends JFrame{
         carte.getTimer().stop();
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
         conteneur.add(carte, BorderLayout.EAST);
-        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR), HAUTEUR-insets.top));
+        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
         conteneur.revalidate();
         conteneur.repaint();
     }

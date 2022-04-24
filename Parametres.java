@@ -20,7 +20,7 @@ public class Parametres extends JPanel implements ActionListener {
     private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Map 5" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
 
-    // Élements du terrain
+    // Élements du terrain par défaut
     private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
     private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
     private LinkedList<Nourriture> nourritures = (new LecteurCarte("assets/cartes/bordures.txt")).getNourriture();
@@ -55,14 +55,12 @@ public class Parametres extends JPanel implements ActionListener {
     public Parametres() {
         // Initialisation du JPanel
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(new EmptyBorder(new Insets(20, 20, 20, 0)));
+        setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
         setBackground(FOND_PARAM);
 
         JPanel titrePanel = new JPanel();
         titrePanel.setLayout(new BoxLayout(titrePanel, BoxLayout.Y_AXIS));
-        titrePanel.add(Box.createHorizontalGlue());
         titrePanel.setBackground(FOND_PARAM);
-        titrePanel.setBorder(new EmptyBorder(new Insets(0, 0, 0, 20)));
         titrePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(titrePanel);
 
@@ -142,63 +140,44 @@ public class Parametres extends JPanel implements ActionListener {
         cocher.add(Box.createVerticalStrut(20));
         cocherSon.setBackground(FOND_PARAM);
 
-        // Sélecteur de cartes
+        // JPanel sélection de cartes + boutons mode éditer + importer + exporter
         JPanel selecteurCartes = new JPanel();
-        selecteurCartes.setLayout(new BoxLayout(selecteurCartes, BoxLayout.PAGE_AXIS));
-        selecteurCartes.add(Box.createHorizontalGlue());
+        selecteurCartes.setLayout(new GridLayout(6,1,0,10));
         selecteurCartes.setBackground(FOND_PARAM);
         selecteurCartes.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(selecteurCartes);
 
-        selectionCartes.setMaximumSize(new Dimension(215,25));
-        selectionCartes.setAlignmentX(Component.LEFT_ALIGNMENT);
         selectionCartes.setSelectedIndex(0);
         selectionCartes.addActionListener(this);
 
-        editer = new JButton("Mode éditeur");
-        editer.setMaximumSize(new Dimension(215,25));
-        editer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        editer = new JButton("Entrer en mode éditeur");
         editer.addActionListener(this);
-        editer.setBackground(new Color (234, 234, 234));
 
         importer = new JButton("Importer");
-        importer.setMaximumSize(new Dimension(215,25));
-        importer.setAlignmentX(Component.LEFT_ALIGNMENT);
         importer.addActionListener(this);
-        importer.setBackground(new Color (234, 234, 234));
 
         exporter = new JButton("Exporter");
-        exporter.setMaximumSize(new Dimension(215,25));
-        exporter.setAlignmentX(Component.LEFT_ALIGNMENT);
         exporter.addActionListener(this);
-        exporter.setBackground(new Color (234, 234, 234));
 
         selecteurCartes.add(selectionCartes);
-        selecteurCartes.add(Box.createVerticalStrut(10));
         selecteurCartes.add(editer);
-        selecteurCartes.add(Box.createVerticalStrut(10));
         selecteurCartes.add(importer);
-        selecteurCartes.add(Box.createVerticalStrut(10));
         selecteurCartes.add(exporter);
 
         add(Box.createVerticalGlue());
 
         // Boutons Valider/Réinitialiser
         JPanel boutons = new JPanel();
-        boutons.setBackground(Color.red);
-        boutons.setLayout(new FlowLayout(FlowLayout.CENTER));
         boutons.setBackground(FOND_PARAM);
-        boutons.setMaximumSize(new Dimension(215, 20));
+        boutons.setLayout(new BoxLayout(boutons, BoxLayout.LINE_AXIS));
         this.add(boutons);
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-        reinitialiser.setBackground(FOND_BOUTON);
 		boutons.add(reinitialiser);
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
-        valider.setBackground(FOND_BOUTON);
         boutons.add(valider);
     }
 
@@ -278,6 +257,7 @@ public class Parametres extends JPanel implements ActionListener {
         if (e.getSource() == editer){
             if (!modeEditeur){
                 modeEditeur = true;
+                editer.setText("Quitter le mode éditeur");
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
                 LecteurCarte nouvelleCarte = new LecteurCarte();
                 obstacles = nouvelleCarte.getObstacles();
@@ -287,6 +267,7 @@ public class Parametres extends JPanel implements ActionListener {
             }
             else{
                 modeEditeur = false;
+                editer.setText("Entrer en mode éditeur");
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
             }
         }
