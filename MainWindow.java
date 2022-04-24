@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 
 public class MainWindow extends JFrame{
     private static final int LARGEUR = 1280;
@@ -47,6 +48,11 @@ public class MainWindow extends JFrame{
         // Ajouts des JPanel
         conteneur.add(param, BorderLayout.WEST);
         conteneur.add(carte, BorderLayout.EAST);
+
+        // Icone de la fenêtre ne fonctionne pas sous macOS
+        URL iconURL = getClass().getResource("assets/images/icon.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
 
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
