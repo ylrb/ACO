@@ -19,6 +19,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
     private Fourmiliere fourmiliere;
     private int nombreFourmis; // Nombre indiqué par l'utilisateur
     private int compteurFourmis; // Nombre actuel de fourmis, qui augmente jusqu'à nombreFourmis
+    public static Area masqueTotal;
 
     // Variables du timer par défaut
     private Timer timer;
@@ -110,9 +111,16 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         // On dessines les obstacles
         Shape ancienMasque = g.getClip();
+        masqueTotal = new Area();
         for (Obstacle o : obstacles) {
             o.dessine(g,null);
         }
+        g.setClip(masqueTotal); // on définit un masque au graphics2D
+        g.setStroke(new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); // on définit des contours
+        g.drawImage(MainWindow.imageTexture, 0, 0, null); // on dessine l'image sur le masque 1 seule fois
+        g.setPaint(new Color(0,0,0,80));
+        g.draw(masqueTotal); // on dessine les contours
+        g.setStroke(new BasicStroke());
         g.setClip(ancienMasque);
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures

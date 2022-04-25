@@ -34,7 +34,7 @@ public class Obstacle extends Element {
             Y[i] = (int) m.pointA.y;
             i++;
         }
-        Shape masque = new Polygon(X, Y, X.length);
+        Area masque = new Area(new Polygon(X, Y, X.length));
         if (vide) { // Si l'obstacle est vide, on inverse le masque (la texture se dessine a l'extérieur du masque)
             Rectangle2D cadreCarte = new Rectangle2D.Double(-20,-20,1100, 800);
             Area cadreArea = new Area(cadreCarte);
@@ -42,11 +42,6 @@ public class Obstacle extends Element {
             cadreArea.subtract(masqueArea); // on soustrait au cadre l'ancien masque => l'ancien masque est inversé
             masque = cadreArea; 
         }
-        g.setClip(masque); // on définit un masque au graphics2D
-        g.setStroke(new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); // on définit des contours
-        g.drawImage(MainWindow.imageTexture, 0, 0, null); // on dessine l'image sur le masque
-        g.setPaint(new Color(0,0,0,80));
-        g.draw(masque); // on dessine les contours
-        g.setStroke(new BasicStroke());
+        Carte.masqueTotal.add(masque);
     }
 }
