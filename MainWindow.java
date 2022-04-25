@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -15,7 +14,7 @@ public class MainWindow extends JFrame{
     public static Carte carte;
     
     // images et tailles
-    public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond;
+    public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond, imageBordures, imageBordures2, imageBordures3;
     public static final int TAILLE_FOURMI = 20;
     public static final int TAILLE_FOURMILIERE = 40;
     public static final int TAILLE_NOURRITURE = 30;
@@ -78,6 +77,9 @@ public class MainWindow extends JFrame{
             imageFourmiliere = ImageIO.read(new File("assets/images/Fourmiliere.png"));
             imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png"));
             imageFond = ImageIO.read(new File("assets/images/Fond.png"));
+            imageBordures = ImageIO.read(new File("assets/images/Bordures.png"));
+            imageBordures2 = ImageIO.read(new File("assets/images/Bordures2.png"));
+            imageBordures3 = ImageIO.read(new File("assets/images/Bordures3.png"));
 
             // On leur donne la taille désirée
             imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);

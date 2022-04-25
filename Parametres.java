@@ -19,6 +19,7 @@ public class Parametres extends JPanel implements ActionListener {
     private static int nombreFourmis = 50;
     private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Map 5" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
+    public static int numeroCarte = 0;
 
     // Élements du terrain par défaut
     private LinkedList<Obstacle> obstacles = (new LecteurCarte("assets/cartes/bordures.txt")).getObstacles();
@@ -199,7 +200,7 @@ public class Parametres extends JPanel implements ActionListener {
                 if (filtreTxt.accept(fichier)){ // on vérifie qu'on a bien un fichier txt
                     if (e.getSource() == exporter){
                         LecteurCarte.exporter(MainWindow.carte, fichier);
-                    }else {
+                    } else {
                         LecteurCarte nouvelleCarte = new LecteurCarte(fichier.toString());
                         obstacles = nouvelleCarte.getObstacles();
                         nourritures = nouvelleCarte.getNourriture();
@@ -215,6 +216,12 @@ public class Parametres extends JPanel implements ActionListener {
             MainWindow.carte.reinitialiser();
         }
         if (e.getSource() == valider) {
+            numeroCarte = selectionCartes.getSelectedIndex();
+            if ((numeroCarte == 0)||(numeroCarte == 2)) {
+                Obstacle.dessine = false;
+            } else {
+                Obstacle.dessine = true;
+            }
             MainWindow.modifierCarte();
         }
         if (e.getSource() == cocherPheromones) {

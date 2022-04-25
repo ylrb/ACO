@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Obstacle extends Element {
     private boolean vide;
     private LinkedList<Segment> murs = new LinkedList<Segment>();
+    public static boolean dessine = false;
 
     public Obstacle(LinkedList<Vecteur> points) {
         for (int i = 0; i < points.size(); i++) {
@@ -25,19 +26,21 @@ public class Obstacle extends Element {
     }
 
     public void dessine(Graphics2D g, BufferedImage b) {
-        int[] X = new int[murs.size()];
-        int[] Y = new int[murs.size()];
-        int i = 0;
-        for (Segment m : murs) {
-            X[i] = (int) m.pointA.x;
-            Y[i] = (int) m.pointA.y;
-            i++;
-        }
-        g.setColor(new Color(100,97,92));
-        if (!vide) {
-            g.fillPolygon(X, Y, X.length);
-        } else {
-            g.drawPolygon(X, Y, X.length);
+        if (dessine) {
+            int[] X = new int[murs.size()];
+            int[] Y = new int[murs.size()];
+            int i = 0;
+            for (Segment m : murs) {
+                X[i] = (int) m.pointA.x;
+                Y[i] = (int) m.pointA.y;
+                i++;
+            }
+            g.setColor(new Color(100,97,92));
+            if (!vide) {
+                g.fillPolygon(X, Y, X.length);
+            } else {
+                g.drawPolygon(X, Y, X.length);
+            }
         }
     }
 }

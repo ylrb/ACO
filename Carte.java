@@ -107,6 +107,14 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
         g.setColor(new Color(120, 100, 80));
         g.drawImage(MainWindow.imageFond, 0, 0, null); // Taille de l'image : 1024x698
+        switch (Parametres.numeroCarte) {
+            case 0:
+                g.drawImage(MainWindow.imageBordures2, 0, 0, null);
+                break;
+            case 2:
+                g.drawImage(MainWindow.imageBordures3, 0, 0, null);
+                break;
+        }
 
         // On dessine la fourmilière et toutes les fourmis, phéromones et nourritures
         for (Obstacle o : obstacles) {
