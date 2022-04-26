@@ -82,6 +82,12 @@ public class LecteurCarte {
         }
     }
 
+    public LecteurCarte(Carte c){
+        obstacles = c.getObstacles();
+        fourmiliere = c.getFourmiliere();
+        nourriture = c.getNourriture();
+    }
+
     // Méthode qui récupère les coordonnées d'une ligne, séparées par des virgules
     private int[] coordonnees(int ligne) {
         int[] rep = new int[3];

@@ -17,7 +17,7 @@ public class Parametres extends JPanel implements ActionListener {
     // Paramètres par défaut de la nouvelle carte
     private static int dt = 0;
     private static int nombreFourmis = 50;
-    private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Map 5" };
+    private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Nouvelle carte" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
 
     // Élements du terrain par défaut
@@ -27,6 +27,7 @@ public class Parametres extends JPanel implements ActionListener {
 
     private JButton reinitialiser, valider, editer, importer, exporter;
     public static boolean modeEditeur = false;
+    private LecteurCarte carteUtilisateur = new LecteurCarte();
 
     public static int getDt() {
         return dt;
@@ -245,6 +246,12 @@ public class Parametres extends JPanel implements ActionListener {
                 case 2:
                     nouvelleCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
+                case 3:
+                    nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
+                    break;
+                case 4:
+                    nouvelleCarte = carteUtilisateur;
+                    break;
                 default:
                     nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
@@ -264,6 +271,10 @@ public class Parametres extends JPanel implements ActionListener {
                 nourritures = nouvelleCarte.getNourriture();
                 fourmiliere = nouvelleCarte.getFourmiliere();
                 MainWindow.modifierCarte();
+                reinitialiser.setEnabled(false);
+                valider.setEnabled(false);
+                selectionCartes.setEnabled(false);
+                selectionCartes.setSelectedIndex(4);
             }
             else{
                 modeEditeur = false;
@@ -273,6 +284,10 @@ public class Parametres extends JPanel implements ActionListener {
                 obstacles = MainWindow.carte.getObstacles();
                 nourritures = MainWindow.carte.getNourriture();
                 fourmiliere = MainWindow.carte.getFourmiliere();
+                carteUtilisateur = new LecteurCarte(MainWindow.carte);
+                reinitialiser.setEnabled(true);
+                valider.setEnabled(true);
+                selectionCartes.setEnabled(true);
             }
         }
     }
