@@ -34,19 +34,23 @@ public class MainWindow extends JFrame{
         this.setResizable(false);
         this.setTitle("Ant Colony Optimization");
         insets = getInsets();
-        conteneur = (JPanel)this.getContentPane();
+        conteneur = new JPanel();
+        conteneur.setLayout(null);
+        add(conteneur);
 
         // Création du JPanel Parametres
         param = new Parametres();
-        param.setPreferredSize(new Dimension((int)(0.2*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
+        param.setSize(new Dimension(256,698));
 
         // Création du premier objet Carte
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
+        carte.setSize(new Dimension(1024,698));
 
         // Ajouts des JPanel
-        conteneur.add(param, BorderLayout.WEST);
-        conteneur.add(carte, BorderLayout.EAST);
+        param.setLocation(0,0);
+        carte.setLocation(256,0);
+        conteneur.add(param);
+        conteneur.add(carte);
 
         // Icone de la fenêtre ne fonctionne pas sous macOS
         URL iconURL = getClass().getResource("assets/images/icon.png");
@@ -62,8 +66,9 @@ public class MainWindow extends JFrame{
         conteneur.remove(carte);
         carte.getTimer().stop();
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        conteneur.add(carte, BorderLayout.EAST);
-        carte.setPreferredSize(new Dimension((int)(0.8*LARGEUR)-insets.right-insets.left, HAUTEUR-insets.top-insets.bottom));
+        carte.setSize(new Dimension(1024,698));
+        carte.setLocation(256,0);
+        conteneur.add(carte);
         conteneur.revalidate();
         conteneur.repaint();
     }
