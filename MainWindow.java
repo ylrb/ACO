@@ -40,15 +40,15 @@ public class MainWindow extends JFrame{
 
         // Création du JPanel Parametres
         param = new Parametres();
-        param.setSize(new Dimension(256,698));
+        param.setSize(new Dimension((int)(0.2*LARGEUR)-insets.left,HAUTEUR-insets.top-insets.bottom));
 
         // Création du premier objet Carte
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setSize(new Dimension(1024,698));
+        carte.setSize(new Dimension((int)(0.8*LARGEUR),HAUTEUR-insets.top-insets.bottom));
 
         // Ajouts des JPanel
         param.setLocation(0,0);
-        carte.setLocation(256,0);
+        carte.setLocation((int)(0.2*LARGEUR)-insets.left,0);
         conteneur.add(param);
         conteneur.add(carte);
 
@@ -66,8 +66,8 @@ public class MainWindow extends JFrame{
         conteneur.remove(carte);
         carte.getTimer().stop();
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setSize(new Dimension(1024,698));
-        carte.setLocation(256,0);
+        carte.setSize(new Dimension((int)(0.8*LARGEUR),HAUTEUR-insets.top-insets.bottom));
+        carte.setLocation((int)(0.2*LARGEUR)-insets.left,0);
         conteneur.add(carte);
         conteneur.revalidate();
         conteneur.repaint();

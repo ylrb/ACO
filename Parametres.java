@@ -177,6 +177,8 @@ public class Parametres extends JPanel implements ActionListener {
         reinitialiser.addActionListener(this);
 		boutons.add(reinitialiser);
 
+        boutons.add(Box.createRigidArea(new Dimension(5,0)));
+
         valider = new JButton("Valider");
         valider.addActionListener(this);
         boutons.add(valider);
