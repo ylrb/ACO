@@ -288,6 +288,7 @@ public class Parametres extends JPanel implements ActionListener {
                 reinitialiser.setEnabled(true);
                 valider.setEnabled(true);
                 selectionCartes.setEnabled(true);
+                MainWindow.carte.viderPoints(); // on vide la liste de points du mode éditeur
             }
         }
     }

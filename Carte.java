@@ -434,4 +434,8 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         }
     }
 
+    public void viderPoints(){
+        points.clear();
+    }
+
 }

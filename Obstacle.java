@@ -41,6 +41,6 @@ public class Obstacle extends Element {
             Area masqueArea = new Area(masque);
             masque.exclusiveOr(cadreArea); // on soustrait au cadre l'ancien masque => l'ancien masque est inversé
         }
-        Carte.masqueTotal.add(masque);
+        MainWindow.carte.masqueTotal.add(masque);
     }
 }
