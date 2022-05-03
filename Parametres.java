@@ -170,15 +170,17 @@ public class Parametres extends JPanel implements ActionListener {
         JPanel boutons = new JPanel();
         boutons.setBackground(FOND_PARAM);
         boutons.setLayout(new BoxLayout(boutons, BoxLayout.X_AXIS));
-        this.add(boutons);
+
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
 		boutons.add(reinitialiser);
-
+        boutons.add(Box.createHorizontalStrut(10));
         valider = new JButton("Valider");
         valider.addActionListener(this);
         boutons.add(valider);
+        boutons.add(Box.createVerticalGlue());
+        this.add(boutons);
     }
 
     // Gestion des interactions avec l'utilisateurs
