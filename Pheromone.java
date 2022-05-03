@@ -12,9 +12,9 @@ public class Pheromone extends Element {
         position = pos;
         type = t;
         if (type) {
-            couleur = Color.YELLOW;
+            couleur = Color.RED;
         } else {
-            couleur = Color.CYAN;
+            couleur = Color.BLUE;
         }
         taux = 100 - compteur * AFFAIBLISSEMENT;
     }
