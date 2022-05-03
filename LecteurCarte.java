@@ -175,7 +175,7 @@ public class LecteurCarte {
             boolean tropProche = false;
             for (Segment s : nouvelObstacle.getMurs()) {
                 for (Vecteur p : points) {
-                    if (s.pointA.distance(p) < 100) {
+                    if (s.pointA.distance(p) < 80) {
                         tropProche = true;
                     }
                 }
