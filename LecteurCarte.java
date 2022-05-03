@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.io.File;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
 
 public class LecteurCarte {
     // Éléments du terrain que l'on souhaite initiliaser
@@ -133,8 +135,7 @@ public class LecteurCarte {
             if (!nvFichier.exists()) {
                 nvFichier.createNewFile();
             }
-            FileWriter fw = new FileWriter(nvFichier);
-            BufferedWriter out = new BufferedWriter(fw);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nvFichier, true), StandardCharsets.UTF_8));
             for (String ligne : lignes) {
                 out.write(ligne);
                 out.newLine();
