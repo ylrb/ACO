@@ -11,7 +11,6 @@ import java.io.File;
 public class Parametres extends JPanel implements ActionListener {
     // Variables pour l'affichage
     public static final Color FOND_PARAM = new Color(214, 214, 214);
-    private static final Color FOND_BOUTON = new Color(234, 234, 234);
     private JCheckBox cocherPheromones, cocherSon;
 
     // Paramètres par défaut de la nouvelle carte
@@ -291,7 +290,8 @@ public class Parametres extends JPanel implements ActionListener {
                 reinitialiser.setEnabled(true);
                 valider.setEnabled(true);
                 selectionCartes.setEnabled(true);
-                MainWindow.carte.viderPoints(); // on vide la liste de points du mode éditeur
+                MainWindow.carte.points.clear(); // on vide la liste de points du mode éditeur
+
             }
         }
     }
