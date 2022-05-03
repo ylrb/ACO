@@ -80,7 +80,7 @@ public class LecteurCarte {
                 nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1], MainWindow.TAILLE_NOURRITURE));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Erreur lors de l'importation : " + e);
         }
     }
 
@@ -135,7 +135,10 @@ public class LecteurCarte {
             if (!nvFichier.exists()) {
                 nvFichier.createNewFile();
             }
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nvFichier, true), StandardCharsets.UTF_8));
+            else{
+
+            }
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nvFichier, false), StandardCharsets.UTF_8));
             for (String ligne : lignes) {
                 out.write(ligne);
                 out.newLine();
