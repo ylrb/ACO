@@ -40,7 +40,7 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
 
     // Attributs du mode éditeur
     private boolean obstacleEnCours = false;
-    private LinkedList<Vecteur> points = new LinkedList<Vecteur>();
+    public LinkedList<Vecteur> points = new LinkedList<Vecteur>();
 
     // Accesseurs
     public Timer getTimer() {
@@ -432,10 +432,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
                 System.out.println(e);
             }
         }
-    }
-
-    public void viderPoints(){
-        points.clear();
     }
 
 }

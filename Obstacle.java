@@ -39,7 +39,7 @@ public class Obstacle extends Element {
             Rectangle2D cadreCarte = new Rectangle2D.Double(-20,-20,1100, 800);
             Area cadreArea = new Area(cadreCarte);
             Area masqueArea = new Area(masque);
-            masque.exclusiveOr(cadreArea); // on soustrait au cadre l'ancien masque => l'ancien masque est inversé
+            masque.exclusiveOr(cadreArea); // On soustrait au cadre l'ancien masque => l'ancien masque est inversé
         }
         MainWindow.carte.masqueTotal.add(masque);
     }
