@@ -159,10 +159,14 @@ public class Parametres extends JPanel implements ActionListener {
         exporter = new JButton("Exporter");
         exporter.addActionListener(this);
 
+        JButton tutoriel = new JButton("Tutoriel");
+        tutoriel.addActionListener(this);
+
         selecteurCartes.add(selectionCartes);
         selecteurCartes.add(editer);
         selecteurCartes.add(importer);
         selecteurCartes.add(exporter);
+        selecteurCartes.add(tutoriel);
 
         add(Box.createVerticalGlue());
 
