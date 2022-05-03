@@ -145,4 +145,59 @@ public class LecteurCarte {
         }
     }
 
+    // Génère des obstacles aléatoires à des emplacements aléatoires tout en laissant de la place avec les obstacles déjà existant
+    public void aleatoire(int obstaclesMax) {
+        int X, Y;
+        int nombreObstacle = 0;
+
+        // On ajoute les points des murs déjà existants dans la liste points
+        LinkedList<Vecteur> points = new LinkedList<Vecteur>();
+        for (Obstacle o : obstacles) {
+            for (Segment s : o.getMurs()) {
+                points.add(s.pointA);
+            }
+        }
+
+        // Tant que l'on a pas atteint le nombre d'obstacles désiré, on continue d'en rajouter
+        while (nombreObstacle < obstaclesMax) {
+
+            // On crée un obstacle aléatoire à une position (X,Y) aléatoire
+            GenerateurObstacle generateur = new GenerateurObstacle(30, (int)(50*Math.random())+150);
+            do {
+                X = (int)(1024*Math.random());
+            } while ((X < 300)||(X > 700));
+            do {
+                Y = (int)(1024*Math.random());
+            } while ((Y < 200)||(Y > 500));
+            Obstacle nouvelObstacle = generateur.generer(new Vecteur(X,Y));
+            
+            // On vérifie que le nouvel obstacle n'est pas trop près des obstacles déjà existant (moins de 50)
+            boolean tropProche = false;
+            for (Segment s : nouvelObstacle.getMurs()) {
+                for (Vecteur p : points) {
+                    if (s.pointA.distance(p) < 100) {
+                        tropProche = true;
+                    }
+                }
+                if ((s.pointA.distance(fourmiliere.getPosition()) < 100)||(s.pointA.distance(nourriture.get(0).getPosition()) < 100)) {
+                    tropProche = true;
+                }
+                if (tropProche) {
+                    break;
+                }
+            }
+            
+            // Si l'obstacle est réglementaire, il est ajouté aux obstacles
+            if (!tropProche) {
+                obstacles.add(nouvelObstacle);
+                for (Segment s : nouvelObstacle.getMurs()) {
+                    points.add(s.pointA);
+                }
+                nombreObstacle++;
+            }
+        }
+
+    }
+
+
 }

@@ -17,7 +17,7 @@ public class Parametres extends JPanel implements ActionListener {
     // Paramètres par défaut de la nouvelle carte
     private static int dt = 0;
     private static int nombreFourmis = 50;
-    private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Map 4", "Nouvelle carte" };
+    private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Carte aléatoire", "Carte vierge" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
 
     // Élements du terrain par défaut
@@ -249,10 +249,11 @@ public class Parametres extends JPanel implements ActionListener {
                     nouvelleCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
                 case 3:
-                    nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
+                    nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
+                    nouvelleCarte.aleatoire(3);
                     break;
                 case 4:
-                    nouvelleCarte = carteUtilisateur;
+                    nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
                     break;
                 default:
                     nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
