@@ -175,14 +175,12 @@ public class Parametres extends JPanel implements ActionListener {
 
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-        boutons.add(Box.createHorizontalGlue());
 		boutons.add(reinitialiser);
-
-        boutons.add(Box.createHorizontalStrut(10));
+        
+        boutons.add(Box.createHorizontalGlue());
 
         valider = new JButton("Valider");
         valider.addActionListener(this);
-        boutons.add(Box.createHorizontalGlue());
         boutons.add(valider);
     }
 
