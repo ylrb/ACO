@@ -14,7 +14,7 @@ public class Parametres extends JPanel implements ActionListener {
     private JCheckBox cocherPheromones, cocherSon;
 
     // Paramètres par défaut de la nouvelle carte
-    private static int dt = 0;
+    private static int dt = 5;
     private static int nombreFourmis = 50;
     private String[] listeCartes = { "Carte par defaut", "Double pont", "Carte aleatoire", "Carte vierge" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);

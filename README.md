@@ -36,6 +36,7 @@ Pour importer, ouvrez le fichier correspondant.
 2. La carte "*Double Pont*" valide le *Double Bridge Experiment*, en montrant que le chemin le plus court sera choisi à partir d'un certain moment par les fourmis.
 3. La carte aléatoire génère 3 obstacles aléatoirement. Pour ce faire, un nuage de point est généré via une loi normale, puis elles sont reliées et forment un polygone convexe à l'aide d'un algorithme d'enveloppe convexe. Le placement de ses obstacles est réalisé en prenant en compte les autres points lors de leur création afin d'éviter des situations de conflit.
 4. La carte est vierge est un terrain vide.
+
 ### Ressources
 
 Différentes assets sont utilisés :
