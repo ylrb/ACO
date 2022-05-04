@@ -18,7 +18,7 @@ Réalisé dans le contexte d'un projet scientifique d'algorithmie mettant à l'�
 - La classe FourmiA prolonge Fourmi tout en y ajoutant la méthode pour calculer le déplacement vers la nourriture.
 - La classe FourmiB prolonge Fourmi comme précédemment mais calcule le déplacement vers la fourmilière.
 - La classe Fourmiliere gère l'élément de la fourmilère.
-- La classe GenerateurObstacle crée un nuage de points que l'on relie et rempli pour former un obstacle de manière aléatoire.
+- La classe GenerateurObstacle crée un nuage de points que l'on relie et rempli pour former un obstacle de manière aléatoire à l'aide de l'algorithme du paquet cadeau.
 La carte aléatoire nécessite de passer par une autre carte puis de revenir dessus et valider pour obtenir de nouveaux obstacles.
 - La classe LecteurCarte permet l'utilisation des fichiers .txt pour réaliser des cartes plus efficacement.
 Pour exporter, il est nécessaire de préciser l'extension en sauvegardant en "nom.txt".
@@ -36,7 +36,7 @@ Pour importer, ouvrez le fichier correspondant.
 
 1. La carte par défaut permet de prendre en main le programme avec des bordures et des obstacles prédéfinies.
 2. La carte "Double Pont" valide le Double Bridge Experiment, en montrant que le chemin le plus court sera choisi à partir d'un certain moment par les fourmis.
-3. La carte aléatoire génère 3 obstacles aléatoirement. Pour ce faire, un nuage de point est généré via une loi normale, puis elles sont reliées et forment un polygone convexe à l'aide d'un algorithme d'enveloppe convexe. Le placement de ses obstacles est réalisé en prenant en compte les autres points lors de leur création afin d'éviter des situations de conflit.
+3. La carte aléatoire génère 3 obstacles aléatoirement. Pour ce faire, un nuage de point est généré via une loi normale, puis elles sont reliées et forment un polygone convexe à l'aide de l'algorithme du paquet cadeau. Le placement de ses obstacles est réalisé en prenant en compte les autres points lors de leur création afin d'éviter des situations de conflit.
 4. La carte est vierge est un terrain vide.
 
     Ressources
