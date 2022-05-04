@@ -223,7 +223,7 @@ public class Parametres extends JPanel implements ActionListener {
         if (e.getSource() == valider) {
             MainWindow.modifierCarte();
             if (selectionCartes.getSelectedIndex() == 2) {
-                LecteurCarte nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
+                LecteurCarte nouvelleCarte = new LecteurCarte("assets/cartes/vierge.txt");
                 nouvelleCarte.aleatoire(3);
                 obstacles = nouvelleCarte.getObstacles();
                 nourritures = nouvelleCarte.getNourriture();
@@ -256,11 +256,11 @@ public class Parametres extends JPanel implements ActionListener {
                     nouvelleCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
                 case 2:
-                    nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
+                    nouvelleCarte = new LecteurCarte("assets/cartes/vierge.txt");
                     nouvelleCarte.aleatoire(3);
                     break;
                 case 3:
-                    nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
+                    nouvelleCarte = new LecteurCarte("assets/cartes/vierge.txt");
                     break;
                 default:
                     nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
