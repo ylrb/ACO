@@ -16,7 +16,7 @@ public class Parametres extends JPanel implements ActionListener {
     // Paramètres par défaut de la nouvelle carte
     private static int dt = 0;
     private static int nombreFourmis = 50;
-    private String[] listeCartes = { "Carte par défaut", "Double pont", "Carte aléatoire", "Carte vierge" };
+    private String[] listeCartes = { "Carte par defaut", "Double pont", "Carte aleatoire", "Carte vierge" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
 
     // Élements du terrain par défaut
@@ -82,7 +82,7 @@ public class Parametres extends JPanel implements ActionListener {
         champs.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(champs);
 
-        JLabel texteChampDt = new JLabel("Période de rafraîchissement");
+        JLabel texteChampDt = new JLabel("Periode de rafraichissement");
         texteChampDt.setAlignmentX(Component.LEFT_ALIGNMENT);
         champs.add(texteChampDt);
         champs.add(Box.createVerticalStrut(5));
@@ -126,7 +126,7 @@ public class Parametres extends JPanel implements ActionListener {
         cocher.add(texteCocher);
         cocher.add(Box.createVerticalStrut(5));
 
-        cocherPheromones = new JCheckBox("Affichage des phéromones", true);
+        cocherPheromones = new JCheckBox("Affichage des pheromones", true);
         cocherPheromones.addActionListener(this);
         cocherPheromones.setAlignmentX(Component.LEFT_ALIGNMENT);
         cocher.add(cocherPheromones);
@@ -150,7 +150,7 @@ public class Parametres extends JPanel implements ActionListener {
         selectionCartes.setSelectedIndex(0);
         selectionCartes.addActionListener(this);
 
-        editer = new JButton("Entrer en mode éditeur");
+        editer = new JButton("Entrer en mode editeur");
         editer.addActionListener(this);
 
         importer = new JButton("Importer");
@@ -175,7 +175,7 @@ public class Parametres extends JPanel implements ActionListener {
         boutons.setBackground(FOND_PARAM);
         boutons.setLayout(new BoxLayout(boutons, BoxLayout.X_AXIS));
 
-        reinitialiser = new JButton("Réinitialiser");
+        reinitialiser = new JButton("Reinitialiser");
         reinitialiser.addActionListener(this);
         boutons.add(reinitialiser);
         boutons.add(Box.createHorizontalStrut(10));
@@ -212,7 +212,7 @@ public class Parametres extends JPanel implements ActionListener {
                         MainWindow.modifierCarte();
                     }
                 } else { // retourne une popup d'erreur si le fichier n'est pas en txt
-                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fichier texte (.txt) !",
+                    JOptionPane.showMessageDialog(null, "Veuillez selectionner un fichier texte (.txt) !",
                             "Mauvais format", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -274,8 +274,8 @@ public class Parametres extends JPanel implements ActionListener {
         if (e.getSource() == editer) {
             if (!modeEditeur) {
                 modeEditeur = true;
-                editer.setText("Quitter le mode éditeur");
-                JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur",
+                editer.setText("Quitter le mode editeur");
+                JOptionPane.showMessageDialog(null, "Le mode editeur active !", "Mode editeur",
                         JOptionPane.WARNING_MESSAGE);
                 LecteurCarte nouvelleCarte = new LecteurCarte();
                 obstacles = nouvelleCarte.getObstacles();
@@ -289,7 +289,7 @@ public class Parametres extends JPanel implements ActionListener {
             } else {
                 modeEditeur = false;
                 editer.setText("Entrer en mode éditeur");
-                JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur",
+                JOptionPane.showMessageDialog(null, "Le mode editeur desactive !", "Mode editeur",
                         JOptionPane.WARNING_MESSAGE);
                 // On enregistre les éléments de la carte modifiée (important pr bouton valider)
                 obstacles = MainWindow.carte.getObstacles();
