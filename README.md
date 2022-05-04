@@ -8,14 +8,6 @@ Interface graphique et panel de commandes.
 Edition de cartes et modification des paramètres de visualisation.
 Réalisé dans le contexte d'un projet scientifique d'algorithmie mettant à l'épreuve nos connaissances en informatique et en Java en deuxième année à l'**INSA Lyon**.
 
-## Prérequis
-
-Requiert *Java* et un éditeur de code pour être éxécuter.
-
-## Contenu
-
-Description du contenu de l'archive.
-
 ### Classes
 
 - La classe ***Carte*** est une classe essentielle contenant l'ensemble des éléments de la carte, les variables de réglages et permet la gestion ainsi que l'interaction de l'utilisateur avec la carte.
@@ -42,11 +34,3 @@ Différentes assets sont utilisés :
 - **images** contient les images *.png* utilisés dans tout le code pour les fourmis, le fond et les icônes.
 Elles sont soit des images libres de droits ou réalisées en tant que *pixel art* par nous-mêmes.
 - **sons** contient *.wav* des bruitages faits à l'aide d'un micro et du logiciel *Audacity*.
-
-## Contributions
-
-- @IgrecL (Y. Larbre) :
-- @yoryd (C. Dingil) :
-- @Lamaqua15 (J. Braymand) :
-- @AsticotSoyeux (A. Bulut) :
-
