@@ -142,7 +142,7 @@ public class Parametres extends JPanel implements ActionListener {
 
         // JPanel sélection de cartes + boutons mode éditer + importer + exporter
         JPanel selecteurCartes = new JPanel();
-        selecteurCartes.setLayout(new GridLayout(6,1,0,10));
+        selecteurCartes.setLayout(new GridLayout(6, 1, 0, 10));
         selecteurCartes.setBackground(FOND_PARAM);
         selecteurCartes.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(selecteurCartes);
@@ -175,10 +175,9 @@ public class Parametres extends JPanel implements ActionListener {
         boutons.setBackground(FOND_PARAM);
         boutons.setLayout(new BoxLayout(boutons, BoxLayout.X_AXIS));
 
-
         reinitialiser = new JButton("Réinitialiser");
         reinitialiser.addActionListener(this);
-		boutons.add(reinitialiser);
+        boutons.add(reinitialiser);
         boutons.add(Box.createHorizontalStrut(10));
         valider = new JButton("Valider");
         valider.addActionListener(this);
@@ -189,21 +188,21 @@ public class Parametres extends JPanel implements ActionListener {
 
     // Gestion des interactions avec l'utilisateurs
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == importer || e.getSource() == exporter){
+        if (e.getSource() == importer || e.getSource() == exporter) {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
             FileFilter filtreTxt = new FileNameExtensionFilter("Fichier texte (*.txt)", "txt");
             jfc.addChoosableFileFilter(filtreTxt);
             int reponse;
-            if (e.getSource() == exporter){
+            if (e.getSource() == exporter) {
                 reponse = jfc.showSaveDialog(null);
             } else {
                 reponse = jfc.showOpenDialog(null);
             }
             if (reponse == JFileChooser.APPROVE_OPTION) { // On capte si l'utilisateur a validé un fichier
                 File fichier = jfc.getSelectedFile();
-                if (filtreTxt.accept(fichier)){ // on vérifie qu'on a bien un fichier txt
-                    if (e.getSource() == exporter){
+                if (filtreTxt.accept(fichier)) { // on vérifie qu'on a bien un fichier txt
+                    if (e.getSource() == exporter) {
                         LecteurCarte.exporter(MainWindow.carte, fichier);
                     } else {
                         LecteurCarte nouvelleCarte = new LecteurCarte(fichier.toString());
@@ -212,10 +211,11 @@ public class Parametres extends JPanel implements ActionListener {
                         fourmiliere = nouvelleCarte.getFourmiliere();
                         MainWindow.modifierCarte();
                     }
-                }else { // retourne une popup d'erreur si le fichier n'est pas en txt
-                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fichier texte (.txt) !", "Mauvais format", JOptionPane.ERROR_MESSAGE);
+                } else { // retourne une popup d'erreur si le fichier n'est pas en txt
+                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner un fichier texte (.txt) !",
+                            "Mauvais format", JOptionPane.ERROR_MESSAGE);
                 }
-		    }
+            }
         }
         if (e.getSource() == reinitialiser) {
             MainWindow.carte.reinitialiser();
@@ -271,11 +271,12 @@ public class Parametres extends JPanel implements ActionListener {
             fourmiliere = nouvelleCarte.getFourmiliere();
         }
 
-        if (e.getSource() == editer){
-            if (!modeEditeur){
+        if (e.getSource() == editer) {
+            if (!modeEditeur) {
                 modeEditeur = true;
                 editer.setText("Quitter le mode éditeur");
-                JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Le mode éditeur a été activé !", "Mode éditeur",
+                        JOptionPane.WARNING_MESSAGE);
                 LecteurCarte nouvelleCarte = new LecteurCarte();
                 obstacles = nouvelleCarte.getObstacles();
                 nourritures = nouvelleCarte.getNourriture();
@@ -285,11 +286,11 @@ public class Parametres extends JPanel implements ActionListener {
                 valider.setEnabled(false);
                 selectionCartes.setEnabled(false);
                 selectionCartes.setSelectedIndex(3);
-            }
-            else {
+            } else {
                 modeEditeur = false;
                 editer.setText("Entrer en mode éditeur");
-                JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur",
+                        JOptionPane.WARNING_MESSAGE);
                 // On enregistre les éléments de la carte modifiée (important pr bouton valider)
                 obstacles = MainWindow.carte.getObstacles();
                 nourritures = MainWindow.carte.getNourriture();
