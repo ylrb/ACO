@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     public static Carte carte;
 
     // Images et tailles
-    public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond, imageTexture;
+    public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond, imageTexture, imageTuto;
     public static final int TAILLE_FOURMI = 20;
     public static final int TAILLE_FOURMILIERE = 40;
     public static final int TAILLE_NOURRITURE = 30;
@@ -82,6 +82,7 @@ public class MainWindow extends JFrame {
             imageNourriture = ImageIO.read(new File("assets/images/Nourriture.png"));
             imageFond = ImageIO.read(new File("assets/images/Fond.png"));
             imageTexture = ImageIO.read(new File("assets/images/texture.png"));
+            imageTuto = ImageIO.read(new File("assets/images/tuto.png"));
 
             // On leur donne la taille désirée
             imageFourmiA = redimensionner(imageFourmiA, TAILLE_FOURMI);
@@ -89,6 +90,7 @@ public class MainWindow extends JFrame {
             imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
             imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
             imageFond = redimensionner(imageFond, 1025);
+            imageTuto = redimensionner(imageTuto, 800);
 
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire les fichiers images.");

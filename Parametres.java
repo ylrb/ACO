@@ -24,7 +24,7 @@ public class Parametres extends JPanel implements ActionListener {
     private Fourmiliere fourmiliere = (new LecteurCarte("assets/cartes/bordures.txt")).getFourmiliere();
     private LinkedList<Nourriture> nourritures = (new LecteurCarte("assets/cartes/bordures.txt")).getNourriture();
 
-    private JButton reinitialiser, valider, editer, importer, exporter;
+    private JButton reinitialiser, valider, editer, importer, exporter, tutoriel;
     public static boolean modeEditeur = false;
     private LecteurCarte carteUtilisateur = new LecteurCarte();
 
@@ -159,7 +159,7 @@ public class Parametres extends JPanel implements ActionListener {
         exporter = new JButton("Exporter");
         exporter.addActionListener(this);
 
-        JButton tutoriel = new JButton("Tutoriel");
+        tutoriel = new JButton("Tutoriel");
         tutoriel.addActionListener(this);
 
         selecteurCartes.add(selectionCartes);
@@ -302,6 +302,19 @@ public class Parametres extends JPanel implements ActionListener {
                 MainWindow.carte.points.clear(); // on vide la liste de points du mode éditeur
 
             }
+        }
+
+        if (e.getSource() == tutoriel){
+            JFrame fenetreTuto = new JFrame("Tutoriel");
+            try {
+                fenetreTuto.setContentPane(new JLabel(new ImageIcon(MainWindow.imageTuto)));
+            } catch (Exception err) {
+                System.out.println(err);
+            }
+            fenetreTuto.setSize(MainWindow.imageTuto.getWidth(), MainWindow.imageTuto.getHeight());
+            fenetreTuto.setResizable(false);
+            fenetreTuto.setLocationRelativeTo(null);
+            fenetreTuto.setVisible(true);
         }
     }
 }
