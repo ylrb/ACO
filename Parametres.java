@@ -306,11 +306,7 @@ public class Parametres extends JPanel implements ActionListener {
 
         if (e.getSource() == tutoriel){
             JFrame fenetreTuto = new JFrame("Tutoriel");
-            try {
-                fenetreTuto.setContentPane(new JLabel(new ImageIcon(MainWindow.imageTuto)));
-            } catch (Exception err) {
-                System.out.println(err);
-            }
+            fenetreTuto.setContentPane(new JLabel(new ImageIcon(MainWindow.imageTuto)));
             fenetreTuto.setSize(MainWindow.imageTuto.getWidth(), MainWindow.imageTuto.getHeight());
             fenetreTuto.setIconImage(MainWindow.icone.getImage());
             fenetreTuto.setResizable(false);
