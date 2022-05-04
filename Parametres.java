@@ -16,7 +16,7 @@ public class Parametres extends JPanel implements ActionListener {
     // Paramètres par défaut de la nouvelle carte
     private static int dt = 0;
     private static int nombreFourmis = 50;
-    private String[] listeCartes = { "Carte par défaut", "Labyrinthe", "Double Pont", "Carte aléatoire", "Carte vierge" };
+    private String[] listeCartes = { "Carte par défaut", "Double pont", "Carte aléatoire", "Carte vierge" };
     private JComboBox<String> selectionCartes = new JComboBox<String>(listeCartes);
 
     // Élements du terrain par défaut
@@ -222,6 +222,13 @@ public class Parametres extends JPanel implements ActionListener {
         }
         if (e.getSource() == valider) {
             MainWindow.modifierCarte();
+            if (selectionCartes.getSelectedIndex() == 2) {
+                LecteurCarte nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
+                nouvelleCarte.aleatoire(3);
+                obstacles = nouvelleCarte.getObstacles();
+                nourritures = nouvelleCarte.getNourriture();
+                fourmiliere = nouvelleCarte.getFourmiliere();
+            }
         }
         if (e.getSource() == cocherPheromones) {
             JCheckBox c = (JCheckBox) e.getSource();
@@ -246,16 +253,13 @@ public class Parametres extends JPanel implements ActionListener {
                     nouvelleCarte = new LecteurCarte("assets/cartes/bordures.txt");
                     break;
                 case 1:
-                    nouvelleCarte = new LecteurCarte("assets/cartes/labyrinthe.txt");
-                    break;
-                case 2:
                     nouvelleCarte = new LecteurCarte("assets/cartes/pont.txt");
                     break;
-                case 3:
+                case 2:
                     nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
                     nouvelleCarte.aleatoire(3);
                     break;
-                case 4:
+                case 3:
                     nouvelleCarte = new LecteurCarte("assets/cartes/aleatoire.txt");
                     break;
                 default:
@@ -280,9 +284,9 @@ public class Parametres extends JPanel implements ActionListener {
                 reinitialiser.setEnabled(false);
                 valider.setEnabled(false);
                 selectionCartes.setEnabled(false);
-                selectionCartes.setSelectedIndex(4);
+                selectionCartes.setSelectedIndex(3);
             }
-            else{
+            else {
                 modeEditeur = false;
                 editer.setText("Entrer en mode éditeur");
                 JOptionPane.showMessageDialog(null, "Le mode éditeur a été désactivé !", "Mode éditeur", JOptionPane.WARNING_MESSAGE);

@@ -84,9 +84,6 @@ public class Carte extends JPanel implements ActionListener, MouseListener {
         nourritures = nour;
         setObstacles(obs);
 
-        // GenerateurObstacle generateur = new GenerateurObstacle(50, 100);
-        // obstacles.add(generateur.generer(new Vecteur(250,500)));
-
         // On remplit l'ArrayList murs
         for (Obstacle o : obstacles) {
             for (Segment s : o.getMurs()) {
