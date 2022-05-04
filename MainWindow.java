@@ -90,7 +90,6 @@ public class MainWindow extends JFrame {
             imageFourmiliere = redimensionner(imageFourmiliere, TAILLE_FOURMILIERE);
             imageNourriture = redimensionner(imageNourriture, TAILLE_NOURRITURE);
             imageFond = redimensionner(imageFond, 1025);
-            imageTuto = redimensionner(imageTuto, 800);
 
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire les fichiers images.");
