@@ -108,7 +108,7 @@ public class LecteurCarte {
         Vecteur posFourmiliere = c.getFourmiliere().getPosition();
         Vecteur posNourriture = c.getNourriture().get(0).getPosition();
         res.add("*");
-        res.add("* Ceci est une carte exportée");
+        res.add("* Ceci est une carte exportee");
         res.add("*");
         res.add("// FOURMILIERE //");
         res.add((int) posFourmiliere.x + "," + (int) posFourmiliere.y);
