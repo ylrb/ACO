@@ -42,7 +42,7 @@ public class GenerateurObstacle {
         return min;
     }
 
-    // Récupère les points de l'enveloppe convexe par l'algorithme du papier cadeau
+    // Récupère les points de l'enveloppe convexe par l'algorithme du paquet cadeau
     private Vecteur prochainPoint(Vecteur p) {
         LinkedList<Vecteur> points2 = new LinkedList<Vecteur>();
         for (Vecteur point : points) {
