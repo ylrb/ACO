@@ -69,16 +69,16 @@ public class LecteurCarte {
 
             // Initialisation de la fourmilière
             if (ligneFourmiliere != 0) {
-                int[] coordonnéesFourmiliere = coordonnees(ligneFourmiliere);
-                fourmiliere = new Fourmiliere(coordonnéesFourmiliere[0], coordonnéesFourmiliere[1],
+                int[] coordonneesFourmiliere = coordonnees(ligneFourmiliere);
+                fourmiliere = new Fourmiliere(coordonneesFourmiliere[0], coordonneesFourmiliere[1],
                         MainWindow.TAILLE_FOURMILIERE);
             }
 
             // Initialisation de la nourriture
             if (ligneNourriture != 0) {
-                int[] coordonnéesNourriture = coordonnees(ligneNourriture);
+                int[] coordonneesNourriture = coordonnees(ligneNourriture);
                 nourriture = new LinkedList<Nourriture>();
-                nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1],
+                nourriture.add(new Nourriture(coordonneesNourriture[0], coordonneesNourriture[1],
                         MainWindow.TAILLE_NOURRITURE));
             }
         } catch (Exception e) {
