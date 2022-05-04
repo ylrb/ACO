@@ -4,41 +4,32 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class Son {
-    private Clip myClip;
-    public Son(String fileName) {
+    private Clip clip;
+    public Son(String nom) {
         try {
-            File file = new File("assets/sons/" + fileName + ".wav");
+            File file = new File("assets/sons/" + nom + ".wav");
             if (file.exists()) {
-                Clip myClip = AudioSystem.getClip();
+                Clip clip = AudioSystem.getClip();
                 AudioInputStream ais = AudioSystem.getAudioInputStream(file.toURI().toURL());
-                myClip.open(ais);
+                clip.open(ais);
             }
             else {
-                throw new RuntimeException("Sound: file not found: " + fileName);
+                throw new RuntimeException("Son: fichier non trouve: " + nom);
             }
         }
-        catch (MalformedURLException e) {
-            throw new RuntimeException("Sound: Malformed URL: " + e);
-        }
-        catch (UnsupportedAudioFileException e) {
-            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Sound: Input/Output Error: " + e);
-        }
-        catch (LineUnavailableException e) {
-            throw new RuntimeException("Sound: Line Unavailable: " + e);
+        catch (Exception e) {
+            System.out.println("Erreur son : " + e);
         }
     }
     public void play(){
-        myClip.setFramePosition(0);  // Must always rewind!
-        myClip.loop(0);
-        myClip.start();
+        clip.setFramePosition(0);  // Rejouer le son du debut
+        clip.loop(0);
+        clip.start();
     }
     public void loop(){
-        myClip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
     public void stop(){
-        myClip.stop();
+        clip.stop();
     }
 }
