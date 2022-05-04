@@ -5,15 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame {
     private static final int LARGEUR = 1280;
     private static final int HAUTEUR = 720;
     private static JPanel conteneur;
     private static Insets insets;
     private static Parametres param;
     public static Carte carte;
-    
-    // images et tailles
+
+    // Images et tailles
     public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond, imageTexture;
     public static final int TAILLE_FOURMI = 20;
     public static final int TAILLE_FOURMILIERE = 40;
@@ -22,10 +22,9 @@ public class MainWindow extends JFrame{
     public MainWindow() {
         importerImages();
         // La fenêtre utilise par défaut le style de l'OS de l'utilisateur
-        try{
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception err){
+        } catch (Exception err) {
             System.out.println(err);
         }
         // Création de l'interface graphique
@@ -40,19 +39,19 @@ public class MainWindow extends JFrame{
 
         // Création du JPanel Parametres
         param = new Parametres();
-        param.setSize(new Dimension((int)(0.2*LARGEUR)-insets.left,HAUTEUR-insets.top-insets.bottom));
+        param.setSize(new Dimension((int) (0.2 * LARGEUR) - insets.left, HAUTEUR - insets.top - insets.bottom));
 
         // Création du premier objet Carte
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setSize(new Dimension((int)(0.8*LARGEUR),HAUTEUR-insets.top-insets.bottom));
+        carte.setSize(new Dimension((int) (0.8 * LARGEUR), HAUTEUR - insets.top - insets.bottom));
 
         // Ajouts des JPanel
-        param.setLocation(0,0);
-        carte.setLocation((int)(0.2*LARGEUR)-insets.left,0);
+        param.setLocation(0, 0);
+        carte.setLocation((int) (0.2 * LARGEUR) - insets.left, 0);
         conteneur.add(param);
         conteneur.add(carte);
 
-        // Icone de la fenêtre ne fonctionne pas sous macOS
+        // Icone de la fenêtre ne fonctionne que sur Windows
         URL iconURL = getClass().getResource("assets/images/icon.png");
         ImageIcon icon = new ImageIcon(iconURL);
         this.setIconImage(icon.getImage());
@@ -62,12 +61,12 @@ public class MainWindow extends JFrame{
         repaint();
     }
 
-    public static void modifierCarte(){
+    public static void modifierCarte() {
         conteneur.remove(carte);
         carte.getTimer().stop();
         carte = new Carte(param.getObstacles(), param.getNourriture(), param.getFourmiliere());
-        carte.setSize(new Dimension((int)(0.8*LARGEUR),HAUTEUR-insets.top-insets.bottom));
-        carte.setLocation((int)(0.2*LARGEUR)-insets.left,0);
+        carte.setSize(new Dimension((int) (0.8 * LARGEUR), HAUTEUR - insets.top - insets.bottom));
+        carte.setLocation((int) (0.2 * LARGEUR) - insets.left, 0);
         conteneur.add(carte);
         conteneur.revalidate();
         conteneur.repaint();
@@ -105,7 +104,7 @@ public class MainWindow extends JFrame{
         // On crée une nouvelle image vide la taille désirée
         BufferedImage nouvelleImage = new BufferedImage(largeurVoulue, hauteurVoulue, img.getType());
         Graphics2D g = nouvelleImage.createGraphics();
- 
+
         // On place l'image dans cette nouvelle image de manière à ce qu'elle la remplisse, par interpolation
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.drawImage(img, 0, 0, largeurVoulue, hauteurVoulue, 0, 0, largeur, hauteur, null);

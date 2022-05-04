@@ -4,7 +4,6 @@ import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.FileWriter;
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
@@ -44,7 +43,8 @@ public class LecteurCarte {
             fichier = Files.readAllLines(Paths.get(chemin), StandardCharsets.UTF_8);
             int ligneDebutObstacle = fichier.indexOf("// DEBUT OBSTACLE //") + 1;
             int ligneFinObstacle = fichier.indexOf("// FIN OBSTACLE //") - 1;
-            int ligneFourmiliere = fichier.indexOf("// FOURMILIERE //") + 1; // Retourne 0 si il n'y a pas de fourmiliere
+            int ligneFourmiliere = fichier.indexOf("// FOURMILIERE //") + 1; // Retourne 0 si il n'y a pas de
+                                                                             // fourmiliere
             int ligneNourriture = fichier.indexOf("// NOURRITURE //") + 1; // Idem
 
             // Boucle pour définir les différents obstacles de la carte
@@ -53,10 +53,10 @@ public class LecteurCarte {
                 String ligne = fichier.get(i); // On itère sur chaque ligne du fichier texte
                 if (ligne.startsWith("// NOUVEL OBSTACLE") && (i != ligneDebutObstacle)) {
                     Obstacle nouvelObstacle = new Obstacle(points); // On crée un nouvel obstacle qu'on ajoute dans la liste
-                    if (fichier.get(fichier.indexOf(ligne)-points.size()-1).contains("vide")) {
+                    if (fichier.get(fichier.indexOf(ligne) - points.size() - 1).contains("vide")) {
                         nouvelObstacle.setVide(true);
                     }
-                    obstacles.add(nouvelObstacle); 
+                    obstacles.add(nouvelObstacle);
                     points = new LinkedList<Vecteur>(); // On vide la liste des points
                 } else if (ligne != "" && (i != ligneDebutObstacle)) {
                     String[] partiesLigne = ligne.split(",");
@@ -70,21 +70,23 @@ public class LecteurCarte {
             // Initialisation de la fourmilière
             if (ligneFourmiliere != 0) {
                 int[] coordonnéesFourmiliere = coordonnees(ligneFourmiliere);
-                fourmiliere = new Fourmiliere(coordonnéesFourmiliere[0], coordonnéesFourmiliere[1], MainWindow.TAILLE_FOURMILIERE);
+                fourmiliere = new Fourmiliere(coordonnéesFourmiliere[0], coordonnéesFourmiliere[1],
+                        MainWindow.TAILLE_FOURMILIERE);
             }
 
             // Initialisation de la nourriture
             if (ligneNourriture != 0) {
                 int[] coordonnéesNourriture = coordonnees(ligneNourriture);
                 nourriture = new LinkedList<Nourriture>();
-                nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1], MainWindow.TAILLE_NOURRITURE));
+                nourriture.add(new Nourriture(coordonnéesNourriture[0], coordonnéesNourriture[1],
+                        MainWindow.TAILLE_NOURRITURE));
             }
         } catch (Exception e) {
             System.out.println("Erreur lors de l'importation : " + e);
         }
     }
 
-    public LecteurCarte(Carte c){
+    public LecteurCarte(Carte c) {
         obstacles = c.getObstacles();
         fourmiliere = c.getFourmiliere();
         nourriture = c.getNourriture();
@@ -100,8 +102,8 @@ public class LecteurCarte {
         return rep;
     }
 
-    // Méthode qui convertis une Carte en une liste 
-    private static List<String> carteVersListe(Carte c){
+    // Méthode qui convertis une Carte en une liste
+    private static List<String> carteVersListe(Carte c) {
         List<String> res = new LinkedList<String>();
         Vecteur posFourmiliere = c.getFourmiliere().getPosition();
         Vecteur posNourriture = c.getNourriture().get(0).getPosition();
@@ -109,36 +111,37 @@ public class LecteurCarte {
         res.add("* Ceci est une carte exportée");
         res.add("*");
         res.add("// FOURMILIERE //");
-        res.add((int)posFourmiliere.x + "," + (int)posFourmiliere.y);
+        res.add((int) posFourmiliere.x + "," + (int) posFourmiliere.y);
         res.add("// NOURRITURE //");
-        res.add((int)posNourriture.x + "," + (int)posNourriture.y);
+        res.add((int) posNourriture.x + "," + (int) posNourriture.y);
         res.add("// DEBUT OBSTACLE //");
-        for(int i = 4; i<c.getObstacles().size(); i++){ // Les quatres premiers obstacles sont toujours les bordures invisibles
+        for (int i = 4; i < c.getObstacles().size(); i++) { // Les quatres premiers obstacles sont toujours les bordures
+                                                            // invisibles
             Obstacle o = c.getObstacles().get(i);
-            if (o.estVide()){
+            if (o.estVide()) {
                 res.add("// NOUVEL OBSTACLE (vide)");
             } else {
                 res.add("// NOUVEL OBSTACLE");
             }
-            for (Segment mur : o.getMurs()){
-                res.add((int)mur.pointA.x + "," + (int)mur.pointA.y);
+            for (Segment mur : o.getMurs()) {
+                res.add((int) mur.pointA.x + "," + (int) mur.pointA.y);
             }
         }
         res.add("// FIN OBSTACLE //");
         return res;
     }
 
-    public static void exporter(Carte c, File f){
+    public static void exporter(Carte c, File f) {
         List<String> lignes = carteVersListe(c);
         try {
             File nvFichier = f;
             if (!nvFichier.exists()) {
                 nvFichier.createNewFile();
-            }
-            else{
+            } else {
 
             }
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nvFichier, false), StandardCharsets.UTF_8));
+            BufferedWriter out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(nvFichier, false), StandardCharsets.UTF_8));
             for (String ligne : lignes) {
                 out.write(ligne);
                 out.newLine();
@@ -166,15 +169,15 @@ public class LecteurCarte {
         while (nombreObstacle < obstaclesMax) {
 
             // On crée un obstacle aléatoire à une position (X,Y) aléatoire
-            GenerateurObstacle generateur = new GenerateurObstacle(30, (int)(50*Math.random())+150);
+            GenerateurObstacle generateur = new GenerateurObstacle(30, (int) (50 * Math.random()) + 150);
             do {
-                X = (int)(1024*Math.random());
-            } while ((X < 300)||(X > 700));
+                X = (int) (1024 * Math.random());
+            } while ((X < 300) || (X > 700));
             do {
-                Y = (int)(1024*Math.random());
-            } while ((Y < 200)||(Y > 500));
-            Obstacle nouvelObstacle = generateur.generer(new Vecteur(X,Y));
-            
+                Y = (int) (1024 * Math.random());
+            } while ((Y < 200) || (Y > 500));
+            Obstacle nouvelObstacle = generateur.generer(new Vecteur(X, Y));
+
             // On vérifie que le nouvel obstacle n'est pas trop près des obstacles déjà existant (moins de 50)
             boolean tropProche = false;
             for (Segment s : nouvelObstacle.getMurs()) {
@@ -183,14 +186,15 @@ public class LecteurCarte {
                         tropProche = true;
                     }
                 }
-                if ((s.pointA.distance(fourmiliere.getPosition()) < 100)||(s.pointA.distance(nourriture.get(0).getPosition()) < 100)) {
+                if ((s.pointA.distance(fourmiliere.getPosition()) < 100)
+                        || (s.pointA.distance(nourriture.get(0).getPosition()) < 100)) {
                     tropProche = true;
                 }
                 if (tropProche) {
                     break;
                 }
             }
-            
+
             // Si l'obstacle est réglementaire, il est ajouté aux obstacles
             if (!tropProche) {
                 obstacles.add(nouvelObstacle);
@@ -200,8 +204,5 @@ public class LecteurCarte {
                 nombreObstacle++;
             }
         }
-
     }
-
-
 }
