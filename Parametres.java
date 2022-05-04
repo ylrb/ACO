@@ -312,6 +312,7 @@ public class Parametres extends JPanel implements ActionListener {
                 System.out.println(err);
             }
             fenetreTuto.setSize(MainWindow.imageTuto.getWidth(), MainWindow.imageTuto.getHeight());
+            fenetreTuto.setIconImage(MainWindow.icone.getImage());
             fenetreTuto.setResizable(false);
             fenetreTuto.setLocationRelativeTo(null);
             fenetreTuto.setVisible(true);

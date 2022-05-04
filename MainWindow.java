@@ -15,6 +15,7 @@ public class MainWindow extends JFrame {
 
     // Images et tailles
     public static BufferedImage imageFourmiA, imageFourmiB, imageFourmiliere, imageNourriture, imageFond, imageTexture, imageTuto;
+    public static ImageIcon icone;
     public static final int TAILLE_FOURMI = 20;
     public static final int TAILLE_FOURMILIERE = 40;
     public static final int TAILLE_NOURRITURE = 30;
@@ -52,9 +53,9 @@ public class MainWindow extends JFrame {
         conteneur.add(carte);
 
         // Icone de la fenêtre ne fonctionne que sur Windows
-        URL iconURL = getClass().getResource("assets/images/icon.png");
-        ImageIcon icon = new ImageIcon(iconURL);
-        this.setIconImage(icon.getImage());
+        URL iconeURL = getClass().getResource("assets/images/icon.png");
+        icone = new ImageIcon(iconeURL);
+        this.setIconImage(icone.getImage());
 
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
